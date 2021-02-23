@@ -19,6 +19,10 @@ const MemberSchema = new mongoose.Schema({
         type:String,
      required:true
     },
+    familymemcount:{
+        type:Number,
+    required:true
+    },
     sname:{
         type:String,
      required:true,

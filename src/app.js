@@ -45,8 +45,12 @@ app.get("/register", (req,res)=> {
     res.render("register");
 });
 
-app.get("/profile", (req,res)=>{
-    res.render("profile");
+app.get("/myprofile", (req,res)=>{
+    res.render("myprofile");
+});
+
+app.get("/development", (req,res)=>{
+    res.render("development");
 });
 
 //crate a new user in database
@@ -60,6 +64,7 @@ app.post("/register", async (req,res)=> {
                 name:req.body.name,
                 hnumber:req.body.hnumber,
                 fnumber:req.body.fnumber,
+                familymemcount:req.body.familymemcount,
                 sname:req.body.sname,
                 dname:req.body.dname,
                 owner:req.body.owner,
