@@ -41,8 +41,8 @@ app.get("/booking", (req,res)=> {
     res.render("booking");
 });
 
-app.get("/register", (req,res)=> {
-    res.render("register");
+app.get("/sosMemRegister", (req,res)=> {
+    res.render("sosMemRegister");
 });
 
 app.get("/myprofile", (req,res)=>{
@@ -54,7 +54,7 @@ app.get("/development", (req,res)=>{
 });
 
 //crate a new user in database
-app.post("/register", async (req,res)=> {
+app.post("/sosMemRegister", async (req,res)=> {
     try{
         const password=req.body.password;
         const cpassword=req.body.confirmpassword;
@@ -113,6 +113,7 @@ app.post("/rwalogin", async (req,res)=> {
     }
 });
 
+
 app.post("/societylogin", async (req,res)=> {
     try{
         const email= req.body.email;
@@ -121,7 +122,7 @@ app.post("/societylogin", async (req,res)=> {
         //this will find to whom the entered email belongs to in our mongodb 
         const socemail= await Register.findOne({email:email});
         if(socemail.password===password){
-            res.status(201).render("index");
+            res.status(201).render("societyMemDashBoard");
         }else{
             res.send("Invalid Details");
         }
