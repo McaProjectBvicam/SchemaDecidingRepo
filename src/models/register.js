@@ -69,5 +69,5 @@ const MemberSchema = new mongoose.Schema({
 })
 
 //to create a collection
-const Register= new mongoose.model("Member",MemberSchema);
+const Register= new mongoose.model("SocietyMember",MemberSchema);
 module.exports = Register;

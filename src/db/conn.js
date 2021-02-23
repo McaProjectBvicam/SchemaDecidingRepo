@@ -1,5 +1,5 @@
 const mongoose= require('mongoose');
-mongoose.connect("mongodb://localhost:27017/MemberRegister",{
+mongoose.connect("mongodb://localhost:27017/ProjectSocietyDB",{
     useNewUrlParser:true,
     useUnifiedTopology:true,
     useCreateIndex:true

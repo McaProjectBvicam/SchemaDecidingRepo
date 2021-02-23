@@ -24,12 +24,23 @@ hbs.registerPartials(partials_path);
 app.get("/", (req,res)=> {
     res.render("index");
 });
+
+
+
 app.get("/rwalogin", (req,res)=> {
     res.render("rwalogin");
 });
 app.get("/societylogin", (req,res)=> {
     res.render("societylogin");
 });
+app.get("/complaintRegister", (req,res)=> {
+    res.render("complaintRegister");
+});
+
+app.get("/booking", (req,res)=> {
+    res.render("booking");
+});
+
 app.get("/register", (req,res)=> {
     res.render("register");
 });
@@ -113,6 +124,10 @@ app.post("/societylogin", async (req,res)=> {
     }catch(error){
         res.status(400).send("invalid");
     }
+});
+
+app.post("/societyMemDashBoard",async (req,res)=> {
+    res.render("societyMemDashBoard");
 });
 
 
