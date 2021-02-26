@@ -1,0 +1,6 @@
+Simple text file i made
+
+
+but i first have to make a commit before pushing!
+
+making a commit now!
