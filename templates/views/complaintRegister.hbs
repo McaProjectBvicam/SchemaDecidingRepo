@@ -2,41 +2,43 @@
 <html lang="en">
 
 <head>
+    {{!--
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Complaint Box</title>
+    <link rel="stylesheet" href="css/style.css"> --}}
+    {{>header}}
 </head>
 
 <body>
+    {{>societynavbar}}
     <div class="container-fluid main_header">
         <div class="row">
             <div class="col-md-10 col-12 mx-auto">
-                <h1>Complaint Box</h1>
                 <form action="" method="" class="temp_form">
                     <label for="name">Name:</label>
-                        <input type="text" name="name" placeholder="Enter Your Name" autocomplete="off" required>
-                    
+                    <input type="text" name="name" placeholder="Enter Your Name" autocomplete="off" required>
+
                     <label for="subject">Subject:</label>
-                        <input type="text" name="subject" placeholder="Enter Subject" autocomplete="off" required>
-                    
+                    <input type="text" name="subject" placeholder="Enter Subject" autocomplete="off" required>
+
 
 
 
                     <label for="description">Description:</label>
-                        <textarea type="text" name="description" placeholder="Enter description" rows="5" cols="30"
-                            required>
+                    <textarea type="text" name="description" placeholder="Enter description" rows="5" cols="30"
+                        required>
                             </textarea>
-                    
+
                     <input type="submit" value="Submit">
 
 
                 </form>
-                </div>
+            </div>
+        </div>
     </div>
-    </div>
-    
+
 </body>
 
 </html>

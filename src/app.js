@@ -25,8 +25,6 @@ app.get("/", (req,res)=> {
     res.render("index");
 });
 
-
-
 app.get("/rwalogin", (req,res)=> {
     res.render("rwalogin");
 });
@@ -41,8 +39,8 @@ app.get("/booking", (req,res)=> {
     res.render("booking");
 });
 
-app.get("/sosMemRegister", (req,res)=> {
-    res.render("sosMemRegister");
+app.get("/socMemRegister", (req,res)=> {
+    res.render("socMemRegister");
 });
 
 app.get("/myprofile", (req,res)=>{
@@ -55,8 +53,11 @@ app.get("/development", (req,res)=>{
 app.get("/rwaMemberDashBoard", (req,res)=>{
     res.render("rwaMemberDashBoard");
 });
+app.get("/socMemDashBoard", (req,res)=>{
+    res.render("socMemDashBoard");
+});
 //crate a new user in database
-app.post("/sosMemRegister", async (req,res)=> {
+app.post("/socMemRegister", async (req,res)=> {
     try{
         const password=req.body.password;
         const cpassword=req.body.confirmpassword;
@@ -78,7 +79,7 @@ app.post("/sosMemRegister", async (req,res)=> {
             })
             
             const registered= await registerMember.save();
-            res.status(201).render("index");
+            res.status(201).render("societylogin");
 
         }
         else{
@@ -124,7 +125,7 @@ app.post("/societylogin", async (req,res)=> {
         //this will find to whom the entered email belongs to in our mongodb 
         const socemail= await Register.findOne({email:email});
         if(socemail.password===password){
-            res.status(201).render("societyMemDashBoard");
+            res.status(201).render("socMemDashBoard");
         }else{
             res.send("Invalid Details");
         }
@@ -132,10 +133,6 @@ app.post("/societylogin", async (req,res)=> {
     }catch(error){
         res.status(400).send("invalid");
     }
-});
-
-app.post("/societyMemDashBoard",async (req,res)=> {
-    res.render("societyMemDashBoard");
 });
 
 
