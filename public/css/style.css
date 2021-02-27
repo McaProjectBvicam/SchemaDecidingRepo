@@ -158,3 +158,122 @@ footer p{
         margin-top: 3rem 0;
     }
 }
+
+
+/*-----------rewdashboard css-------ayushi---------*/
+body{
+	height: 100%;
+	width: 100%;
+	font-size: 30px;
+}
+.FullPage
+{
+	height: 100%;
+	width: 100%;
+}
+.SlideBarSectionClass
+{
+	height :100%;
+	width:0;
+	position: fixed;
+	top:0px;
+	padding-top: 10px;
+	left:0;
+	background-color: #090a0a;
+	overflow-x: hidden;
+	z-index: 1;
+	transition: 0.5s;
+}
+
+.SlideBarSectionClass a{
+	padding: 8px 8px 8px 32px;
+
+	text-decoration: none;
+  font-size: 25px;
+  color: #6991B9;
+  display: block;
+  transition: 0.3s;
+}
+
+.SlideBarSectionClass a:hover
+{
+	color: #fefeff;
+}
+
+.SlideBarSectionClass .CloseSlideBar
+{
+	position: absolute;
+	top:0px;
+	float: right;
+	font-size: 40px;
+	font-style: bold;
+	right: 25px;
+}
+.Slidecontent{
+	margin-top: 10%;
+	color: red;
+}
+.Slidecontent a{
+	color: white;
+}
+.Slidecontent a:hover
+{
+color:#6991B9;
+}
+
+
+
+
+
+.HeaderMenu{
+	list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-top: -15px;
+  margin-right: -14px;
+  overflow: hidden;
+  background-color: #6991B9;
+}
+
+.MenuItems{
+	float: left;
+}
+
+.MenuItems a{
+	display: block;
+	color: black;
+	text-align: center;
+	  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.MenuItems a:hover{
+	color: #f1f1f1;
+}
+
+.icon {
+	margin-top: 20%;
+	border-radius: 0.3rem;
+	padding: 5px;
+	
+	color: white;
+	min-width: 50px;
+	text-align: center;
+  }
+
+
+
+#MainBlock
+{
+  width: 100%;
+  padding: 50px 0;
+  position: fixed;
+  height: 100%;
+  
+}
+.Mainsubitem{
+	height: 100%;
+	width: 100%;
+	align-content: center;
+	text-align: center;
+}

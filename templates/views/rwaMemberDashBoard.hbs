@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RWA-DashBoard</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body onload="onloadpage()">
+	<!--Header-->
+	<!--NavigationBar Section-->
+	
+		<!--Slidebar Section-->
+	<div id="SlideBarSectionID" class="SlideBarSectionClass">
+		
+	    <a>Dashboard</a><a href="javascript:void(0)" class="CloseSlideBar" onclick="HideSlideBar()">&times;</a>
+		<div class = "Slidecontent">
+		<a href="#" onclick="showItem1()">Collection</a>
+		<a href="#" onclick="showItem2()">Develpment</a>
+		<a href="#" onclick="showItem3()">Booking</a>
+		<a href="#" onclick="showItem4()">4</a>
+		<a href="#" onclick="showItem5()">5</a>
+	</div>
+	</div>
+
+<div class="FullPage" id="FullPageID">
+	<div>
+		<ul class="HeaderMenu">
+			<li class="MenuItems"></li>
+			<li class="MenuItems"><a id="Slidebarlogo" onclick="OpenslideBar()">&#9776; Welcome user name</a></li>
+		
+			<li class="MenuItems" style="float:right;margin-right: 4%" onclick="showUser()">
+			<a href="/myprofile">	<i class="fa fa-user icon fa-lg"></i></a>
+		</ul>
+	</div>
+
+
+	
+	<!--Main Body Section-->
+	<div id="MainBlock">
+		<div id="sbitem1" class="Mainsubitem"><a href="#">This is Slide Bar Item collection</a></div>
+		<div id="sbitem2" class="Mainsubitem"><a href="#">This is Slide Bar Item develoment</a></div>
+		<div id="sbitem3" class="Mainsubitem"><a href="#">This is Slide Bar Item  booking</a></div>
+		<div id="sbitem4" class="Mainsubitem"><a href="#">This is Slide Bar Item  4</a></div>
+		<div id="sbitem5" class="Mainsubitem"><a href="#">This is Slide Bar Item  5</a></div>
+
+	</div>
+</div>
+</body>
+<script>
+var bools=false;
+function TakeValue() {
+	document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+
+function HideSlideBar(){
+	document.getElementById("SlideBarSectionID").style.width="0";
+	document.getElementById("FullPageID").style.width="100%";
+document.getElementById("FullPageID").style.marginLeft = "0";
+}
+
+
+function OpenslideBar(){
+document.getElementById("SlideBarSectionID").style.width="20%";
+document.getElementById("FullPageID").style.width="80%";
+document.getElementById("FullPageID").style.marginLeft = "19%";
+}
+
+function showUser(){
+	if(!bools)
+	{
+		document.getElementById("UserInfoID").style.width="20%";
+		bools=true;
+	}else
+	{
+		document.getElementById("UserInfoID").style.width="0";
+		bools=false;
+	}
+}
+
+function onloadpage()
+{
+	document.getElementById("sbitem1").style.display = "block";
+	document.getElementById("sbitem2").style.display = "none";
+	document.getElementById("sbitem3").style.display = "none";
+	document.getElementById("sbitem4").style.display = "none";
+	document.getElementById("sbitem5").style.display = "none";
+	
+}
+
+function allhide()
+{
+	document.getElementById("sbitem1").style.display = "none";
+	document.getElementById("sbitem2").style.display = "none";
+	document.getElementById("sbitem3").style.display = "none";
+	document.getElementById("sbitem4").style.display = "none";
+	document.getElementById("sbitem5").style.display = "none";
+	
+}
+
+function showItem1()
+{
+	allhide();
+	document.getElementById("sbitem1").style.display = "block";
+}
+
+function showItem2()
+{
+	allhide();
+	document.getElementById("sbitem2").style.display = "block";
+}
+
+function showItem3()
+{
+	allhide();
+	document.getElementById("sbitem3").style.display = "block";
+}
+
+function showItem4()
+{
+	allhide();
+	document.getElementById("sbitem4").style.display = "block";
+}
+
+function showItem5()
+{
+	allhide();
+	document.getElementById("sbitem5").style.display = "block";
+}
+
+
+
+
+</script>
+</html>

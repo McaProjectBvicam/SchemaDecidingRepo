@@ -52,7 +52,9 @@ app.get("/myprofile", (req,res)=>{
 app.get("/development", (req,res)=>{
     res.render("development");
 });
-
+app.get("/rwaMemberDashBoard", (req,res)=>{
+    res.render("rwaMemberDashBoard");
+});
 //crate a new user in database
 app.post("/sosMemRegister", async (req,res)=> {
     try{
@@ -102,7 +104,7 @@ app.post("/rwalogin", async (req,res)=> {
 
         //checking pasword
         if(rwaemail.password === password){
-            res.status(201).render("index");
+            res.status(201).render("rwaMemberDashBoard");
         }
         else{
             res.send("Invalid Details");
