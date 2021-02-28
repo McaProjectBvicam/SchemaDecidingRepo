@@ -34,4 +34,4 @@ const SocSchema = new mongoose.Schema({
     }
 })
 const Regsoc= new mongoose.model("Society",SocSchema);
-module.exports = Regsoc;
+module.exports = Regsoc; 
