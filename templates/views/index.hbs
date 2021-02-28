@@ -1,25 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {{>header}}
     <title>Society Maintenance Tracker</title>
+    <style>
+        .hero-image {
+            background-image: url("images/image2.jpg");
+            
+            height: 800px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        .hero-text {
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
     {{>navbar}}
-    <div class="container-fluid main_header">
-        <div class="row">
-            <div class="col-md-10 col-12 mx-auto">
-              
-               <div class="main_content">
-                   <h1> Login as </h1>
-                   <a href="/rwalogin" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">RWA Member</a>
-                   <a href="/societylogin" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Society Member</a>
-                   
-                   <a href="/sosMemRegister" class="btn btn-primary" role="button" aria-pressed="true">Register yourself here</a>
-               </div>
+            <div class="hero-image">
+            <div class="hero-text">
+                <h1 class="text-light text-capatalize display-4">Welcome To Society Maintenance Tracker </h1>
+                    <form action="/index" method="POST">
+                    <label style="font-size:20px" for="socname">Enter your Society Name: </label>
+                    <input name="socname" type="text" class="bg-light" placeholder="Enter Your Society Name">
+                    
+                    <input value="submit" type="submit" class="btn btn-dark btn-lg" >
+                    
+                    </form>
+                    <a href="/Regsoc" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Register Your Society Here</a>
             </div>
         </div>
-    </div>
-{{>footer}}
+    
 </body>
+
 </html>

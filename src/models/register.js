@@ -17,7 +17,7 @@ const MemberSchema = new mongoose.Schema({
     },
     fnumber:{
         type:String,
-     required:true
+        required:true
     },
     familymemcount:{
         type:Number,
@@ -75,3 +75,4 @@ const MemberSchema = new mongoose.Schema({
 //to create a collection
 const Register= new mongoose.model("SocietyMember",MemberSchema);
 module.exports = Register;
+

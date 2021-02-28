@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{>header}}
+    <title>Register Yourself</title>
+</head>
+
+<body>
+    {{>navbar}}
+    <div class="container-fluid main_header">
+        <div class="row">
+            <div class="col-md-10 col-12 mx-auto">
+                    <form action="/Regsoc" method="POST" class="temp_form">
+                        <label for="socname">Society Name:</label>
+                        <input type="text" name="socname" placeholder="Enter Your Society Name" autocomplete="off" required>
+                        
+                        <label for="presname">President Name:</label>
+                        <input type="text" name="presname" placeholder="Enter Your Society President Name" autocomplete="off" required>
+
+                        <label for="district">District:</label>
+                        <input type="text" name="district" placeholder="Enter Your District Name" autocomplete="off"
+                            required>
+
+                        <label for="city">City:</label>
+                        <input type="text" name="city" placeholder="Enter Your City Name" autocomplete="off" required>
+                        
+                        <label for="country">Country:</label>
+                        <input type="text" name="country" placeholder="Enter Your Country Name" autocomplete="off" required>
+
+                        <label for="phone">Society Office Number:</label>
+                        <input type="tel" name="phone" placeholder="Enter your Society Office Number" required>
+
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" placeholder="Enter your President email" autocomplete="off" required>
+
+                        <input type="submit" value="Submit" id="submitBtn">
+                    </form>
+            </div>
+        </div>
+    </div>
+    {{>footer}}
+</body>
+
+</html>
