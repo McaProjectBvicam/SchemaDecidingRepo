@@ -1,3 +1,4 @@
+
 const mongoose= require('mongoose');
 mongoose.connect("mongodb://localhost:27017/ProjectSocietyDB",{
     useNewUrlParser:true,
@@ -8,6 +9,7 @@ mongoose.connect("mongodb://localhost:27017/ProjectSocietyDB",{
 }).catch((e) => {
     console.log(`no connection`);
 });
+
 
 
 
