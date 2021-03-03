@@ -30,14 +30,10 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
-<<<<<<< HEAD
+
 app.get("/Regsociety", (req,res)=> {
     res.render("Regsociety");
-=======
-app.get("/Regsoc", (req, res) => {
-    res.render("Regsoc");
->>>>>>> 462f41808defddc358534a78dac4130190045d03
-});
+
 app.get("/login", (req, res) => {
     res.render("login");
 });
@@ -73,7 +69,7 @@ app.get("/socMemDashBoard", (req, res) => {
     res.render("socMemDashBoard");
 });
 //crate a new user in database
-<<<<<<< HEAD
+
 app.post("/index", async (req,res)=> {
     
     try{
@@ -89,7 +85,7 @@ app.post("/index", async (req,res)=> {
         
         }catch(error){
             res.status(400).send(error);
-=======
+
 app.post("/index", async (req, res) => {
 
     try {
@@ -98,7 +94,7 @@ app.post("/index", async (req, res) => {
 
         if (socName.socname === societyname) {
             res.status(201).render("login");
->>>>>>> 462f41808defddc358534a78dac4130190045d03
+
         }
         else {
             res.status(201).render("regSoc");
@@ -108,7 +104,7 @@ app.post("/index", async (req, res) => {
         res.status(400).send(error);
     }
 });
-<<<<<<< HEAD
+
 app.post("/Regsociety", async (req,res)=> {
     try{
             const socreg= new Regsoc({
@@ -126,7 +122,7 @@ app.post("/Regsociety", async (req,res)=> {
             res.status(201).render("index");
         
         }catch(error){
-=======
+
 app.post("/Regsoc", async (req, res) => {
     try {
         const socreg = new Regsoc({
@@ -144,7 +140,7 @@ app.post("/Regsoc", async (req, res) => {
         res.status(201).render("login");
 
     } catch (error) {
->>>>>>> 462f41808defddc358534a78dac4130190045d03
+
         res.status(400).send(error);
     }
 });
