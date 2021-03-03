@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 
+
 app.use(express.static(static_path));
 app.set("view engine","hbs");
 app.set("views",template_path);
@@ -27,8 +28,8 @@ app.get("/", (req,res)=> {
     res.render("index");
 });
 
-app.get("/Regsoc", (req,res)=> {
-    res.render("Regsoc");
+app.get("/Regsociety", (req,res)=> {
+    res.render("Regsociety");
 });
 app.get("/login", (req,res)=> {
     res.render("login");
@@ -75,14 +76,14 @@ app.post("/index", async (req,res)=> {
                 res.status(201).render("login");
             }
             else{
-                res.status(201).render("regSoc");
+                res.status(201).render("Regsociety");
             }
         
         }catch(error){
-        res.status(400).send(error);
+            res.status(400).send(error);
         }
 });
-app.post("/Regsoc", async (req,res)=> {
+app.post("/Regsociety", async (req,res)=> {
     try{
             const socreg= new Regsoc({
                 socname:req.body.socname,
@@ -96,7 +97,7 @@ app.post("/Regsoc", async (req,res)=> {
             })
             
             const socregistered= await socreg.save();
-            res.status(201).render("login");
+            res.status(201).render("index");
         
         }catch(error){
         res.status(400).send(error);
