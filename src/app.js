@@ -20,7 +20,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-
 app.use(express.static(static_path));
 app.set("view engine", "hbs");
 app.set("views", template_path);
@@ -30,10 +29,9 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
-
-app.get("/Regsociety", (req,res)=> {
-    res.render("Regsociety");
-
+app.get("/Regsoc", (req, res) => {
+    res.render("Regsoc");
+});
 app.get("/login", (req, res) => {
     res.render("login");
 });
@@ -69,23 +67,6 @@ app.get("/socMemDashBoard", (req, res) => {
     res.render("socMemDashBoard");
 });
 //crate a new user in database
-
-app.post("/index", async (req,res)=> {
-    
-    try{
-        const societyname=req.body.socname;    
-        const socName= await Regsoc.findOne({socname:societyname})
-            
-            if(socName.socname===societyname){
-                res.status(201).render("login");
-            }
-            else{
-                res.status(201).render("Regsociety");
-            }
-        
-        }catch(error){
-            res.status(400).send(error);
-
 app.post("/index", async (req, res) => {
 
     try {
@@ -94,35 +75,15 @@ app.post("/index", async (req, res) => {
 
         if (socName.socname === societyname) {
             res.status(201).render("login");
-
         }
         else {
-            res.status(201).render("regSoc");
+            res.status(201).render("RegSoc");
         }
 
     } catch (error) {
         res.status(400).send(error);
     }
 });
-
-app.post("/Regsociety", async (req,res)=> {
-    try{
-            const socreg= new Regsoc({
-                socname:req.body.socname,
-                presname:req.body.presname,
-                district:req.body.district,
-                district:req.body.district,
-                city:req.body.city,
-                country:req.body.country,
-                phone:req.body.phone,
-                email:req.body.email,
-            })
-            
-            const socregistered= await socreg.save();
-            res.status(201).render("index");
-        
-        }catch(error){
-
 app.post("/Regsoc", async (req, res) => {
     try {
         const socreg = new Regsoc({
@@ -140,7 +101,6 @@ app.post("/Regsoc", async (req, res) => {
         res.status(201).render("login");
 
     } catch (error) {
-
         res.status(400).send(error);
     }
 });
