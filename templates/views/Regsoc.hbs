@@ -11,7 +11,7 @@
     <div class="container-fluid main_header">
         <div class="row">
             <div class="col-md-10 col-12 mx-auto">
-                    <form action="/Regsoc" method="POST" class="temp_form">
+                    <form action="/Regsociety" method="POST" class="temp_form">
                         <label for="socname">Society Name:</label>
                         <input type="text" name="socname" placeholder="Enter Your Society Name" autocomplete="off" required>
                         
@@ -29,7 +29,7 @@
                         <input type="text" name="country" placeholder="Enter Your Country Name" autocomplete="off" required>
 
                         <label for="phone">Society Office Number:</label>
-                        <input type="tel" name="phone" placeholder="Enter your Society Office Number" required>
+                        <input type="tel" name="phone" placeholder="Enter your Society Office Number" pattern="[7-9]{1}[0-9]{9}" required>
 
                         <label for="email">Email:</label>
                         <input type="email" name="email" placeholder="Enter your President email" autocomplete="off" required>

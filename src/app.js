@@ -1,3 +1,4 @@
+
 const express= require('express');
 const path= require('path');
 const app=express();
@@ -68,70 +69,70 @@ app.post('/payment',async(req,res)=>{
 
 const Register= require("./models/register");
 const Regsoc= require("./models/RegSoc");
+const socComplaintReg = require("./models/socComplaintReg");
+const socReservationReg = require("./models/socReservationReg");
 
 //including css, views, partials
-const static_path=path.join(__dirname,"../public");
-const template_path=path.join(__dirname,"../templates/views");
-const partials_path= path.join(__dirname, "../templates/partials");
+const static_path = path.join(__dirname, "../public");
+const template_path = path.join(__dirname, "../templates/views");
+const partials_path = path.join(__dirname, "../templates/partials");
 
 //to fetch our form values; without below 2 statements data entered by users is not gonna display on our page!
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(express.static(static_path));
-app.set("view engine","hbs");
-app.set("views",template_path);
+app.set("view engine", "hbs");
+app.set("views", template_path);
 hbs.registerPartials(partials_path);
 app.get("/userpayment", (req,res)=>{
     res.render("userpayment");
 });
 
-app.get("/", (req,res)=> {
+app.get("/", (req, res) => {
     res.render("index");
 });
 
-app.get("/Regsoc", (req,res)=> {
+app.get("/Regsoc", (req, res) => {
     res.render("Regsoc");
 });
-app.get("/login", (req,res)=> {
+app.get("/login", (req, res) => {
     res.render("login");
     
 });
-app.get("/rwalogin", (req,res)=> {
+app.get("/rwalogin", (req, res) => {
     res.render("rwalogin");
     
 });
-app.get("/societylogin", (req,res)=> {
+app.get("/societylogin", (req, res) => {
     res.render("societylogin");
 });
-app.get("/complaintRegister", (req,res)=> {
+app.get("/complaintRegister", (req, res) => {
     res.render("complaintRegister");
 });
 
-app.get("/booking", (req,res)=> {
+app.get("/booking", (req, res) => {
     res.render("booking");
 });
 
-app.get("/socMemRegister", (req,res)=> {
+app.get("/socMemRegister", (req, res) => {
     res.render("socMemRegister");
 });
 
-app.get("/myprofile", (req,res)=>{
+app.get("/myprofile", (req, res) => {
     res.render("myprofile");
 });
-
 app.get('/payment',(req,res)=>{
     res.render('payment',{
         key:PUBLISHABLE_KEY
     })
 })
-
-app.get("/development", (req,res)=>{
+app.get("/development", (req, res) => {
     res.render("development");
 });
-app.get("/rwaMemberDashBoard", (req,res)=>{
+app.get("/rwaMemberDashBoard", (req, res) => {
     res.render("rwaMemberDashBoard");
 });
-app.get("/socMemDashBoard", (req,res)=>{
+app.get("/socMemDashBoard", (req, res) => {
     res.render("socMemDashBoard");
 });
 //crate a new user in database
@@ -139,85 +140,84 @@ app.post('/login',async(req,res)=>{
 
         console.log('login body',req.body); 
 })
-app.post("/index", async (req,res)=> {
-    
-    try{
-        const societyname=req.body.socname;    
-        const socName= await Regsoc.findOne({socname:societyname})
-            
-            if(socName.socname===societyname){
-                res.status(201).render("login");
-            }
-            else{
-                res.status(201).render("regSoc");
-            }
-        
-        }catch(error){
-        res.status(400).send(error);
-        }
-});
-app.post("/Regsoc", async (req,res)=> {
-    try{
-            const socreg= new Regsoc({
-                socname:req.body.socname,
-                presname:req.body.presname,
-                district:req.body.district,
-                district:req.body.district,
-                city:req.body.city,
-                country:req.body.country,
-                phone:req.body.phone,
-                email:req.body.email,
-            })
-            
-            const socregistered= await socreg.save();
-            res.status(201).render("login");
-        
-        }catch(error){
-            console.log('error',error)
-        res.status(400).send(error);
-        }
-});
-app.post("/socMemRegister", async (req,res)=> {
-    try{
-        const password=req.body.password;
-        const cpassword=req.body.confirmpassword;
+app.post("/index", async (req, res) => {
 
-        if(password===cpassword){
-            const registerMember= new Register({
-                name:req.body.name,
-                hnumber:req.body.hnumber,
-                fnumber:req.body.fnumber,
-                familymemcount:req.body.familymemcount,
-                sname:req.body.sname,
-                dname:req.body.dname,
-                owner:req.body.owner,
-                dob:req.body.dob,
-                phone:req.body.phone,
-                email:req.body.email,
-                password:password,
-                cpassword:cpassword,
+    try {
+        const societyname = req.body.socname;
+        const socName = await Regsoc.findOne({ socname: societyname })
+
+        if (socName.socname === societyname) {
+            res.status(201).render("login");
+        }
+        else {
+            res.status(201).render("RegSoc");
+        }
+
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+app.post("/Regsoc", async (req, res) => {
+    try {
+        const socreg = new Regsoc({
+            socname: req.body.socname,
+            presname: req.body.presname,
+            district: req.body.district,
+            district: req.body.district,
+            city: req.body.city,
+            country: req.body.country,
+            phone: req.body.phone,
+            email: req.body.email,
+        })
+
+        const socregistered = await socreg.save();
+        res.status(201).render("login");
+
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+app.post("/socMemRegister", async (req, res) => {
+    try {
+        const password = req.body.password;
+        const cpassword = req.body.confirmpassword;
+
+        if (password === cpassword) {
+            const registerMember = new Register({
+                socName: req.body.socName,
+                name: req.body.name,
+                hnumber: req.body.hnumber,
+                fnumber: req.body.fnumber,
+                familymemcount: req.body.familymemcount,
+                sname: req.body.sname,
+                dname: req.body.dname,
+                owner: req.body.owner,
+                dob: req.body.dob,
+                phone: req.body.phone,
+                email: req.body.email,
+                password: password,
+                cpassword: cpassword,
             })
-            
-            const registered= await registerMember.save();
+
+            const registered = await registerMember.save();
             res.status(201).render("societylogin");
 
         }
-        else{
+        else {
             res.send("pass are not matching");
         }
     }
-    catch(error){
+    catch (error) {
         res.status(400).send(error);
     }
 });
-
-app.post("/rwalogin", async (req,res)=> {
-    try{
-        const email=req.body.email;
-        const password=req.body.password;
+app.post("/rwalogin", async (req, res) => {
+    try {
+        const email = req.body.email;
+        const password = req.body.password;
 
         //this will find to whom the entered email belongs to in our mongodb 
-        const rwaemail= await Register.findOne({email:email})
+        const rwaemail = await Register.findOne({ email: email })
 
         //to check if my useremail is working or not
         // res.send(useremail);
@@ -225,16 +225,15 @@ app.post("/rwalogin", async (req,res)=> {
         userlogin=email;
         //console.log(userlogin);
         //checking password
-        if(rwaemail.password === password){
-            //console.log(password);
+        if (rwaemail.password === password) {
             res.status(201).render("rwaMemberDashBoard");
         }
-        else{
+        else {
             res.send("Invalid Details");
         }
         
     }
-    catch(error){
+    catch (error) {
         res.status(400).send("invalid");
     }
 });
@@ -244,17 +243,18 @@ app.post("/societylogin", async (req,res)=> {
         const password= req.body.password;
         userlogin=email;
         //this will find to whom the entered email belongs to in our mongodb 
-        const socemail= await Register.findOne({email:email});
-        if(socemail.password===password){
+        const socemail = await Register.findOne({ email: email });
+        if (socemail.password === password) {
             res.status(201).render("socMemDashBoard");
-        }else{
+        } else {
             res.send("Invalid Details");
         }
 
-    }catch(error){
+    } catch (error) {
         res.status(400).send("invalid");
     }
 });
+
 app.post('/userpayment', async(req, res)=> {
     
     
@@ -278,6 +278,49 @@ app.post('/userpayment', async(req, res)=> {
     
     
 });
-app.listen(port, ()=>{
-    console.log(`server is running at: ${port}` );
+
+app.post("/complaintRegister", async (req, res) => {
+    try {
+        const registerComplaint = new socComplaintReg({
+            societyName: req.body.socName,
+            societyMemberName: req.body.socMemName,
+            complaintSubject: req.body.compSubject,
+            complaintDesc: req.body.compDescription,
+            complaintDate: req.body.compDate,
+            complaintStatus: req.body.compstatus,
+
+        })
+
+        const compRegistered = await registerComplaint.save();
+        res.status(201).render("socMemDashboard");
+    } catch (error) {
+        res.status(400).send("invalid " + error);
+    }
+
+
+});
+app.post("/booking", async (req, res) => {
+    try {
+        const registerReservation = new socReservationReg({
+            societyName: req.body.socName,
+            societyMemberName: req.body.socMemName,
+            reservationFor: req.body.reserve,
+            reservationDesc: req.body.resDescription,
+            reservationDate: req.body.resDate,
+            reservationStatus: req.body.resStatus
+
+        })
+
+        const resRegistered = await registerReservation.save();
+        res.status(201).render("socMemDashboard");
+    } catch (error) {
+        res.status(400).send("invalid " + error);
+    }
+
+
+});
+
+app.listen(port, () => {
+    console.log(`server is running at: ${port}`);
+
 });

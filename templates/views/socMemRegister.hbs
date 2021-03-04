@@ -12,16 +12,18 @@
         <div class="row">
             <div class="col-md-10 col-12 mx-auto">
                     <form action="/socMemRegister" method="POST" class="temp_form">
+                        <label for="socname">Society Name:</label>
+                        <input type="text" name="socName" placeholder="Enter Society Name" autocomplete="off" required>
                         <label for="name">Name:</label>
                         <input type="text" name="name" placeholder="Enter Your Name" autocomplete="off" required>
 
                         <label for="hnumber"> House Number:</label>
-                        <input type="Number" name="hnumber" placeholder="Enter Your House Number" autocomplete="off"
+                        <input type="Number" name="hnumber" min="1" placeholder="Enter Your House Number" autocomplete="off"
                             required>
 
                         <label for="familymemcount">No Of Family Member</label>
                         <input type="Number" name="familymemcount" placeholder="Enter Number of Family Member" autocomplete="off"
-                            required>
+                            min="0" required>
 
                         <label for="fnumber">Floor Number:</label>
                         <select name="fnumber" required>
@@ -35,6 +37,7 @@
                         <input type="text" name="sname" placeholder="Enter Your Street Name" autocomplete="off"
                             required>
 
+
                         <label for="dname">District:</label>
                         <input type="text" name="dname" placeholder="Enter Your District" autocomplete="off" required>
 
@@ -47,7 +50,7 @@
                         <input type="date" name="dob" autocomplete="off" required>
 
                         <label for="phone">Enter your phone number:</label>
-                        <input type="tel" name="phone" placeholder="Enter your Mobile Number" required>
+                        <input type="tel" name="phone" placeholder="Enter your Mobile Number" pattern="[7-9]{1}[0-9]{9}" required >
 
                         <label for="email">Create Username:</label>
                         <input type="email" name="email" placeholder="Enter your email" autocomplete="off" required>

@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
-    {{!-- <meta charset="UTF-8">
+    {{!--
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" href="css/style.css"> --}}
     <title>Booking</title>
     {{>header}}
@@ -16,22 +17,23 @@
     <div class="container-fluid main_header">
         <div class="row">
             <div class="col-md-10 col-12 mx-auto">
-                <form action="" method="" class="temp_form">
+                <form action="/booking" method="POST" class="temp_form">
+                    <label for="sname">Society Name:</label>
+                    <input type="text" name="socName" placeholder="Enter Your Society Name" autocomplete="off" required>
                     <label for="name">Name:</label>
-                    <input type="text" name="name" placeholder="Enter Your Name" autocomplete="off" required>
-
-                    <label for="book">Book:</label>
-                    <select name="book" required>
+                    <input type="text" name="socMemName" placeholder="Enter Your Name" autocomplete="off" required>
+                    <label for="res">Book:</label>
+                    <select name="reserve" required>
                         <option value="ClubHouse">Club House</option>
                         <option value="Community Hall">Community Hall</option>
                         <option value="Garden">Society Garden</option>
                     </select>
                     <label for="date">Date: </label>
-                    <input type="date" name="booking" placeholder="Enter date of booking" required>
+                    <input type="date" name="resDate" placeholder="Enter date of booking" required>
                     <label for="description">Description:</label>
-                    <textarea type="text" name="description" placeholder="Enter description" rows="5" cols="30"
-                        required>
-                    </textarea>
+                    <input type="text" name="resDescription" placeholder="Enter description of booking" required>
+                    <label for="status">Reservation Status:</label>
+                    <input type="text" name="resStatus" placeholder="Enter status" autocomplete="off" required>
 
                     <input type="submit" value="Submit">
                 </form>
