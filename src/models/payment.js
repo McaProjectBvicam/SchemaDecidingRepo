@@ -4,12 +4,15 @@ const Payments = new mongoose.Schema({
         type:String,
         required:true,
     },
+    useremail:{
+        type:String,
+        required:true,
+    },
     datetime:{
         type:String,
         required:true
     },
-    amount:
-        {
+    amount:{
             type:Number,
             required:true
 
