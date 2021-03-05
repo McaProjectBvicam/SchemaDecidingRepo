@@ -77,11 +77,12 @@ app.post("/index", async (req, res) => {
             res.status(201).render("login");
         }
         else {
+            res.send("invalid");
             res.status(201).render("RegSoc");
         }
 
     } catch (error) {
-        res.status(400).send(error);
+        res.status(201).render("RegSoc");
     }
 });
 app.post("/Regsoc", async (req, res) => {
