@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notices</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+</head>
+
+<body>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Society Name</th>
+                <th>Date Of Notice</th>
+                <th>Heading </th>
+                <th>Description </th>
+                <th>Link:</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each list}}
+            <tr>
+                <td>{{this.societyName}}</td>
+                <td>{{this.noticeDate}}</td>
+                <td>{{this.noticeHeading}}</td>
+                <td>{{this.noticeDesc}}</td>
+                <td>{{this.noticeLink}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    </div>
+
+</body>
+
+</html>

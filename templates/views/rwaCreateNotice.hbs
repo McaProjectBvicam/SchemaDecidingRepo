@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {{>header}}
+</head>
+<body>
+    {{>societynavbar}}
+    <div class="container-fluid main_header">
+        <div class="row">
+            <div class="col-md-10 col-12 mx-auto">
+                <form action="/rwaCreateNotice" method="POST" class="temp_form">
+                    <label for="sname">Society Name:</label>
+                    <input type="text" name="socName" placeholder="Enter Your Society Name" autocomplete="off" required>
+
+                    <label for=" ndate">Notice Date:</label>
+                    <input type="date" name="noticeDate" placeholder="Enter date" autocomplete="off" required>
+
+                    <label for="nheading">Heading:</label>
+                    <input type="text" name="noticeHeading" placeholder="Enter Heading" autocomplete="off" required>
+
+                    <label for="ndescription">Description:</label>
+                    <input type="text" name="noticeDesc" placeholder="Enter description" required>
+
+                    <label for="nlink">Link(If any):</label>
+                    <input type="text" name="noticeLink" placeholder="Provide link" autocomplete="off">
+
+                    <label for="nfile">File:(If any):</label>
+                    <input type="file" name="noticeFile" placeholder="upload file" autocomplete="off" >
+
+
+                    <input type="submit" value="Submit">
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>

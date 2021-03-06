@@ -10,10 +10,10 @@ const socComplaintSchema = new mongoose.Schema({
         require: true
     },
 
-    complaintSubject: {
-        type: String,
-        require: true
-    },
+    // complaintSubject: {
+    //     type: String,
+    //     require: true
+    // },
 
     complaintSubject: {
         type: String,
