@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 
 const express = require('express');
 const path = require('path');
 const app = express();
 const hbs = require('hbs');
 const port = process.env.PROCESS || 8000;
+=======
+const express= require('express');
+const path= require('path');
+const app=express();
+const hbs=require('hbs');
+const port= process.env.PROCESS || 8000;
+>>>>>>> 21ae7f1a540ba09f6aad74d3f0d94b5b85cc7dd5
 require("./db/conn");
 var userlogin = "";
 const payment = require("./models/payment");
@@ -16,6 +24,10 @@ app.use(bodyParser.json())
 app.set("view engine", "ejs");
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 21ae7f1a540ba09f6aad74d3f0d94b5b85cc7dd5
 // app.listen(port,()=>{
 //     console.log(`App is listening on ${port}`)
 // })
@@ -33,14 +45,22 @@ const partials_path = path.join(__dirname, "../templates/partials");
 
 //to fetch our form values; without below 2 statements data entered by users is not gonna display on our page!
 app.use(express.json());
+<<<<<<< HEAD
 app.use(express.urlencoded({ extended: false }));
+=======
+app.use(express.urlencoded({extended:false}));
+
+>>>>>>> 21ae7f1a540ba09f6aad74d3f0d94b5b85cc7dd5
 app.use(express.static(static_path));
 app.set("view engine", "hbs");
 app.set("views", template_path);
 hbs.registerPartials(partials_path);
+<<<<<<< HEAD
 app.get("/userpayment", (req, res) => {
     res.render("userpayment");
 });
+=======
+>>>>>>> 21ae7f1a540ba09f6aad74d3f0d94b5b85cc7dd5
 
 app.get("/", (req, res) => {
     res.render("index");
@@ -62,6 +82,9 @@ app.get("/rwalogin", (req, res) => {
 });
 app.get("/societylogin", (req, res) => {
     res.render("societylogin");
+});
+app.get("/userpayment", (req,res)=>{
+    res.render("userpayment");
 });
 app.get("/complaintRegister", (req, res) => {
     res.render("complaintRegister");
@@ -125,11 +148,12 @@ app.post("/index", async (req, res) => {
             res.status(201).render("login");
         }
         else {
+            res.send("invalid");
             res.status(201).render("RegSoc");
         }
 
     } catch (error) {
-        res.status(400).send(error);
+        res.status(201).render("RegSoc");
     }
 });
 app.post("/Regsoc", async (req, res) => {
@@ -230,6 +254,53 @@ app.post("/societylogin", async (req, res) => {
         res.status(400).send("invalid");
     }
 });
+app.post('/payment',async(req,res)=>{
+    try{
+        console.log('req body',req.body); 
+        const customer=await stripe.customers.create({
+            email:req.body.stripeEmail,
+            source:req.body.stripeToken,
+            /*name:'Gautam Sharma',
+           // address:{
+                line1:'23 Mountain Valley New Delhi',
+                postal_code:'110092',
+                city:'New Delhi',
+                state:'Delhi',
+                country:'India'
+            }*/
+        })
+        //console.log("hello");
+        const charge=await stripe.charges.create({
+            amount: 1000,
+            description:'Web Development Product',
+            currency:'INR',
+            customer:customer.id
+        })
+        //console.log("i am before if");
+        //console.log(charge.amount);
+        const ab=await charge.amount;
+        //console.log(ab);
+        if(ab){
+            console.log(userlogin);
+            //console.log(new Date());
+            const pay= new payment({
+                email:req.body.stripeEmail,
+                useremail:userlogin,
+                amount:1000,
+                datetime:new Date(),
+                status:"Success"
+        })
+        const pays= await pay.save();
+        
+        //console.log(pay);
+        res.status(201).render("userpayment");
+        //console.log('hello');
+        
+    }
+}catch(err){
+        res.send(err);
+}
+});
 
 app.post('/userpayment', async (req, res) => {
 
@@ -255,6 +326,8 @@ app.post('/userpayment', async (req, res) => {
 
 
 });
+
+
 
 app.post("/complaintRegister", async (req, res) => {
     try {
@@ -293,8 +366,6 @@ app.post("/booking", async (req, res) => {
     } catch (error) {
         res.status(400).send("invalid " + error);
     }
-
-
 });
 
 app.post('/payment', async (req, res) => {
