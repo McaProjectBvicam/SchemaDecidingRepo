@@ -1,17 +1,9 @@
-<<<<<<< HEAD
 
 const express = require('express');
 const path = require('path');
 const app = express();
 const hbs = require('hbs');
 const port = process.env.PROCESS || 8000;
-=======
-const express= require('express');
-const path= require('path');
-const app=express();
-const hbs=require('hbs');
-const port= process.env.PROCESS || 8000;
->>>>>>> 21ae7f1a540ba09f6aad74d3f0d94b5b85cc7dd5
 require("./db/conn");
 var userlogin = "";
 const payment = require("./models/payment");
@@ -24,10 +16,6 @@ app.use(bodyParser.json())
 app.set("view engine", "ejs");
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 21ae7f1a540ba09f6aad74d3f0d94b5b85cc7dd5
 // app.listen(port,()=>{
 //     console.log(`App is listening on ${port}`)
 // })
@@ -45,22 +33,14 @@ const partials_path = path.join(__dirname, "../templates/partials");
 
 //to fetch our form values; without below 2 statements data entered by users is not gonna display on our page!
 app.use(express.json());
-<<<<<<< HEAD
 app.use(express.urlencoded({ extended: false }));
-=======
-app.use(express.urlencoded({extended:false}));
-
->>>>>>> 21ae7f1a540ba09f6aad74d3f0d94b5b85cc7dd5
 app.use(express.static(static_path));
 app.set("view engine", "hbs");
 app.set("views", template_path);
 hbs.registerPartials(partials_path);
-<<<<<<< HEAD
 app.get("/userpayment", (req, res) => {
     res.render("userpayment");
 });
-=======
->>>>>>> 21ae7f1a540ba09f6aad74d3f0d94b5b85cc7dd5
 
 app.get("/", (req, res) => {
     res.render("index");
