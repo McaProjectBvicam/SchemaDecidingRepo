@@ -408,7 +408,7 @@ app.post("/rwaCreateNotice", async (req, res) => {
         })
 
         const resRegistered = await createNotice.save();
-        res.status(201).render("rwaCreateNotice");
+        res.status(201).render("rwaMemberDashBoard");
     } catch (error) {
         res.status(400).send("invalid " + error);
     }
