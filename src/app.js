@@ -33,6 +33,7 @@ const partials_path = path.join(__dirname, "../templates/partials");
 //to fetch our form values; without below 2 statements data entered by users is not gonna display on our page!
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+
 app.use(express.static(static_path));
 app.set("view engine", "hbs");
 app.set("views", template_path);
@@ -255,6 +256,33 @@ app.post('/payment',async(req,res)=>{
         res.send(err);
 }
 });
+
+app.post('/userpayment', async(req, res)=> {
+    
+    
+    var MongoClient = require('mongodb').MongoClient;
+    var url = "mongodb://localhost:27017/";
+
+    MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("ProjectSocietyDB");
+    console.log(dbo);
+    console.log('hello');
+    //const loginemail= await Register.find({email:userlogin})
+    dbo.collection("paymentdbs").find({useremail:userlogin}).toArray(function(err, result) {
+    if (err) throw err;
+        console.log(result);
+        res.render("userpayment", {
+            list: result});
+    db.close();
+  });
+});
+    
+    
+});
+
+
+
 app.post("/complaintRegister", async (req, res) => {
     try {
         const registerComplaint = new socComplaintReg({
