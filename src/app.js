@@ -1,4 +1,3 @@
-
 const express= require('express');
 const path= require('path');
 const app=express();
@@ -14,6 +13,7 @@ const stripe=require('stripe')(SECRET_KEY)
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.set("view engine","ejs");
+
 
 
 // app.listen(port,()=>{
@@ -37,6 +37,9 @@ app.use(express.static(static_path));
 app.set("view engine", "hbs");
 app.set("views", template_path);
 hbs.registerPartials(partials_path);
+app.get("/userpayment", (req,res)=>{
+    res.render("userpayment");
+});
 
 app.get("/", (req, res) => {
     res.render("index");
@@ -51,6 +54,7 @@ app.get("/login", (req, res) => {
 });
 app.get("/rwalogin", (req, res) => {
     res.render("rwalogin");
+    
 });
 app.get("/societylogin", (req, res) => {
     res.render("societylogin");
@@ -174,8 +178,9 @@ app.post("/rwalogin", async (req, res) => {
 
         //to check if my useremail is working or not
         // res.send(useremail);
-        // console.log(useremail);
-
+        //console.log(email);
+        userlogin=email;
+        //console.log(userlogin);
         //checking password
         if (rwaemail.password === password) {
             res.status(201).render("rwaMemberDashBoard");
@@ -183,16 +188,17 @@ app.post("/rwalogin", async (req, res) => {
         else {
             res.send("Invalid Details");
         }
+        
     }
     catch (error) {
         res.status(400).send("invalid");
     }
 });
-app.post("/societylogin", async (req, res) => {
-    try {
-        const email = req.body.email;
-        const password = req.body.password;
-
+app.post("/societylogin", async (req,res)=> {
+    try{
+        const email= req.body.email;
+        const password= req.body.password;
+        userlogin=email;
         //this will find to whom the entered email belongs to in our mongodb 
         const socemail = await Register.findOne({ email: email });
         if (socemail.password === password) {
@@ -211,40 +217,41 @@ app.post('/payment',async(req,res)=>{
         const customer=await stripe.customers.create({
             email:req.body.stripeEmail,
             source:req.body.stripeToken,
-            name:'Gautam Sharma',
-            address:{
+            /*name:'Gautam Sharma',
+           // address:{
                 line1:'23 Mountain Valley New Delhi',
                 postal_code:'110092',
                 city:'New Delhi',
                 state:'Delhi',
                 country:'India'
-            }
+            }*/
         })
-        console.log("hello");
+        //console.log("hello");
         const charge=await stripe.charges.create({
-            amount:70,
+            amount: 1000,
             description:'Web Development Product',
             currency:'INR',
             customer:customer.id
         })
-        console.log("i am before if");
-        console.log(charge.amount);
+        //console.log("i am before if");
+        //console.log(charge.amount);
         const ab=await charge.amount;
-        console.log(ab);
+        //console.log(ab);
         if(ab){
-            console.log("if");
+            console.log(userlogin);
             //console.log(new Date());
             const pay= new payment({
                 email:req.body.stripeEmail,
-                amount:70,
+                useremail:userlogin,
+                amount:1000,
                 datetime:new Date(),
                 status:"Success"
         })
         const pays= await pay.save();
-        //console.log('bkfk');
-        //res.send('Success');
-        //res.render('userpayment');
+        
+        //console.log(pay);
         res.status(201).render("userpayment");
+        //console.log('hello');
         
     }
 }catch(err){
