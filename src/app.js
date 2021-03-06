@@ -14,55 +14,8 @@ const stripe=require('stripe')(SECRET_KEY)
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.set("view engine","ejs");
-app.get("/userpayment", (req,res)=>{
-    res.render("userpayment");
-});
-app.post('/payment',async(req,res)=>{
-    try{
-        console.log('req body',req.body); 
-        const customer=await stripe.customers.create({
-            email:req.body.stripeEmail,
-            source:req.body.stripeToken,
-            name:'Gautam Sharma',
-            address:{
-                line1:'23 Mountain Valley New Delhi',
-                postal_code:'110092',
-                city:'New Delhi',
-                state:'Delhi',
-                country:'India'
-            }
-        })
-        console.log("hello");
-        const charge=await stripe.charges.create({
-            amount:70,
-            description:'Web Development Product',
-            currency:'INR',
-            customer:customer.id
-        })
-        console.log("i am before if");
-        console.log(charge.amount);
-        const ab=await charge.amount;
-        console.log(ab);
-        if(ab){
-            console.log("if");
-            //console.log(new Date());
-            const pay= new payment({
-                email:req.body.stripeEmail,
-                amount:70,
-                datetime:new Date(),
-                status:"Success"
-        })
-        const pays= await pay.save();
-        //console.log('bkfk');
-        //res.send('Success');
-        //res.render('userpayment');
-        res.status(201).render("userpayment");
-        
-    }
-}catch(err){
-        res.send(err);
-}
-});
+
+
 // app.listen(port,()=>{
 //     console.log(`App is listening on ${port}`)
 // })
@@ -101,6 +54,9 @@ app.get("/rwalogin", (req, res) => {
 });
 app.get("/societylogin", (req, res) => {
     res.render("societylogin");
+});
+app.get("/userpayment", (req,res)=>{
+    res.render("userpayment");
 });
 app.get("/complaintRegister", (req, res) => {
     res.render("complaintRegister");
@@ -249,6 +205,52 @@ app.post("/societylogin", async (req, res) => {
         res.status(400).send("invalid");
     }
 });
+app.post('/payment',async(req,res)=>{
+    try{
+        console.log('req body',req.body); 
+        const customer=await stripe.customers.create({
+            email:req.body.stripeEmail,
+            source:req.body.stripeToken,
+            name:'Gautam Sharma',
+            address:{
+                line1:'23 Mountain Valley New Delhi',
+                postal_code:'110092',
+                city:'New Delhi',
+                state:'Delhi',
+                country:'India'
+            }
+        })
+        console.log("hello");
+        const charge=await stripe.charges.create({
+            amount:70,
+            description:'Web Development Product',
+            currency:'INR',
+            customer:customer.id
+        })
+        console.log("i am before if");
+        console.log(charge.amount);
+        const ab=await charge.amount;
+        console.log(ab);
+        if(ab){
+            console.log("if");
+            //console.log(new Date());
+            const pay= new payment({
+                email:req.body.stripeEmail,
+                amount:70,
+                datetime:new Date(),
+                status:"Success"
+        })
+        const pays= await pay.save();
+        //console.log('bkfk');
+        //res.send('Success');
+        //res.render('userpayment');
+        res.status(201).render("userpayment");
+        
+    }
+}catch(err){
+        res.send(err);
+}
+});
 app.post("/complaintRegister", async (req, res) => {
     try {
         const registerComplaint = new socComplaintReg({
@@ -286,8 +288,6 @@ app.post("/booking", async (req, res) => {
     } catch (error) {
         res.status(400).send("invalid " + error);
     }
-
-
 });
 
 app.listen(port, () => {
