@@ -70,6 +70,7 @@ app.get("/complaintRegister", (req, res) => {
     res.render("complaintRegister");
 });
 
+
 app.get("/booking", (req, res) => {
     res.render("booking");
 });
@@ -108,6 +109,20 @@ app.get("/socMemReadNotice", (req, res) => {
         }
         else {
             console.log("Error in reading Notice collection:" + err);
+        }
+    });
+
+});
+app.get("/socMemReadComplaint", (req, res) => {
+
+    socComplaintReg.find((err, docs) => {
+        if (!err) {
+            res.render("socMemReadComplaint", {
+                list: docs
+            });
+        }
+        else {
+            console.log("Error in reading complaint collection:" + err);
         }
     });
 
@@ -329,6 +344,9 @@ app.post("/complaintRegister", async (req, res) => {
 
 
 });
+
+
+
 app.post("/booking", async (req, res) => {
     try {
         const registerReservation = new socReservationReg({
