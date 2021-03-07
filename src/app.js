@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.set("view engine", "ejs");
 
-
+console.log("lakshay the great");
 // app.listen(port,()=>{
 //     console.log(`App is listening on ${port}`)
 // })
