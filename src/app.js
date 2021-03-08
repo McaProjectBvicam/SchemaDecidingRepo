@@ -70,6 +70,7 @@ app.get("/complaintRegister", (req, res) => {
     res.render("complaintRegister");
 });
 
+
 app.get("/booking", (req, res) => {
     res.render("booking");
 });
@@ -112,6 +113,20 @@ app.get("/socMemReadNotice", (req, res) => {
     });
 
 });
+app.get("/socMemReadComplaint", (req, res) => {
+
+    socComplaintReg.find((err, docs) => {
+        if (!err) {
+            res.render("socMemReadComplaint", {
+                list: docs
+            });
+        }
+        else {
+            console.log("Error in reading complaint collection:" + err);
+        }
+    });
+
+});
 
 //crate a new user in database
 app.post('/login', async (req, res) => {
@@ -136,6 +151,7 @@ app.post("/index", async (req, res) => {
         res.status(201).render("RegSoc");
     }
 });
+
 app.post("/Regsoc", async (req, res) => {
     try {
         const socreg = new Regsoc({
@@ -317,7 +333,7 @@ app.post("/complaintRegister", async (req, res) => {
             complaintSubject: req.body.compSubject,
             complaintDesc: req.body.compDescription,
             complaintDate: req.body.compDate,
-            complaintStatus: req.body.compstatus,
+            complaintStatus: req.body.compStatus,
 
         })
 
@@ -329,6 +345,9 @@ app.post("/complaintRegister", async (req, res) => {
 
 
 });
+
+
+
 app.post("/booking", async (req, res) => {
     try {
         const registerReservation = new socReservationReg({
