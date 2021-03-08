@@ -151,6 +151,7 @@ app.post("/index", async (req, res) => {
         res.status(201).render("RegSoc");
     }
 });
+
 app.post("/Regsoc", async (req, res) => {
     try {
         const socreg = new Regsoc({
@@ -332,7 +333,7 @@ app.post("/complaintRegister", async (req, res) => {
             complaintSubject: req.body.compSubject,
             complaintDesc: req.body.compDescription,
             complaintDate: req.body.compDate,
-            complaintStatus: req.body.compstatus,
+            complaintStatus: req.body.compStatus,
 
         })
 
