@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.set("view engine", "ejs");
 
-console.log("lakshay the great");
+
 // app.listen(port,()=>{
 //     console.log(`App is listening on ${port}`)
 // })
@@ -25,6 +25,7 @@ const Regsoc = require("./models/RegSoc");
 const socComplaintReg = require("./models/socComplaintReg");
 const socReservationReg = require("./models/socReservationReg");
 const societyNotice = require("./models/societyNotice");
+const societyDevelopment = require("./models/societyDevelopment");
 
 //including css, views, partials
 const static_path = path.join(__dirname, "../public");
@@ -46,9 +47,6 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
-app.get("/rwaCreateNotice", (req, res) => {
-    res.render("rwaCreateNotice");
-});
 app.get("/Regsoc", (req, res) => {
     res.render("Regsoc");
 });
@@ -70,6 +68,13 @@ app.get("/complaintRegister", (req, res) => {
     res.render("complaintRegister");
 });
 
+app.get("/rwaCreateNotice", (req, res) => {
+    res.render("rwaCreateNotice");
+});
+
+app.get("/rwaDevelopmentEntries", (req, res) => {
+    res.render("rwaDevelopmentEntries");
+});
 
 app.get("/booking", (req, res) => {
     res.render("booking");
@@ -113,6 +118,36 @@ app.get("/socMemReadNotice", (req, res) => {
     });
 
 });
+
+app.get("/socMemReadDevelopment", (req, res) => {
+
+    societyDevelopment.find((err, docs) => {
+        if (!err) {
+            res.render("socMemReadDevelopment", {
+                list: docs
+            });
+        }
+        else {
+            console.log("Error in reading Development collection:" + err);
+        }
+    });
+});
+
+app.get("/socMemReadBooking", (req, res) => {
+
+    socReservationReg.find((err, docs) => {
+        if (!err) {
+            res.render("socMemReadBooking", {
+                list: docs
+            });
+        }
+        else {
+            console.log("Error in reading Development collection:" + err);
+        }
+    });
+});
+
+
 app.get("/socMemReadComplaint", (req, res) => {
 
     socComplaintReg.find((err, docs) => {
@@ -250,57 +285,9 @@ app.post("/societylogin", async (req, res) => {
         res.status(400).send("invalid");
     }
 });
-app.post('/payment',async(req,res)=>{
-    try{
-        console.log('req body',req.body); 
-        const customer=await stripe.customers.create({
-            email:req.body.stripeEmail,
-            source:req.body.stripeToken,
-            /*name:'Gautam Sharma',
-           // address:{
-                line1:'23 Mountain Valley New Delhi',
-                postal_code:'110092',
-                city:'New Delhi',
-                state:'Delhi',
-                country:'India'
-            }*/
-        })
-        //console.log("hello");
-        const charge=await stripe.charges.create({
-            amount: 1000,
-            description:'Web Development Product',
-            currency:'INR',
-            customer:customer.id
-        })
-        //console.log("i am before if");
-        //console.log(charge.amount);
-        const ab=await charge.amount;
-        //console.log(ab);
-        if(ab){
-            console.log(userlogin);
-            //console.log(new Date());
-            const pay= new payment({
-                email:req.body.stripeEmail,
-                useremail:userlogin,
-                amount:1000,
-                datetime:new Date(),
-                status:"Success"
-        })
-        const pays= await pay.save();
-        
-        //console.log(pay);
-        res.status(201).render("userpayment");
-        //console.log('hello');
-        
-    }
-}catch(err){
-        res.send(err);
-}
-});
+
 
 app.post('/userpayment', async (req, res) => {
-
-
     var MongoClient = require('mongodb').MongoClient;
     var url = "mongodb://localhost:27017/";
 
@@ -323,8 +310,6 @@ app.post('/userpayment', async (req, res) => {
 
 });
 
-
-
 app.post("/complaintRegister", async (req, res) => {
     try {
         const registerComplaint = new socComplaintReg({
@@ -345,8 +330,6 @@ app.post("/complaintRegister", async (req, res) => {
 
 
 });
-
-
 
 app.post("/booking", async (req, res) => {
     try {
@@ -427,6 +410,23 @@ app.post("/rwaCreateNotice", async (req, res) => {
         })
 
         const resRegistered = await createNotice.save();
+        res.status(201).render("rwaMemberDashBoard");
+    } catch (error) {
+        res.status(400).send("invalid " + error);
+    }
+});
+
+app.post("/rwaDevelopmentEntries", async (req, res) => {
+
+    try {
+        const DevelopmentEntries = new societyDevelopment({
+            Facility: req.body.Facility,
+            Category: req.body.Category,
+            FacilityDate: req.body.FacilityDate,
+            DevelopmentDesc: req.body.DevelopmentDesc,
+        })
+
+        const RegDevelopment = await DevelopmentEntries.save();
         res.status(201).render("rwaMemberDashBoard");
     } catch (error) {
         res.status(400).send("invalid " + error);

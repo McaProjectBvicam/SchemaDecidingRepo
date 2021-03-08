@@ -28,9 +28,6 @@ const socReservationSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-
-
-
 })
 
 const reservationRegister = new mongoose.model("SocietyReservation", socReservationSchema);

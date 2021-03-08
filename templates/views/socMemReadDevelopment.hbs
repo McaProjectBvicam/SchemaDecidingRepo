@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <title>Notices</title>
     {{>header}}
+    <title>Development Section</title>
 </head>
 
 <body>
@@ -16,17 +16,15 @@
                 <th>Date Of Notice</th>
                 <th>Heading </th>
                 <th>Description </th>
-                <th>Link:</th>
             </tr>
         </thead>
         <tbody>
             {{#each list}}
             <tr>
-                <td>{{this.societyName}}</td>
-                <td>{{this.noticeDate}}</td>
-                <td>{{this.noticeHeading}}</td>
-                <td>{{this.noticeDesc}}</td>
-                <td>{{this.noticeLink}}</td>
+                <td>{{this.Facility}}</td>
+                <td>{{this.Category}}</td>
+                <td>{{this.FacilityDate}}</td>
+                <td>{{this.DevelopmentDesc}}</td>
             </tr>
             {{/each}}
         </tbody>
