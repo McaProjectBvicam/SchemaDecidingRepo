@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Development Update Section</title>
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style2.css">
+    {{>header}}
+</head>
+
+<body>
+    {{>rwanavbar}}
+    <div class="sidenav">
+        <a href="/rwaMemberDashBoard">Dashboard</a>
+        <a href="/rwaCreateNotice">Create Notice</a>
+        <a href="/rwaDevelopmentEntries">Development Update</a>
+        <a href="/userpayment">Payments Log</a>
+        <a href="/socMemReadComplaint">Complaint Box</a>
+        <a href="/socMemReadBooking">Reservation Requests</a>
+		<a href="#rwa">RWA Members</a>
+		<a href="#invite">Invite Society Members</a>
+    </div>
+
+    <div class="container-fluid main_header">
+        <div class="row">
+            <div class="col-md-10 col-12 mx-auto">
+                <form action="/rwaDevelopmentEntries" method="POST" class="temp_form">
+                    
+                    <h2 class="text-capitalize display-4">Development Entries</h2>
+                    
+                    <label for="Facility">Name of Facility/Equipment:</label>
+                    <input type="text" name="Facility" placeholder="Name of Facility/Equipment" autocomplete="off" required>
+
+                    <label for="Category">Category:</label>
+                        <select name="Category" required>
+                            <option value="Select">Select</option>
+                            <option value="Select">Colony Streets</option>
+                            <option value="Society Park">Community Hall</option>
+                            <option value="Colony Streets">Society Park</option>
+                            <option value="Community Hall">Society Security</option>
+                        </select>
+
+                    <label for="FacilityDate">Date of Implemetation of Facility: </label>
+                    <input type="Date" name="FacilityDate" placeholder="Date of Implemetation of Facility" autocomplete="off">
+
+                    <label for="DevelopmentDesc">Description (Optional):</label>
+                    <textarea name="DevelopmentDesc" placeholder="Description" autocomplete="off" rows="4",cols="50">  
+                    </textarea>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>        
+</body>
+
+</html>
+	
