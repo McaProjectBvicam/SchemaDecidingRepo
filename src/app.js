@@ -25,16 +25,13 @@ const OAuth2=google.auth.OAuth2;
 const oAuth2Client = new OAuth2(CLIENT_ID,CLIENT_SECRET,REDIRECT_URI)
 oAuth2Client.setCredentials({refresh_token:REFRESH_TOKEN});
 const accessToken=oAuth2Client.getAccessToken();
-//console.log("lakshay the great");
-// app.listen(port,()=>{
-//     console.log(`App is listening on ${port}`)
-// })
 
 const Register = require("./models/register");
 const Regsoc = require("./models/RegSoc");
 const socComplaintReg = require("./models/socComplaintReg");
 const socReservationReg = require("./models/socReservationReg");
 const societyNotice = require("./models/societyNotice");
+const societyDevelopment = require("./models/societyDevelopment");
 
 //including css, views, partials
 const static_path = path.join(__dirname, "../public");
@@ -54,9 +51,6 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
-app.get("/rwaCreateNotice", (req, res) => {
-    res.render("rwaCreateNotice");
-});
 app.get("/Regsoc", (req, res) => {
     res.render("Regsoc");
 });
@@ -76,6 +70,14 @@ app.get("/userpayment", (req,res)=>{
 });
 app.get("/complaintRegister", (req, res) => {
     res.render("complaintRegister");
+});
+
+app.get("/rwaCreateNotice", (req, res) => {
+    res.render("rwaCreateNotice");
+});
+
+app.get("/rwaDevelopmentEntries", (req, res) => {
+    res.render("rwaDevelopmentEntries");
 });
 
 app.get("/booking", (req, res) => {
@@ -121,6 +123,50 @@ app.get("/socMemReadNotice", (req, res) => {
 
 });
 
+app.get("/socMemReadDevelopment", (req, res) => {
+
+    societyDevelopment.find((err, docs) => {
+        if (!err) {
+            res.render("socMemReadDevelopment", {
+                list: docs
+            });
+        }
+        else {
+            console.log("Error in reading Development collection:" + err);
+        }
+    });
+});
+
+app.get("/socMemReadBooking", (req, res) => {
+
+    socReservationReg.find((err, docs) => {
+        if (!err) {
+            res.render("socMemReadBooking", {
+                list: docs
+            });
+        }
+        else {
+            console.log("Error in reading Development collection:" + err);
+        }
+    });
+});
+
+
+app.get("/socMemReadComplaint", (req, res) => {
+
+    socComplaintReg.find((err, docs) => {
+        if (!err) {
+            res.render("socMemReadComplaint", {
+                list: docs
+            });
+        }
+        else {
+            console.log("Error in reading complaint collection:" + err);
+        }
+    });
+
+});
+
 //crate a new user in database
 app.post('/login', async (req, res) => {
 
@@ -144,6 +190,7 @@ app.post("/index", async (req, res) => {
         res.status(201).render("RegSoc");
     }
 });
+
 app.post("/Regsoc", async (req, res) => {
     try {
         const socreg = new Regsoc({
@@ -243,57 +290,9 @@ app.post("/societylogin", async (req, res) => {
         res.status(400).send("invalid");
     }
 });
-/*app.post('/payment',async(req,res)=>{
-    try{
-        console.log('req body',req.body); 
-        const customer=await stripe.customers.create({
-            email:req.body.stripeEmail,
-            source:req.body.stripeToken,
-            /*name:'Gautam Sharma',
-           // address:{
-                line1:'23 Mountain Valley New Delhi',
-                postal_code:'110092',
-                city:'New Delhi',
-                state:'Delhi',
-                country:'India'
-            }
-        })
-        //console.log("hello");
-        const charge=await stripe.charges.create({
-            amount: 1000,
-            description:'Web Development Product',
-            currency:'INR',
-            customer:customer.id
-        })
-        //console.log("i am before if");
-        //console.log(charge.amount);
-        const ab=await charge.amount;
-        //console.log(ab);
-        if(ab){
-            console.log(userlogin);
-            //console.log(new Date());
-            const pay= new payment({
-                email:req.body.stripeEmail,
-                useremail:userlogin,
-                amount:1000,
-                datetime:new Date(),
-                status:"Success"
-        })
-        const pays= await pay.save();
-        
-        //console.log(pay);
-        res.status(201).render("userpayment");
-        //console.log('hello');
-        
-    }
-}catch(err){
-        res.send(err);
-}
-});*/
+
 
 app.post('/userpayment', async (req, res) => {
-
-
     var MongoClient = require('mongodb').MongoClient;
     var url = "mongodb://localhost:27017/";
 
@@ -316,8 +315,6 @@ app.post('/userpayment', async (req, res) => {
 
 });
 
-
-
 app.post("/complaintRegister", async (req, res) => {
     try {
         const registerComplaint = new socComplaintReg({
@@ -326,7 +323,7 @@ app.post("/complaintRegister", async (req, res) => {
             complaintSubject: req.body.compSubject,
             complaintDesc: req.body.compDescription,
             complaintDate: req.body.compDate,
-            complaintStatus: req.body.compstatus,
+            complaintStatus: req.body.compStatus,
 
         })
 
@@ -338,6 +335,7 @@ app.post("/complaintRegister", async (req, res) => {
 
 
 });
+
 app.post("/booking", async (req, res) => {
     try {
         const registerReservation = new socReservationReg({
