@@ -1,4 +1,3 @@
-
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -6,16 +5,27 @@ const hbs = require('hbs');
 const port = process.env.PROCESS || 8000;
 require("./db/conn");
 var userlogin = "";
+var societyname="";
 const payment = require("./models/payment");
 const bodyParser = require('body-parser')
 const PUBLISHABLE_KEY = "pk_test_51INbnLGQslJaHEn0wP5GYcVpiapPjFU1PXqu44AeeD2ijfNF12WpyXwDWshFVmvM5gFRfrvWN2eQZ16xin9NQrPY00Gy9Np7Tx"
 const SECRET_KEY = "sk_test_51INbnLGQslJaHEn09tspZMEZMTipgFhabZoLboFDsT3bElif5UKdG1gYX8kmS6zg1yI1ZtmbMkvJSKDgbk1iEH9J00kVvMGsMl"
 const stripe = require('stripe')(SECRET_KEY)
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+require('dotenv').config();
+const CLIENT_ID="373958830210-0fmh41sdpa71kqp6gdkltahjvfh9ctad.apps.googleusercontent.com"
+const CLIENT_SECRET="iIOW_WmNZQFMc4qgtpyW9qF0"
+const REDIRECT_URI="https://developers.google.com/oauthplayground"
+const REFRESH_TOKEN="1//04r7aoyb-Lpi2CgYIARAAGAQSNwF-L9IrD2jweh3G8_C35Ka8rn4Q0KWD_SyiL7gnpywX8pQyX8NiReqQWSQxO-4vWXCWPiIEyNI"
 app.set("view engine", "ejs");
-
-console.log("lakshay the great");
+var nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const OAuth2=google.auth.OAuth2;
+const oAuth2Client = new OAuth2(CLIENT_ID,CLIENT_SECRET,REDIRECT_URI)
+oAuth2Client.setCredentials({refresh_token:REFRESH_TOKEN});
+const accessToken=oAuth2Client.getAccessToken();
+//console.log("lakshay the great");
 // app.listen(port,()=>{
 //     console.log(`App is listening on ${port}`)
 // })
@@ -38,9 +48,7 @@ app.use(express.static(static_path));
 app.set("view engine", "hbs");
 app.set("views", template_path);
 hbs.registerPartials(partials_path);
-app.get("/userpayment", (req, res) => {
-    res.render("userpayment");
-});
+
 
 app.get("/", (req, res) => {
     res.render("index");
@@ -121,7 +129,7 @@ app.post('/login', async (req, res) => {
 app.post("/index", async (req, res) => {
 
     try {
-        const societyname = req.body.socname;
+        societyname = req.body.socname;
         const socName = await Regsoc.findOne({ socname: societyname })
 
         if (socName.socname === societyname) {
@@ -164,7 +172,7 @@ app.post("/socMemRegister", async (req, res) => {
 
         if (password === cpassword) {
             const registerMember = new Register({
-                socName: req.body.socName,
+                societyname: societyname,
                 name: req.body.name,
                 hnumber: req.body.hnumber,
                 fnumber: req.body.fnumber,
@@ -177,6 +185,7 @@ app.post("/socMemRegister", async (req, res) => {
                 email: req.body.email,
                 password: password,
                 cpassword: cpassword,
+                
             })
 
             const registered = await registerMember.save();
@@ -234,7 +243,7 @@ app.post("/societylogin", async (req, res) => {
         res.status(400).send("invalid");
     }
 });
-app.post('/payment',async(req,res)=>{
+/*app.post('/payment',async(req,res)=>{
     try{
         console.log('req body',req.body); 
         const customer=await stripe.customers.create({
@@ -247,7 +256,7 @@ app.post('/payment',async(req,res)=>{
                 city:'New Delhi',
                 state:'Delhi',
                 country:'India'
-            }*/
+            }
         })
         //console.log("hello");
         const charge=await stripe.charges.create({
@@ -280,7 +289,7 @@ app.post('/payment',async(req,res)=>{
 }catch(err){
         res.send(err);
 }
-});
+});*/
 
 app.post('/userpayment', async (req, res) => {
 
@@ -291,12 +300,12 @@ app.post('/userpayment', async (req, res) => {
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
         var dbo = db.db("ProjectSocietyDB");
-        console.log(dbo);
-        console.log('hello');
+        //console.log(dbo);
+        //console.log('hello');
         //const loginemail= await Register.find({email:userlogin})
         dbo.collection("paymentdbs").find({ useremail: userlogin }).toArray(function (err, result) {
             if (err) throw err;
-            console.log(result);
+            //console.log(result);
             res.render("userpayment", {
                 list: result
             });
@@ -413,6 +422,51 @@ app.post("/rwaCreateNotice", async (req, res) => {
         res.status(400).send("invalid " + error);
     }
 });
+
+/*
+    Here we are configuring our SMTP Server details.
+    STMP is mail server which is responsible for sending and recieving email.
+*/
+
+
+
+app.get('/send',(req,res)=>{
+    res.render('send');
+});
+app.post('/send',(req,res)=>{
+
+    const smtpTransport = nodemailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.com",
+        auth: {
+             type: "OAuth2",
+             user: "nishthasharma1014@gmail.com", 
+             pass:"nishthasharma4014",
+             clientId:CLIENT_ID ,
+             clientSecret: CLIENT_SECRET,
+             refreshToken:REFRESH_TOKEN,
+             accessToken: accessToken,
+    
+        },
+        tls: {
+            rejectUnauthorized: false
+          },
+        authOptional:true
+    });
+    const mailOptions={
+        from:"nishthasharma1014@gmail.com",
+        to:req.body.to,
+        subject:req.body.subject,
+        text:req.body.content,
+
+
+    };
+    smtpTransport.sendMail(mailOptions,(error,response)=>{
+        error?console.log(error):console.log(response);
+        smtpTransport.close();
+    });
+});
+  
 
 app.listen(port, () => {
     console.log(`server is running at: ${port}`);

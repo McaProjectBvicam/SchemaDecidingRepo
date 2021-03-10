@@ -61,6 +61,10 @@ const MemberSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    societyname:{
+        type:String,
+        required:true
+    }
     // addproof:{
     //     type:Image,
     //     required:true
