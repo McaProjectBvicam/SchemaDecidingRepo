@@ -15,6 +15,7 @@
     "assert": "^2.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "googleapi": "^1.0.2",
     "googleapis": "^67.1.1",
     "hbs": "^4.1.1",
     "mongo": "^0.1.0",
