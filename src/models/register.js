@@ -1,4 +1,5 @@
 const mongoose=require('mongoose');
+const bcrypt=require('bcryptjs');
 
 //schema creation
 const MemberSchema = new mongoose.Schema({
@@ -71,6 +72,17 @@ const MemberSchema = new mongoose.Schema({
     // }
 
 })
+
+MemberSchema.pre("save",async function(next){
+    if(this.isModified("password")){
+        this.password=await bcrypt.hash(this.password,10);
+
+        this.cpassword=undefined;
+    }
+    next();
+})
+
+
 
 //to create a collection
 const Register= new mongoose.model("SocietyMember",MemberSchema);

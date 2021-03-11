@@ -1,8 +1,8 @@
-
 const express = require('express');
 const path = require('path');
 const app = express();
 const hbs = require('hbs');
+const bcrypt=require('bcryptjs');
 const port = process.env.PROCESS || 8000;
 require("./db/conn");
 var userlogin = "";
@@ -163,12 +163,8 @@ app.get("/socMemReadComplaint", (req, res) => {
 
 });
 
-//crate a new user in database
-app.post('/login', async (req, res) => {
 
-    console.log('login body', req.body);
-})
-app.post("/index", async (req, res) => {
+app.post("/", async (req, res) => {
 
     try {
         const societyname = req.body.socname;
@@ -208,6 +204,7 @@ app.post("/Regsoc", async (req, res) => {
     }
 });
 
+//crate a new user in database
 app.post("/socMemRegister", async (req, res) => {
     try {
         const password = req.body.password;
