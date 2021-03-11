@@ -326,7 +326,12 @@ app.post("/societylogin", async (req, res) => {
         }
 
     } catch (error) {
-        res.status(400).send("invalid");
+        req.session.message={
+            type:'danger',
+            intro:'invalid details',
+            message:'please inter a valid details.'
+        }
+        res.redirect('societylogin');
     }
 });
 
