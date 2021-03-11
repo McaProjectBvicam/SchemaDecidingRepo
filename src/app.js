@@ -261,6 +261,7 @@ app.post("/socMemRegister", async (req, res) => {
         res.status(400).send(error);
     }
 });
+
 app.post("/rwalogin", async (req, res) => {
     try {
         const email = req.body.email;
@@ -269,32 +270,36 @@ app.post("/rwalogin", async (req, res) => {
         //this will find to whom the entered email belongs to in our mongodb 
         const rwaemail = await Register.findOne({ email: email })
 
-        //to check if my useremail is working or not
-        // res.send(useremail);
-        //console.log(email);
-        userlogin = email;
-        //console.log(userlogin);
-        //checking password
-        if (rwaemail.password === password) {
+        //to comapare secured pass in db with the pass user entered while logging in 
+        const isMatch= bcrypt.compare(password,rwaemail.password);
+
+        if (isMatch) {
             res.status(201).render("rwaMemberDashBoard");
         }
         else {
             res.send("Invalid Details");
         }
 
+        //for userpayment and payment
+        userlogin = email;
     }
     catch (error) {
         res.status(400).send("invalid");
     }
 });
+
 app.post("/societylogin", async (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
         userlogin = email;
-        //this will find to whom the entered email belongs to in our mongodb 
+        //this will find the user to whom the entered email belongs to in our mongodb 
         const socemail = await Register.findOne({ email: email });
-        if (socemail.password === password) {
+
+        //to comapare secured pass in db with the pass user entered while logging in 
+        const isMatch= bcrypt.compare(password,socemail.password);
+
+        if (isMatch) {
             currentUser = email; 
             res.status(201).render("socMemDashBoard");
         } else {

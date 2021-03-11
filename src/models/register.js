@@ -26,8 +26,7 @@ const MemberSchema = new mongoose.Schema({
     },
     sname:{
         type:String,
-     required:true,
-     unique:true
+        required:true,
     },
     dname:{
         type:String,
@@ -64,7 +63,7 @@ const MemberSchema = new mongoose.Schema({
     },
     societyname:{
         type:String,
-        required:true
+        //required:true
     }
     // addproof:{
     //     type:Image,
@@ -77,6 +76,7 @@ const MemberSchema = new mongoose.Schema({
 
 })
 
+//hashing using bcrypt
 MemberSchema.pre("save",async function(next){
     if(this.isModified("password")){
         this.password=await bcrypt.hash(this.password,10);
