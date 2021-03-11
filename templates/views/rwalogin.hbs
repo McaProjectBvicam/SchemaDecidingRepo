@@ -12,6 +12,15 @@
         <div class="row">
             <div class="col-md-10 col-12 mx-auto">
                     <h2>RWA Login </h2>
+
+
+{{#if message}}
+<div style="text-align: center" class="alert alert-{{message.type}}";>
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+<strong>{{message.intro}}</strong>
+</div>
+{{/if}}
+
                     <form action="/rwalogin" method="POST">
                         <div class="form-group">
                             <label for="email">Email address</label>
@@ -23,6 +32,7 @@
                         </div>
                          <input type="checkbox" onclick="myFunction()">Show Password<br>
                         <button type="submit" class="btn btn-primary">Submit</button>
+                       
                         <div>
                             <a href="/socMemRegister" class="text-center new-account">Create an account</a>
                         </div>

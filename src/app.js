@@ -3,13 +3,16 @@ const path = require('path');
 const app = express();
 const hbs = require('hbs');
 const bcrypt=require('bcryptjs');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const port = process.env.PROCESS || 8000;
 require("./db/conn");
 var userlogin = "";
 var societyname = "";
 var currentUser = "";
 const payment = require("./models/payment");
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+
 const PUBLISHABLE_KEY = "pk_test_51INbnLGQslJaHEn0wP5GYcVpiapPjFU1PXqu44AeeD2ijfNF12WpyXwDWshFVmvM5gFRfrvWN2eQZ16xin9NQrPY00Gy9Np7Tx"
 const SECRET_KEY = "sk_test_51INbnLGQslJaHEn09tspZMEZMTipgFhabZoLboFDsT3bElif5UKdG1gYX8kmS6zg1yI1ZtmbMkvJSKDgbk1iEH9J00kVvMGsMl"
 const stripe = require('stripe')(SECRET_KEY)
@@ -47,6 +50,16 @@ app.use(express.static(static_path));
 app.set("view engine", "hbs");
 app.set("views", template_path);
 hbs.registerPartials(partials_path);
+
+app.use(cookieParser('secret'));
+app.use(session({cookie: {maxAge:null}}))
+
+//flash message meddleware
+app.use((req,res,next)=>{
+    res.locals.message = req.session.message
+    delete req.session.message
+    next()
+})
 
 
 app.get("/", (req, res) => {
@@ -280,13 +293,17 @@ app.post("/rwalogin", async (req, res) => {
             userlogin = email;
         }
         else {
-            res.send("Invalid Details");
+            res.send('invalid');
+       
         }
-
-        
-    }
+}
     catch (error) {
-        res.status(400).send("invalid");
+        req.session.message={
+            type:'danger',
+            intro:'invalid details',
+            message:'please inter a valid details.'
+        }
+        res.redirect('rwalogin');
     }
 });
 
