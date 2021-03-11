@@ -225,7 +225,7 @@ app.post("/Regsoc", async (req, res) => {
     }
 });
 
-//crate a new user in database
+//create a new user in database
 app.post("/socMemRegister", async (req, res) => {
     try {
         const password = req.body.password;
@@ -274,14 +274,16 @@ app.post("/rwalogin", async (req, res) => {
         const isMatch= bcrypt.compare(password,rwaemail.password);
 
         if (isMatch) {
+            currentUser = email; 
             res.status(201).render("rwaMemberDashBoard");
+            //for userpayment and payment
+            userlogin = email;
         }
         else {
             res.send("Invalid Details");
         }
 
-        //for userpayment and payment
-        userlogin = email;
+        
     }
     catch (error) {
         res.status(400).send("invalid");
