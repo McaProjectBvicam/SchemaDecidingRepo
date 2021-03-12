@@ -7,10 +7,13 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const port = process.env.PROCESS || 8000;
 require("./db/conn");
+var nodemailer = require("nodemailer");
+
+//for storing and showing some data 
 var userlogin = "";
 var societyname = "";
 var currentUser = "";
-const payment = require("./models/payment");
+
 const bodyParser = require('body-parser');
 
 const PUBLISHABLE_KEY = "pk_test_51INbnLGQslJaHEn0wP5GYcVpiapPjFU1PXqu44AeeD2ijfNF12WpyXwDWshFVmvM5gFRfrvWN2eQZ16xin9NQrPY00Gy9Np7Tx"
@@ -23,8 +26,9 @@ const CLIENT_ID = "373958830210-0fmh41sdpa71kqp6gdkltahjvfh9ctad.apps.googleuser
 const CLIENT_SECRET = "iIOW_WmNZQFMc4qgtpyW9qF0"
 const REDIRECT_URI = "https://developers.google.com/oauthplayground"
 const REFRESH_TOKEN = "1//04r7aoyb-Lpi2CgYIARAAGAQSNwF-L9IrD2jweh3G8_C35Ka8rn4Q0KWD_SyiL7gnpywX8pQyX8NiReqQWSQxO-4vWXCWPiIEyNI"
+
 app.set("view engine", "ejs");
-var nodemailer = require("nodemailer");
+
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
@@ -37,6 +41,7 @@ const socComplaintReg = require("./models/socComplaintReg");
 const socReservationReg = require("./models/socReservationReg");
 const societyNotice = require("./models/societyNotice");
 const societyDevelopment = require("./models/societyDevelopment");
+const payment = require("./models/payment");
 
 //including css, views, partials
 const static_path = path.join(__dirname, "../public");
