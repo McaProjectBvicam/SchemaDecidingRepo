@@ -268,11 +268,23 @@ app.post("/socMemRegister", async (req, res) => {
             })
 
             const registered = await registerMember.save();
-            res.status(201).render("societylogin");
+           // res.status(201).render("societylogin");
+           req.session.message={
+            type:'success',
+            intro:'Record insert successfully',
+            message:'success'
+        }
+        res.redirect('socMemRegister');
+
 
         }
         else {
-            res.send("pass are not matching");
+            req.session.message={
+                type:'danger',
+                intro:'password mismatch',
+                message:'please inter a correct password'
+            }
+            res.redirect('socMemRegister');
         }
     }
     catch (error) {
