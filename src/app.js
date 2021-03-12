@@ -54,7 +54,6 @@ hbs.registerPartials(partials_path);
 app.use(cookieParser('secret'));
 app.use(session({cookie: {maxAge:null}}))
 
-//flash message meddleware
 app.use((req,res,next)=>{
     res.locals.message = req.session.message
     delete req.session.message
