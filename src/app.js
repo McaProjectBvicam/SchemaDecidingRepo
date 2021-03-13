@@ -246,12 +246,11 @@ app.post("/socMemRegister", async (req, res) => {
                 email: req.body.email,
                 password: password,
                 cpassword: cpassword,
-
             })
 
             const registered = await registerMember.save();
             res.status(201).render("societylogin");
-
+            
         }
         else {
             res.send("pass are not matching");
@@ -281,12 +280,13 @@ app.post("/rwalogin", async (req, res) => {
         }
         else {
             res.send("Invalid Details");
+            
         }
-
         
     }
     catch (error) {
         res.status(400).send("invalid");
+        
     }
 });
 

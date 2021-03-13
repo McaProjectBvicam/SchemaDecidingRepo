@@ -83,6 +83,7 @@ MemberSchema.pre("save",async function(next){
 
         this.cpassword=undefined;
     }
+    
     next();
 })
 
