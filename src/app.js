@@ -59,6 +59,8 @@ const socReservationReg = require("./models/socReservationReg");
 const societyNotice = require("./models/societyNotice");
 const societyDevelopment = require("./models/societyDevelopment");
 const payment = require("./models/payment");
+//newly added
+const societySchema = require("./models/societySchema");
 
 //including css, views, partials
 const static_path = path.join(__dirname, "../public");
@@ -89,6 +91,9 @@ app.get("/", (req, res) => {
 
 app.get("/Regsoc", (req, res) => {
     res.render("Regsoc");
+});
+app.get("/rwaRoleFetch", (req, res) => {
+    res.render("rwaRoleFetch");
 });
 app.get("/login", (req, res) => {
     res.render("login");
@@ -218,7 +223,6 @@ app.get("/socMemReadComplaint", (req, res) => {
 
 });
 
-
 app.post("/", async (req, res) => {
 
     try {
@@ -240,7 +244,7 @@ app.post("/", async (req, res) => {
 
 app.post("/Regsoc", async (req, res) => {
     try {
-        const socreg = new Regsoc({
+        const socreg = new societySchema({
             socname: req.body.socname,
             presname: req.body.presname,
             district: req.body.district,
@@ -249,6 +253,21 @@ app.post("/Regsoc", async (req, res) => {
             country: req.body.country,
             phone: req.body.phone,
             email: req.body.email,
+        })
+
+        const socregistered = await socreg.save();
+        res.status(201).render("rwaRoleFetch");
+
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+app.post("/rwaRoleFetch", async (req, res) => {
+    try {
+        const myRole = new societySchema.rwamembers({
+            rRole: req.body.rRole,
+            rName: req.body.rName,
+            rEmail: req.body.rEmail,
         })
 
         const socregistered = await socreg.save();

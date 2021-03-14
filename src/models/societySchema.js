@@ -1,71 +1,27 @@
 const mongoose = require('mongoose');
 
+const socDevelopmentSchema = new mongoose.Schema({
 
-
-const SocietySchema = new mongoose.Schema({
-
-    societyName: {
+    Facility: {
         type: String,
-        required: true,
-        unique: true
+        require: true
     },
-
-    presidentName: {
+    
+    Category: {
         type: String,
-        required: true,
+        require: true
     },
 
-    societyAddress: {
-        type: socAddress
+    FacilityDate: {
+        type: Date,
+        require: true
     },
-
-    societyCountry: {
+    
+    DevelopmentDesc: {
         type: String,
-        required: true
-    },
-
-    societyContact: {
-        type: Number,
-        required: true,
-        unique: true
-    },
-
-    socUserName: {
-        type: String,
-        required: true,
-        unique: true
-    },
-
-    societyMembers: {
-        type: [memberSchema]
-    },
-    societyNotices: {
-        type: [socNoticeSchema]
-    },
-
-    societyComplaints: {
-        type: [socComplaintSchema]
-    },
-
-    societyReservations: {
-        type: [socReservationSchema]
-    },
-
-    societyDevelopments: {
-        type: [socDevelopmentSchema]
-    },
-
-    societyPayments: {
-        type: [paymentsSchema]
-    },
-
-    rwaMembers: {
-        type: [rwaSchema]
     }
-
 })
 
-//
 const socAddress = new mongoose.Schema({
 
     locality: {
@@ -102,8 +58,6 @@ const rwaSchema= new mongoose.Schema({
     }
 })
 
-
-//
 const paymentsSchema = new mongoose.Schema({
     email:{
         type:String,
@@ -127,8 +81,6 @@ const paymentsSchema = new mongoose.Schema({
         required:true
     }
 })
-
-//
 
 const memberSchema = new mongoose.Schema({
     name:{
@@ -276,29 +228,72 @@ const socReservationSchema = new mongoose.Schema({
     },
 })
 
-//
-const socDevelopmentSchema = new mongoose.Schema({
+const SocietySchema = new mongoose.Schema({
 
-    Facility: {
+    societyName: {
         type: String,
-        require: true
-    },
-    
-    Category: {
-        type: String,
-        require: true
+        required: true,
+        unique: true
     },
 
-    FacilityDate: {
-        type: Date,
-        require: true
-    },
-    
-    DevelopmentDesc: {
+    presidentName: {
         type: String,
+        required: true,
+    },
+
+    societyAddress: {
+        type: socAddress
+    },
+
+    societyCountry: {
+        type: String,
+        required: true
+    },
+
+    societyContact: {
+        type: Number,
+        required: true,
+        unique: true
+    },
+
+    socUserName: {
+        type: String,
+        required: true,
+        unique: true
+    },
+
+    societyMembers: {
+        type: [memberSchema]
+    },
+    societyNotices: {
+        type: [socNoticeSchema]
+    },
+
+    societyComplaints: {
+        type: [socComplaintSchema]
+    },
+
+    societyReservations: {
+        type: [socReservationSchema]
+    },
+
+    societyDevelopments: {
+        type: [socDevelopmentSchema]
+    },
+
+    societyPayments: {
+        type: [paymentsSchema]
+    },
+
+    rwaMembers: {
+        type: [rwaSchema]
     }
+
 })
 
 
-//
+const societySchema= new mongoose.model("mySociety",SocietySchema);
+module.exports = societySchema;
+
+
 
