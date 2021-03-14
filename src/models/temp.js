@@ -108,10 +108,7 @@ const paymentsSchema = new mongoose.Schema({
     status:{
         type:String,
         required:true
-
     }
-
-
 })
 
 //
@@ -217,9 +214,6 @@ const socComplaintSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-
-
-
 })
 
 //

@@ -6,6 +6,23 @@ const bcrypt=require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const port = process.env.PROCESS || 8000;
+
+//comment line 11 to 23
+//mongo atlas
+const mongoose= require('mongoose');
+
+const DB= 'mongodb+srv://society:<society>@cluster0.5atb0.mongodb.net/ProjectSocietyDB?retryWrites=true&w=majority';
+
+mongoose.connect(DB,{
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+}).then(()=>{
+    console.log(`Connection Successful`);
+}).catch((err)=> console.log(`Error connecting to atlas`));
+
+
 require("./db/conn");
 var nodemailer = require("nodemailer");
 
@@ -272,10 +289,8 @@ app.post("/socMemRegister", async (req, res) => {
             intro:'Record insert successfully',
             message:'success'
         }
-        res.redirect('socMemRegister');
+        res.redirect('login');
 
-
->>>>>>> 63e81b386c261f031bda564fb6e6f9df71ccf1fa
         }
         else {
             req.session.message={
@@ -300,27 +315,19 @@ app.post("/rwalogin", async (req, res) => {
         const rwaemail = await Register.findOne({ email: email })
 
         //to comapare secured pass in db with the pass user entered while logging in 
-        const isMatch= bcrypt.compare(password,rwaemail.password);
-
+        const isMatch= bcrypt.compare(password, rwaemail.password);
+        console.log(`${rwaemail.password}`);
+        console.log(`HTML: ${password}`);
+        console.log(`isMatch:`+ isMatch);
         if (isMatch) {
             currentUser = email; 
+            
             res.status(201).render("rwaMemberDashBoard");
             //for userpayment and payment
             userlogin = email;
         }
         else {
-<<<<<<< HEAD
-            res.send("Invalid Details");
-            
-        }
-        
-    }
-    catch (error) {
-        res.status(400).send("invalid");
-        
-=======
             res.send('invalid');
-       
         }
 }
     catch (error) {
@@ -330,7 +337,6 @@ app.post("/rwalogin", async (req, res) => {
             message:'please inter a valid details.'
         }
         res.redirect('rwalogin');
->>>>>>> 63e81b386c261f031bda564fb6e6f9df71ccf1fa
     }
 });
 
