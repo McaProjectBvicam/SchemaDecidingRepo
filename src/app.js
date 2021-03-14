@@ -319,6 +319,7 @@ app.post("/rwalogin", async (req, res) => {
         console.log(`${rwaemail.password}`);
         console.log(`HTML: ${password}`);
         console.log(`isMatch:`+ isMatch);
+        
         if (isMatch) {
             currentUser = email; 
             

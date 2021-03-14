@@ -30,7 +30,7 @@ const SocietySchema = new mongoose.Schema({
         unique: true
     },
 
-    societyEmail: {
+    socUserName: {
         type: String,
         required: true,
         unique: true
@@ -60,7 +60,7 @@ const SocietySchema = new mongoose.Schema({
     },
 
     rwaMembers: {
-        type: [memberSchema]
+        type: [rwaSchema]
     }
 
 })
@@ -83,6 +83,23 @@ const socAddress = new mongoose.Schema({
         required: true
     }
 
+})
+
+const rwaSchema= new mongoose.Schema({
+    rName:{
+        type: String,
+        required: true
+    },
+
+    rEmail:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    rRole:{
+        type:String,
+        required:true
+    }
 })
 
 
@@ -120,7 +137,7 @@ const memberSchema = new mongoose.Schema({
     },
     hnumber:{
         type:Number,
-     required:true
+        required:true
     },
     fnumber:{
         type:String,
@@ -130,21 +147,13 @@ const memberSchema = new mongoose.Schema({
         type:Number,
     required:true
     },
-    sname:{
-        type:String,
-        required:true,
-    },
-    dname:{
-        type:String,
-     required:true
-    },
     owner:{
         type:String,
      required:true
     },
-    roles:{
+    role:{
         type:String,
-     //required:true
+        //required:true
     },
     dob:{
         type:Date,
@@ -166,10 +175,6 @@ const memberSchema = new mongoose.Schema({
     cpassword:{
         type:String,
         required:true
-    },
-    societyname:{
-        type:String,
-        //required:true
     }
     // addproof:{
     //     type:Image,
@@ -184,10 +189,7 @@ const memberSchema = new mongoose.Schema({
 
 //
 const socComplaintSchema = new mongoose.Schema({
-    societyName: {
-        type: String,
-        require: true
-    },
+    
     societyMemberName: {
         type: String,
         require: true
@@ -218,10 +220,7 @@ const socComplaintSchema = new mongoose.Schema({
 
 //
 const socNoticeSchema = new mongoose.Schema({
-    societyName: {
-        type: String,
-        require: true
-    },
+    
     // societyMemberName: {
     //     type: String,
     //     require: true
@@ -247,16 +246,11 @@ const socNoticeSchema = new mongoose.Schema({
         require: true
     },
 
-
-
 })
 
 //
 const socReservationSchema = new mongoose.Schema({
-    societyName: {
-        type: String,
-        require: true
-    },
+
     societyMemberName: {
         type: String,
         require: true
