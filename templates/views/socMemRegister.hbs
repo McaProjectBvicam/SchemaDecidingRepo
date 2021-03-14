@@ -8,6 +8,13 @@
 
 <body>
     {{>navbar}}
+    
+                {{#if message}}
+                <div style="text-align: center" class="alert alert-{{message.type}}" ;>
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>{{message.intro}}</strong>
+                </div>
+                {{/if}}
     <div class="container-fluid main_header">
         <div class="row">
             <div class="col-md-10 col-12 mx-auto">

@@ -3,13 +3,19 @@ const path = require('path');
 const app = express();
 const hbs = require('hbs');
 const bcrypt=require('bcryptjs');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const port = process.env.PROCESS || 8000;
 require("./db/conn");
+var nodemailer = require("nodemailer");
+
+//for storing and showing some data 
 var userlogin = "";
 var societyname = "";
 var currentUser = "";
-const payment = require("./models/payment");
-const bodyParser = require('body-parser')
+
+const bodyParser = require('body-parser');
+
 const PUBLISHABLE_KEY = "pk_test_51INbnLGQslJaHEn0wP5GYcVpiapPjFU1PXqu44AeeD2ijfNF12WpyXwDWshFVmvM5gFRfrvWN2eQZ16xin9NQrPY00Gy9Np7Tx"
 const SECRET_KEY = "sk_test_51INbnLGQslJaHEn09tspZMEZMTipgFhabZoLboFDsT3bElif5UKdG1gYX8kmS6zg1yI1ZtmbMkvJSKDgbk1iEH9J00kVvMGsMl"
 const stripe = require('stripe')(SECRET_KEY)
@@ -20,8 +26,9 @@ const CLIENT_ID = "373958830210-0fmh41sdpa71kqp6gdkltahjvfh9ctad.apps.googleuser
 const CLIENT_SECRET = "iIOW_WmNZQFMc4qgtpyW9qF0"
 const REDIRECT_URI = "https://developers.google.com/oauthplayground"
 const REFRESH_TOKEN = "1//04r7aoyb-Lpi2CgYIARAAGAQSNwF-L9IrD2jweh3G8_C35Ka8rn4Q0KWD_SyiL7gnpywX8pQyX8NiReqQWSQxO-4vWXCWPiIEyNI"
+
 app.set("view engine", "ejs");
-var nodemailer = require("nodemailer");
+
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
@@ -34,6 +41,7 @@ const socComplaintReg = require("./models/socComplaintReg");
 const socReservationReg = require("./models/socReservationReg");
 const societyNotice = require("./models/societyNotice");
 const societyDevelopment = require("./models/societyDevelopment");
+const payment = require("./models/payment");
 
 //including css, views, partials
 const static_path = path.join(__dirname, "../public");
@@ -47,6 +55,15 @@ app.use(express.static(static_path));
 app.set("view engine", "hbs");
 app.set("views", template_path);
 hbs.registerPartials(partials_path);
+
+app.use(cookieParser('secret'));
+app.use(session({cookie: {maxAge:null}}))
+
+app.use((req,res,next)=>{
+    res.locals.message = req.session.message
+    delete req.session.message
+    next()
+})
 
 
 app.get("/", (req, res) => {
@@ -249,11 +266,24 @@ app.post("/socMemRegister", async (req, res) => {
             })
 
             const registered = await registerMember.save();
-            res.status(201).render("societylogin");
-            
+           // res.status(201).render("societylogin");
+           req.session.message={
+            type:'success',
+            intro:'Record insert successfully',
+            message:'success'
+        }
+        res.redirect('socMemRegister');
+
+
+>>>>>>> 63e81b386c261f031bda564fb6e6f9df71ccf1fa
         }
         else {
-            res.send("pass are not matching");
+            req.session.message={
+                type:'danger',
+                intro:'password mismatch',
+                message:'please inter a correct password'
+            }
+            res.redirect('socMemRegister');
         }
     }
     catch (error) {
@@ -279,6 +309,7 @@ app.post("/rwalogin", async (req, res) => {
             userlogin = email;
         }
         else {
+<<<<<<< HEAD
             res.send("Invalid Details");
             
         }
@@ -287,6 +318,19 @@ app.post("/rwalogin", async (req, res) => {
     catch (error) {
         res.status(400).send("invalid");
         
+=======
+            res.send('invalid');
+       
+        }
+}
+    catch (error) {
+        req.session.message={
+            type:'danger',
+            intro:'invalid details',
+            message:'please inter a valid details.'
+        }
+        res.redirect('rwalogin');
+>>>>>>> 63e81b386c261f031bda564fb6e6f9df71ccf1fa
     }
 });
 
@@ -309,7 +353,12 @@ app.post("/societylogin", async (req, res) => {
         }
 
     } catch (error) {
-        res.status(400).send("invalid");
+        req.session.message={
+            type:'danger',
+            intro:'invalid details',
+            message:'please inter a valid details.'
+        }
+        res.redirect('societylogin');
     }
 });
 
