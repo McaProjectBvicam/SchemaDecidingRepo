@@ -7,20 +7,20 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const port = process.env.PROCESS || 8000;
 
-//comment line 11 to 23
-//mongo atlas
-const mongoose= require('mongoose');
+// //comment line 11 to 23
+// //mongo atlas
+// const mongoose= require('mongoose');
 
-const DB= 'mongodb+srv://society:<society>@cluster0.5atb0.mongodb.net/ProjectSocietyDB?retryWrites=true&w=majority';
+// const DB= 'mongodb+srv://society:<society>@cluster0.5atb0.mongodb.net/ProjectSocietyDB?retryWrites=true&w=majority';
 
-mongoose.connect(DB,{
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-}).then(()=>{
-    console.log(`Connection Successful`);
-}).catch((err)=> console.log(`Error connecting to atlas`));
+// mongoose.connect(DB,{
+//     useNewUrlParser: true,
+//     useCreateIndex: true,
+//     useUnifiedTopology: true,
+//     useFindAndModify: false
+// }).then(()=>{
+//     console.log(`Connection Successful`);
+// }).catch((err)=> console.log(`Error connecting to atlas`));
 
 
 require("./db/conn");
