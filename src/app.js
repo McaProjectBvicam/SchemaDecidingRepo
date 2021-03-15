@@ -46,11 +46,11 @@ const REFRESH_TOKEN = "1//04r7aoyb-Lpi2CgYIARAAGAQSNwF-L9IrD2jweh3G8_C35Ka8rn4Q0
 
 app.set("view engine", "ejs");
 
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
-const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
-oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-const accessToken = oAuth2Client.getAccessToken();
+// const { google } = require("googleapis");
+// const OAuth2 = google.auth.OAuth2;
+// const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+// oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+// const accessToken = oAuth2Client.getAccessToken();
 
 const Register = require("./models/register");
 const Regsoc = require("./models/RegSoc");
