@@ -240,7 +240,7 @@ const SocietySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-
+    
     societyAddress: {
         type: socAddress
     },
@@ -256,9 +256,15 @@ const SocietySchema = new mongoose.Schema({
         unique: true
     },
 
+    presEmail:{
+        type:String,
+        required:true,
+        unique :true
+    },
+
     socUserName: {
         type: String,
-        required: true,
+        // required: true,
         unique: true
     },
 

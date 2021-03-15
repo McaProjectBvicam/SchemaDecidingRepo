@@ -245,14 +245,17 @@ app.post("/", async (req, res) => {
 app.post("/Regsoc", async (req, res) => {
     try {
         const socreg = new societySchema({
-            socname: req.body.socname,
-            presname: req.body.presname,
-            district: req.body.district,
-            district: req.body.district,
-            city: req.body.city,
-            country: req.body.country,
-            phone: req.body.phone,
-            email: req.body.email,
+            societyName: req.body.socname,
+            presidentName: req.body.presname,
+            //doubt how to move inside socAddress and 
+            // store value for city state and locality 
+            // [socAddress.city returning some error]
+            city : req.body.city,
+            state:req.body.state,
+            locality:req.body.locality,
+            societyCountry: req.body.country,
+            societyContact: req.body.phone,
+            presEmail: req.body.email,
         })
 
         const socregistered = await socreg.save();
