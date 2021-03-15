@@ -59,13 +59,6 @@ app.set("view engine", "ejs");
 //const societyNotice = require("./models/societyNotice");
 //const societyDevelopment = require("./models/societyDevelopment");
 //const payment = require("./models/payment");
-const Register = require("./models/register");
-const Regsoc = require("./models/RegSoc");
-const socComplaintReg = require("./models/socComplaintReg");
-const socReservationReg = require("./models/socReservationReg");
-const societyNotice = require("./models/societyNotice");
-const societyDevelopment = require("./models/societyDevelopment");
-const payment = require("./models/payment");
 //newly added
 const societySchema = require("./models/societySchema");
 
