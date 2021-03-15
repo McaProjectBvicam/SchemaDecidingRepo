@@ -40,9 +40,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 require('dotenv').config();
 const CLIENT_ID = "373958830210-0fmh41sdpa71kqp6gdkltahjvfh9ctad.apps.googleusercontent.com"
-const CLIENT_SECRET = "iIOW_WmNZQFMc4qgtpyW9qF0"
+const CLIENT_SECRET = "qG9Z-EjvyNrfMKOaoHCeyBe4"
 const REDIRECT_URI = "https://developers.google.com/oauthplayground"
-const REFRESH_TOKEN = "1//04r7aoyb-Lpi2CgYIARAAGAQSNwF-L9IrD2jweh3G8_C35Ka8rn4Q0KWD_SyiL7gnpywX8pQyX8NiReqQWSQxO-4vWXCWPiIEyNI"
+const REFRESH_TOKEN = "1//04OfhvT8vhbbCCgYIARAAGAQSNwF-L9IrYSXrb-2Pf2KnC8-pCp_YaIVFjlTgur0KYjaQXCYZj6JYyzn4hkdlVpiCL2wuNAR4TAg"
 
 app.set("view engine", "ejs");
 
@@ -59,6 +59,13 @@ app.set("view engine", "ejs");
 //const societyNotice = require("./models/societyNotice");
 //const societyDevelopment = require("./models/societyDevelopment");
 //const payment = require("./models/payment");
+const Register = require("./models/register");
+const Regsoc = require("./models/RegSoc");
+const socComplaintReg = require("./models/socComplaintReg");
+const socReservationReg = require("./models/socReservationReg");
+const societyNotice = require("./models/societyNotice");
+const societyDevelopment = require("./models/societyDevelopment");
+const payment = require("./models/payment");
 //newly added
 const societySchema = require("./models/societySchema");
 
@@ -267,8 +274,8 @@ app.post("/Regsoc", async (req, res) => {
             
             societyCountry: req.body.country,
             societyContact: req.body.phone,
-            societyEmail: req.body.email,
-            socUserName:req.body.username,
+            presEmail: req.body.email,
+            socUserName:req.body.socUserName,
             societyMembers:[],
             societyNotices:[],
             societyComplaints:[],
@@ -276,7 +283,7 @@ app.post("/Regsoc", async (req, res) => {
             societyDevelopments :[],
             societyPayments:[],
             rwaMembers:[]
-            
+
         })
 
         //await DB.collection('mysocieties').insertOne(socreg);
