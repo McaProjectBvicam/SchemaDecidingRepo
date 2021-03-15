@@ -9,21 +9,21 @@ const port = process.env.PROCESS || 8000;
 
 // //comment line 11 to 23
 // //mongo atlas
-// const mongoose= require('mongoose');
+const mongoose= require('mongoose');
 
-// const DB= 'mongodb+srv://society:<society>@cluster0.5atb0.mongodb.net/ProjectSocietyDB?retryWrites=true&w=majority';
+const DB = 'mongodb+srv://society:society@cluster0.5atb0.mongodb.net/ProjectSocietyDB?retryWrites=true&w=majority';
 
-// mongoose.connect(DB,{
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useUnifiedTopology: true,
-//     useFindAndModify: false
-// }).then(()=>{
-//     console.log(`Connection Successful`);
-// }).catch((err)=> console.log(`Error connecting to atlas`));
+mongoose.connect(DB,{
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+}).then(()=>{
+    console.log(`Connection Successful`);
+}).catch((err)=> console.log(`Error connecting to atlas`));
 
 
-require("./db/conn");
+//require("./db/conn");
 var nodemailer = require("nodemailer");
 
 //for storing and showing some data 
@@ -46,19 +46,19 @@ const REFRESH_TOKEN = "1//04r7aoyb-Lpi2CgYIARAAGAQSNwF-L9IrD2jweh3G8_C35Ka8rn4Q0
 
 app.set("view engine", "ejs");
 
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
-const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
-oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-const accessToken = oAuth2Client.getAccessToken();
+// const { google } = require("googleapis");
+// const OAuth2 = google.auth.OAuth2;
+// const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+// oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+// const accessToken = oAuth2Client.getAccessToken();
 
-const Register = require("./models/register");
-const Regsoc = require("./models/RegSoc");
-const socComplaintReg = require("./models/socComplaintReg");
-const socReservationReg = require("./models/socReservationReg");
-const societyNotice = require("./models/societyNotice");
-const societyDevelopment = require("./models/societyDevelopment");
-const payment = require("./models/payment");
+//const Register = require("./models/register");
+//const Regsoc = require("./models/RegSoc");
+//const socComplaintReg = require("./models/socComplaintReg");
+//const socReservationReg = require("./models/socReservationReg");
+//const societyNotice = require("./models/societyNotice");
+//const societyDevelopment = require("./models/societyDevelopment");
+//const payment = require("./models/payment");
 //newly added
 const societySchema = require("./models/societySchema");
 
@@ -244,22 +244,50 @@ app.post("/", async (req, res) => {
 
 app.post("/Regsoc", async (req, res) => {
     try {
+        // const socreg = new societySchema({
+        //     socname: req.body.socname,
+        //     presname: req.body.presname,
+        //     district: req.body.district,
+        //     district: req.body.district,
+        //     city: req.body.city,
+        //     country: req.body.country,
+        //     phone: req.body.phone,
+        //     email: req.body.email,
+        // })
+
         const socreg = new societySchema({
-            socname: req.body.socname,
-            presname: req.body.presname,
-            district: req.body.district,
-            district: req.body.district,
-            city: req.body.city,
-            country: req.body.country,
-            phone: req.body.phone,
-            email: req.body.email,
+            societyName: req.body.socname,
+            presidentName: req.body.presname,
+            
+            societyAddress:{
+                locality:req.body.locality,
+                city:req.body.city,
+                state:req.body.state
+            },
+            
+            societyCountry: req.body.country,
+            societyContact: req.body.phone,
+            societyEmail: req.body.email,
+            socUserName:req.body.username,
+            societyMembers:[],
+            societyNotices:[],
+            societyComplaints:[],
+            societyReservations:[],
+            societyDevelopments :[],
+            societyPayments:[],
+            rwaMembers:[]
+            
         })
 
-        const socregistered = await socreg.save();
-        res.status(201).render("rwaRoleFetch");
+        //await DB.collection('mysocieties').insertOne(socreg);
+        // col.insertOne(socreg);
+
+       const socregistered = await socreg.save();
+        res.status(201).render("index");
 
     } catch (error) {
         res.status(400).send(error);
+        console.log("err"+error);
     }
 });
 app.post("/rwaRoleFetch", async (req, res) => {

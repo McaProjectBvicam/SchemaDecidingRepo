@@ -6,7 +6,7 @@ const socDevelopmentSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    
+
     Category: {
         type: String,
         require: true
@@ -16,13 +16,13 @@ const socDevelopmentSchema = new mongoose.Schema({
         type: Date,
         require: true
     },
-    
+
     DevelopmentDesc: {
         type: String,
     }
 })
 
-const socAddress = new mongoose.Schema({
+const addressSchema = new mongoose.Schema({
 
     locality: {
         type: String,
@@ -37,96 +37,97 @@ const socAddress = new mongoose.Schema({
     state: {
         type: String,
         required: true
+
     }
 
 })
 
-const rwaSchema= new mongoose.Schema({
-    rName:{
+const rwaSchema = new mongoose.Schema({
+    rName: {
         type: String,
         required: true
     },
 
-    rEmail:{
-        type:String,
-        required:true,
-        unique:true
+    rEmail: {
+        type: String,
+        required: true,
+
     },
-    rRole:{
-        type:String,
-        required:true
+    rRole: {
+        type: String,
+        required: true
     }
 })
 
 const paymentsSchema = new mongoose.Schema({
-    email:{
-        type:String,
-         required:true,
+    email: {
+        type: String,
+        required: true,
     },
-    useremail:{
-        type:String,
-        required:true,
+    useremail: {
+        type: String,
+        required: true,
     },
-    datetime:{
-        type:String,
-        required:true
+    datetime: {
+        type: String,
+        required: true
     },
-    amount:{
-            type:Number,
-            required:true
+    amount: {
+        type: Number,
+        required: true
 
-        },
-    status:{
-        type:String,
-        required:true
+    },
+    status: {
+        type: String,
+        required: true
     }
 })
 
 const memberSchema = new mongoose.Schema({
-    name:{
-        type:String,
-     required:true,
+    memName: {
+        type: String,
+        required: true,
     },
-    hnumber:{
-        type:Number,
-        required:true
+    memHouseNum: {
+        type: Number,
+        required: true
     },
-    fnumber:{
-        type:String,
-        required:true
+    memFloorNum: {
+        type: String,
+        required: true
     },
-    familymemcount:{
-        type:Number,
-    required:true
+    familyMemCount: {
+        type: Number,
+        required: true
     },
-    owner:{
-        type:String,
-     required:true
+    owner: {
+        type: String,
+        required: true
     },
-    role:{
-        type:String,
-        //required:true
+    role: {
+        type: String,
+        required: true
     },
-    dob:{
-        type:Date,
+    memDOB: {
+        type: Date,
+        required: true
     },
-    phone:{
-        type:Number,
-        required:true,
-        unique:true
+    memContact: {
+        type: Number,
+        required: true,
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
+    memEmail: {
+        type: String,
+        required: true,
+
     },
-    password:{
-        type:String,
-        required:true
+    memPassword: {
+        type: String,
+        required: true
     },
-    cpassword:{
-        type:String,
-        required:true
+    cpassword: {
+        type: String,
+        //required: true
     }
     // addproof:{
     //     type:Image,
@@ -141,7 +142,7 @@ const memberSchema = new mongoose.Schema({
 
 //
 const socComplaintSchema = new mongoose.Schema({
-    
+
     societyMemberName: {
         type: String,
         require: true
@@ -172,7 +173,7 @@ const socComplaintSchema = new mongoose.Schema({
 
 //
 const socNoticeSchema = new mongoose.Schema({
-    
+
     // societyMemberName: {
     //     type: String,
     //     require: true
@@ -192,7 +193,7 @@ const socNoticeSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    
+
     noticeLink: {
         type: String,
         require: true
@@ -242,7 +243,7 @@ const SocietySchema = new mongoose.Schema({
     },
 
     societyAddress: {
-        type: socAddress
+        type: addressSchema
     },
 
     societyCountry: {
@@ -292,7 +293,7 @@ const SocietySchema = new mongoose.Schema({
 })
 
 
-const societySchema= new mongoose.model("mySociety",SocietySchema);
+const societySchema = new mongoose.model("mySociety", SocietySchema);
 module.exports = societySchema;
 
 
