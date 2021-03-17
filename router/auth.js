@@ -1,156 +1,68 @@
 const express = require('express');
-const path = require('path');
-const app = express();
-const hbs = require('hbs');
-const bcrypt=require('bcryptjs');
-const dotenv = require('dotenv');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-dotenv.config({path:'./config.env'});
-//hide port number
-const PORT = process.env.PORT;
-app.use(require('../router/auth'));
+const router = express.Router();
 
 
-// //mongo atlas
-const mongoose= require('mongoose');
-const DB = process.env.DATABASE;
-//const DB = 'mongodb+srv://society:society@cluster0.5atb0.mongodb.net/ProjectSocietyDB?retryWrites=true&w=majority';
-
-mongoose.connect(DB,{
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-}).then(()=>{
-    console.log(`Connection Successful`);
-}).catch((err)=> console.log(`Error connecting to atlas`));
-
-
-//require("./db/conn");
-var nodemailer = require("nodemailer");
-
-//for storing and showing some data 
-var userlogin = "";
-var societyname = "";
-var currentUser = "";
-
-const bodyParser = require('body-parser');
-
-const PUBLISHABLE_KEY = "pk_test_51INbnLGQslJaHEn0wP5GYcVpiapPjFU1PXqu44AeeD2ijfNF12WpyXwDWshFVmvM5gFRfrvWN2eQZ16xin9NQrPY00Gy9Np7Tx"
-const SECRET_KEY = "sk_test_51INbnLGQslJaHEn09tspZMEZMTipgFhabZoLboFDsT3bElif5UKdG1gYX8kmS6zg1yI1ZtmbMkvJSKDgbk1iEH9J00kVvMGsMl"
-const stripe = require('stripe')(SECRET_KEY)
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
-require('dotenv').config();
-const CLIENT_ID = "373958830210-0fmh41sdpa71kqp6gdkltahjvfh9ctad.apps.googleusercontent.com"
-const CLIENT_SECRET = "qG9Z-EjvyNrfMKOaoHCeyBe4"
-const REDIRECT_URI = "https://developers.google.com/oauthplayground"
-const REFRESH_TOKEN = "1//04OfhvT8vhbbCCgYIARAAGAQSNwF-L9IrYSXrb-2Pf2KnC8-pCp_YaIVFjlTgur0KYjaQXCYZj6JYyzn4hkdlVpiCL2wuNAR4TAg"
-
-app.set("view engine", "ejs");
-
-// const { google } = require("googleapis");
-// const OAuth2 = google.auth.OAuth2;
-// const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
-// oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-// const accessToken = oAuth2Client.getAccessToken();
-
-//const Register = require("./models/register");
-//const Regsoc = require("./models/RegSoc");
-//const socComplaintReg = require("./models/socComplaintReg");
-//const socReservationReg = require("./models/socReservationReg");
-//const societyNotice = require("./models/societyNotice");
-//const societyDevelopment = require("./models/societyDevelopment");
-//const payment = require("./models/payment");
-//newly added
-const societySchema = require("./models/societySchema");
-
-//including css, views, partials
-const static_path = path.join(__dirname, "../public");
-const template_path = path.join(__dirname, "../templates/views");
-const partials_path = path.join(__dirname, "../templates/partials");
-
-//to fetch our form values; without below 2 statements data entered by users is not gonna display on our page!
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(static_path));
-app.set("view engine", "hbs");
-app.set("views", template_path);
-hbs.registerPartials(partials_path);
-
-app.use(cookieParser('secret'));
-app.use(session({ cookie: { maxAge: null } }))
-
-app.use((req, res, next) => {
-    res.locals.message = req.session.message
-    delete req.session.message
-    next()
-})
-app.listen(PORT, () => {
-    console.log(`server is running at: ${PORT}`);
-
-
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
     res.render("index");
 });
 
-app.get("/Regsoc", (req, res) => {
+router.get("/Regsoc", (req, res) => {
     res.render("Regsoc");
 });
-app.get("/rwaRoleFetch", (req, res) => {
+router.get("/rwaRoleFetch", (req, res) => {
     res.render("rwaRoleFetch");
 });
-app.get("/login", (req, res) => {
+router.get("/login", (req, res) => {
     res.render("login");
 
 });
-app.get("/rwalogin", (req, res) => {
+router.get("/rwalogin", (req, res) => {
     res.render("rwalogin");
 
 });
-app.get("/societylogin", (req, res) => {
+router.get("/societylogin", (req, res) => {
     res.render("societylogin");
 });
-app.get("/userpayment", (req, res) => {
+router.get("/userpayment", (req, res) => {
     res.render("userpayment");
 });
-app.get("/complaintRegister", (req, res) => {
+router.get("/complaintRegister", (req, res) => {
     res.render("complaintRegister");
 });
 
-app.get("/rwaCreateNotice", (req, res) => {
+router.get("/rwaCreateNotice", (req, res) => {
     res.render("rwaCreateNotice");
 });
 
-app.get("/rwaDevelopmentEntries", (req, res) => {
+router.get("/rwaDevelopmentEntries", (req, res) => {
     res.render("rwaDevelopmentEntries");
 });
 
-app.get("/booking", (req, res) => {
+router.get("/booking", (req, res) => {
     res.render("booking");
 });
 
-app.get("/socMemRegister", (req, res) => {
+router.get("/socMemRegister", (req, res) => {
     res.render("socMemRegister");
 });
 
-app.get('/payment', (req, res) => {
+
+router.get('/payment', (req, res) => {
     res.render('payment', {
         key: PUBLISHABLE_KEY
     })
 })
-app.get("/development", (req, res) => {
+router.get("/development", (req, res) => {
     res.render("development");
 });
-app.get("/rwaMemberDashBoard", (req, res) => {
+router.get("/rwaMemberDashBoard", (req, res) => {
     res.render("rwaMemberDashBoard");
 });
-app.get("/socMemDashBoard", (req, res) => {
+router.get("/socMemDashBoard", (req, res) => {
     res.render("socMemDashBoard");
 });
 
-app.get("/socMemReadNotice", (req, res) => {
+router.get("/socMemReadNotice", (req, res) => {
 
     //res.render("socMemReadNotice");
 
@@ -167,9 +79,10 @@ app.get("/socMemReadNotice", (req, res) => {
 
 });
 
-app.get("/myprofile", (req, res) => {
+router.get("/myprofile", (req, res) => {
 
-    societySchema.find({ email: currentUser }, (err, docs) => {
+
+    register.find({ email: currentUser }, (err, docs) => {
         if (!err) {
             res.render("myprofile", {
                 user: docs[0]
@@ -183,12 +96,12 @@ app.get("/myprofile", (req, res) => {
     // res.render("myprofile");
 });
 
-app.get("/socMemReadDevelopment", (req, res) => {
+router.get("/socMemReadDevelopment", (req, res) => {
 
-    societySchema.societyDevelopments.find((err, docs) => {
+    societyDevelopment.find((err, docs) => {
         if (!err) {
             res.render("socMemReadDevelopment", {
-                list: docs[0]
+                list: docs
             });
         }
         else {
@@ -197,9 +110,9 @@ app.get("/socMemReadDevelopment", (req, res) => {
     });
 });
 
-app.get("/socMemReadBooking", (req, res) => {
+router.get("/socMemReadBooking", (req, res) => {
 
-    societySchema.societyReservations.find((err, docs) => {
+    socReservationReg.find((err, docs) => {
         if (!err) {
             res.render("socMemReadBooking", {
                 list: docs
@@ -212,7 +125,7 @@ app.get("/socMemReadBooking", (req, res) => {
 });
 
 
-app.get("/socMemReadComplaint", (req, res) => {
+router.get("/socMemReadComplaint", (req, res) => {
 
     socComplaintReg.find((err, docs) => {
         if (!err) {
@@ -228,13 +141,13 @@ app.get("/socMemReadComplaint", (req, res) => {
 });
 
 
-app.post("/", async (req, res) => {
-    //societyname=req.body.socname;
-    try {
-        societyname = req.body.socname;
-        const socName = await societySchema.findOne({ societyName: societyname})
+router.post("/", async (req, res) => {
 
-        if (socName.societyName === societyname) {
+    try {
+        societyName = req.body.socname;
+        const socName = await societySchema.findOne({ societyName: societyName})
+
+        if (socName.societyName === societyName) {
             res.status(201).render("login");
         }
         else {
@@ -247,7 +160,7 @@ app.post("/", async (req, res) => {
     }
 });
 
-app.post("/Regsoc", async (req, res) => {
+router.post("/Regsoc", async (req, res) => {
     try {
 
         const socreg = new societySchema({
@@ -286,10 +199,8 @@ app.post("/Regsoc", async (req, res) => {
         console.log("err" + error);
     }
 });
-
-app.post("/rwaRoleFetch", async (req, res) => {
+router.post("/rwaRoleFetch", async (req, res) => {
     try {
-
         await societySchema.update({ 'societyName': societyname },
             {
                 '$push': {
@@ -320,36 +231,29 @@ app.post("/rwaRoleFetch", async (req, res) => {
 });
 
 //create a new user in database
-app.post("/socMemRegister", async (req, res) => {
+router.post("/socMemRegister", async (req, res) => {
     try {
         const password = req.body.password;
         const cpassword = req.body.confirmpassword;
-        console.log("soc name"+societyname);
 
         if (password === cpassword) {
-            await societySchema.update({ 'societyName': societyname },
-                {
-                    '$push': {
-                        'societyMembers': {
-                            //needed for query
-                            //societyname: societyname,
-                            memName: req.body.name,
-                            memHouseNum: req.body.hnumber,
-                            memFloorNum: req.body.fnumber,
-                            familyMemCount: req.body.familymemcount,
-                            owner: req.body.owner,
-                            role: "Member",
-                            memDOB: req.body.dob,
-                            memContact: req.body.phone,
-                            memEmail: req.body.email,
-                            memPassword: password,
-                            cpassword: cpassword,     
-                        }
-                    }
-                }
-            )
-            //userlogin=email;
-            // const registered = await registerMember.save();
+            const registerMember = new Register({
+                societyname: societyname,
+                name: req.body.name,
+                hnumber: req.body.hnumber,
+                fnumber: req.body.fnumber,
+                familymemcount: req.body.familymemcount,
+                sname: req.body.sname,
+                dname: req.body.dname,
+                owner: req.body.owner,
+                dob: req.body.dob,
+                phone: req.body.phone,
+                email: req.body.email,
+                password: password,
+                cpassword: cpassword,
+            })
+
+            const registered = await registerMember.save();
             // res.status(201).render("societylogin");
             req.session.message = {
                 type: 'success',
@@ -373,28 +277,21 @@ app.post("/socMemRegister", async (req, res) => {
     }
 });
 
-app.post("/rwalogin", async (req, res) => {
+router.post("/rwalogin", async (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
 
-        // const cursor = db.collection('inventory').find({
-        //     instock: { warehouse: 'A', qty: 5 }
-        //   });
-
         //this will find to whom the entered email belongs to in our mongodb 
-        const rwaemail = await societySchema.find(
-            { societyMembers: [{ memEmail:email}]  
-        });
+        const rwaemail = await Register.findOne({ email: email })
 
         //to comapare secured pass in db with the pass user entered while logging in 
-        //const isMatch = bcrypt.compare(password, rwaemail.password);
-        console.log(`${rwaemail.memEmail}`);
-        console.log(`${rwaemail.memPassword}`);
-        //console.log(`HTML: ${password}`);
-       // console.log(`isMatch:` + isMatch);
+        const isMatch = bcrypt.compare(password, rwaemail.password);
+        console.log(`${rwaemail.password}`);
+        console.log(`HTML: ${password}`);
+        console.log(`isMatch:` + isMatch);
 
-        if (rwaemail.memPassword===password) {
+        if (isMatch) {
             currentUser = email;
 
             res.status(201).render("rwaMemberDashBoard");
@@ -415,7 +312,7 @@ app.post("/rwalogin", async (req, res) => {
     }
 });
 
-app.post("/societylogin", async (req, res) => {
+router.post("/societylogin", async (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
@@ -444,16 +341,19 @@ app.post("/societylogin", async (req, res) => {
 });
 
 
-app.post('/userpayment', async (req, res) => {
+router.post('/userpayment', async (req, res) => {
     var MongoClient = require('mongodb').MongoClient;
     var url = "mongodb://localhost:27017/";
 
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
         var dbo = db.db("ProjectSocietyDB");
-        
+        //console.log(dbo);
+        //console.log('hello');
+        //const loginemail= await Register.find({email:userlogin})
         dbo.collection("paymentdbs").find({ useremail: userlogin }).toArray(function (err, result) {
             if (err) throw err;
+            //console.log(result);
             res.render("userpayment", {
                 list: result
             });
@@ -461,9 +361,10 @@ app.post('/userpayment', async (req, res) => {
         });
     });
 
+
 });
 
-app.post("/complaintRegister", async (req, res) => {
+router.post("/complaintRegister", async (req, res) => {
     try {
         const registerComplaint = new socComplaintReg({
             societyName: req.body.socName,
@@ -480,9 +381,11 @@ app.post("/complaintRegister", async (req, res) => {
     } catch (error) {
         res.status(400).send("invalid " + error);
     }
+
+
 });
 
-app.post("/booking", async (req, res) => {
+router.post("/booking", async (req, res) => {
     try {
         const registerReservation = new socReservationReg({
             societyName: req.body.socName,
@@ -501,7 +404,7 @@ app.post("/booking", async (req, res) => {
     }
 });
 
-app.post('/payment', async (req, res) => {
+router.post('/payment', async (req, res) => {
     try {
         console.log('req body', req.body);
         const customer = await stripe.customers.create({
@@ -549,7 +452,7 @@ app.post('/payment', async (req, res) => {
     }
 });
 
-app.post("/rwaCreateNotice", async (req, res) => {
+router.post("/rwaCreateNotice", async (req, res) => {
 
     try {
         const createNotice = new societyNotice({
@@ -574,10 +477,10 @@ app.post("/rwaCreateNotice", async (req, res) => {
 
 
 
-app.get('/send', (req, res) => {
+router.get('/send', (req, res) => {
     res.render('send');
 });
-app.post('/send', (req, res) => {
+router.post('/send', (req, res) => {
 
     const smtpTransport = nodemailer.createTransport({
         service: "gmail",
@@ -612,7 +515,5 @@ app.post('/send', (req, res) => {
 });
 
 
-app.listen(port, () => {
-    console.log(`server is running at: ${port}`);
 
-});
+module.exports = router;
