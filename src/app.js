@@ -223,13 +223,14 @@ app.get("/socMemReadComplaint", (req, res) => {
 
 });
 
+
 app.post("/", async (req, res) => {
 
     try {
-        societyname = req.body.socname;
-        const socName = await Regsoc.findOne({ socname: societyname })
+        societyName = req.body.socname;
+        const socName = await societySchema.findOne({ societyName: societyName})
 
-        if (socName.socname === societyname) {
+        if (socName.societyName === societyName) {
             res.status(201).render("login");
         }
         else {
@@ -244,16 +245,6 @@ app.post("/", async (req, res) => {
 
 app.post("/Regsoc", async (req, res) => {
     try {
-        // const socreg = new societySchema({
-        //     socname: req.body.socname,
-        //     presname: req.body.presname,
-        //     district: req.body.district,
-        //     district: req.body.district,
-        //     city: req.body.city,
-        //     country: req.body.country,
-        //     phone: req.body.phone,
-        //     email: req.body.email,
-        // })
 
         const socreg = new societySchema({
             societyName: req.body.socname,
@@ -268,7 +259,7 @@ app.post("/Regsoc", async (req, res) => {
             societyCountry: req.body.country,
             societyContact: req.body.phone,
             presEmail: req.body.email,
-            socUserName: req.body.socUserName,
+            socNickName: req.body.socNickName,
             societyMembers: [],
             societyNotices: [],
             societyComplaints: [],
@@ -283,7 +274,8 @@ app.post("/Regsoc", async (req, res) => {
         // col.insertOne(socreg);
 
         const socregistered = await socreg.save();
-        res.status(201).render("index");
+        societyname = req.body.socname;
+        res.status(201).render("rwaRoleFetch");
 
     } catch (error) {
         res.status(400).send(error);
@@ -292,16 +284,31 @@ app.post("/Regsoc", async (req, res) => {
 });
 app.post("/rwaRoleFetch", async (req, res) => {
     try {
-        const myRole = new societySchema.rwamembers({
-            rRole: req.body.rRole,
-            rName: req.body.rName,
-            rEmail: req.body.rEmail,
-        })
+        await societySchema.update({ 'societyName': societyname },
+            {
+                '$push': {
+                    'rwaMembers': [
+                        {
+                            rName: req.body.rName1,
+                            rEmail: req.body.rEmail1,
+                            rRole: req.body.rRole1
+                        },
+                        {
+                            rName: req.body.rName2,
+                            rEmail: req.body.rEmail2,
+                            rRole: req.body.rRole2
+                        }
+                        ]
 
-        const socregistered = await socreg.save();
+                }
+
+            })
+
+        // const socregistered = await rwarole.save();
         res.status(201).render("login");
 
     } catch (error) {
+        res.send()
         res.status(400).send(error);
     }
 });
@@ -313,7 +320,7 @@ app.post("/socMemRegister", async (req, res) => {
         const cpassword = req.body.confirmpassword;
 
         if (password === cpassword) {
-            await societySchema.update({ 'societyName': req.body.socName },
+            await societySchema.update({ 'societyName': societyname },
                 {
                     '$push': {
                         'societyMembers': {

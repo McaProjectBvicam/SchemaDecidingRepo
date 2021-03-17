@@ -263,10 +263,9 @@ const SocietySchema = new mongoose.Schema({
         unique :true
     },
 
-    socUserName: {
+    socNickName: {
         type: String,
-        // required: true,
-        unique: true
+        required: true,
     },
 
     societyMembers: {

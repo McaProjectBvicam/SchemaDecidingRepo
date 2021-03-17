@@ -16,35 +16,37 @@
             <div class="col-md-10 col-12 mx-auto">
                 <form action="/rwaRoleFetch" method="POST" class="temp_form">
                     <h2 class="text-center display-4">Register Your Team </h2>
-                    <label for="rRole">Select your Role:</label>
-                    <select name="rRole" autofocus>
+                    <label for="rRole1">Select your Role:</label>
+                    <select name="rRole1" autofocus>
                         <option value="Select">Select your Role</option>
-                        <option value="Chairman">Chairman</option>
-                        <option value="Vice President">Vice President</option>
+                        <option value="President">President</option>
+                        {{!-- <option value="Chairman">Chairman</option> --}}
+                        {{!-- <option value="Vice President">Vice President</option> --}}
                         <option value="Secretary">Secretary</option>
-                        <option value="Cashier">Cashier</option>
+                        {{!-- <option value="Cashier">Cashier</option> --}}
                     </select>
-                    <label for="rName">Society Name:</label>
-                    <input type="text" name="socname" placeholder="Enter Your Name" autocomplete="off" required>
+                    <label for="rName1">Name:</label>
+                    <input type="text" name="rName1" placeholder="Enter Your Name" autocomplete="off" required>
 
-                    <label for="rEmail">President/Office Email:</label>
-                    <input type="email" name="rEmail" placeholder="Enter your Email" autocomplete="off" required>
+                    <label for="rEmail1">Email:</label>
+                    <input type="email" name="rEmail1" placeholder="Enter your Email" autocomplete="off" required>
+                    {{!-- Role 2 --}}
+                    <label for="rRole2">Select your Role:</label>
+                    <select name="rRole2">
+                        <option value="Select">Select your Role</option>
+                        <option value="President">President</option>
+                        {{!-- <option value="Chairman">Chairman</option>
+                        <option value="Vice President">Vice President</option> --}}
+                        <option value="Secretary">Secretary</option>
+                        {{!-- <option value="Cashier">Cashier</option> --}}
+                    </select>
+                    <label for="rName2">Name:</label>
+                    <input type="text" name="rName2" placeholder="Enter Your Name" autocomplete="off" required>
+
+                    <label for="rEmail2">Email:</label>
+                    <input type="email" name="rEmail2" placeholder="Enter your Email" autocomplete="off" required>
 
                     {{!-- <label for="rRole">Select your Role:</label>
-                    <select name="rRole">
-                        <option value="Select">Select your Role</option>
-                        <option value="Chairman">Chairman</option>
-                        <option value="Vice President">Vice President</option>
-                        <option value="Secretary">Secretary</option>
-                        <option value="Cashier">Cashier</option>
-                    </select>
-                    <label for="rName">Society Name:</label>
-                    <input type="text" name="socname" placeholder="Enter Your Name" autocomplete="off" required>
-
-                    <label for="rEmail">President/Office Email:</label>
-                    <input type="email" name="rEmail" placeholder="Enter your Email" autocomplete="off" required>
-
-                    <label for="rRole">Select your Role:</label>
                         <select name="rRole">
                             <option value="Select">Select your Role</option>
                             <option value="Chairman">Chairman</option>
@@ -52,10 +54,10 @@
                             <option value="Secretary">Secretary</option>
                             <option value="Cashier">Cashier</option>
                         </select>
-                        <label for="rName">Society Name:</label>
-                        <input type="text" name="socname" placeholder="Enter Your Name" autocomplete="off" required>
+                        <label for="rName">Name:</label>
+                        <input type="text" name="rName" placeholder="Enter Your Name" autocomplete="off" required>
 
-                        <label for="rEmail">President/Office Email:</label>
+                        <label for="rEmail">Email:</label>
                         <input type="email" name="rEmail" placeholder="Enter your Email" autocomplete="off" required>
 
                         <label for="rRole">Select your Role:</label>
@@ -66,12 +68,12 @@
                             <option value="Secretary">Secretary</option>
                             <option value="Cashier">Cashier</option>
                         </select>
-                        <label for="rName">Society Name:</label>
+                        <label for="rName">Name:</label>
                         <input type="text" name="socname" placeholder="Enter Your Name" autocomplete="off" required>
 
-                        <label for="rEmail">President/Office Email:</label>
-                        <input type="email" name="rEmail" placeholder="Enter your Email" autocomplete="off" required> --}}
-
+                        <label for="rEmail">Email:</label>
+                        <input type="email" name="rEmail" placeholder="Enter your Email" autocomplete="off" required>  --}}
+                        
                     <input type="submit" value="Submit" id="submitBtn">
                 </form>
             </div>
