@@ -223,12 +223,12 @@ app.get("/socMemReadComplaint", (req, res) => {
 
 
 app.post("/", async (req, res) => {
-
+    //societyname=req.body.socname;
     try {
-        societyName = req.body.socname;
-        const socName = await societySchema.findOne({ societyName: societyName})
+        societyname = req.body.socname;
+        const socName = await societySchema.findOne({ societyName: societyname})
 
-        if (socName.societyName === societyName) {
+        if (socName.societyName === societyname) {
             res.status(201).render("login");
         }
         else {
@@ -283,6 +283,7 @@ app.post("/Regsoc", async (req, res) => {
 
 app.post("/rwaRoleFetch", async (req, res) => {
     try {
+
         await societySchema.update({ 'societyName': societyname },
             {
                 '$push': {
@@ -317,6 +318,7 @@ app.post("/socMemRegister", async (req, res) => {
     try {
         const password = req.body.password;
         const cpassword = req.body.confirmpassword;
+        console.log("soc name"+societyname);
 
         if (password === cpassword) {
             await societySchema.update({ 'societyName': societyname },
@@ -328,21 +330,19 @@ app.post("/socMemRegister", async (req, res) => {
                             memName: req.body.name,
                             memHouseNum: req.body.hnumber,
                             memFloorNum: req.body.fnumber,
-                            familymemcount: req.body.familymemcount,
+                            familyMemCount: req.body.familymemcount,
                             owner: req.body.owner,
                             role: "Member",
                             memDOB: req.body.dob,
                             memContact: req.body.phone,
                             memEmail: req.body.email,
                             memPassword: password,
-                            cpassword: cpassword,
-
+                            cpassword: cpassword,     
                         }
                     }
                 }
-
             )
-
+            //userlogin=email;
             // const registered = await registerMember.save();
             // res.status(201).render("societylogin");
             req.session.message = {
@@ -372,16 +372,23 @@ app.post("/rwalogin", async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
 
+        // const cursor = db.collection('inventory').find({
+        //     instock: { warehouse: 'A', qty: 5 }
+        //   });
+
         //this will find to whom the entered email belongs to in our mongodb 
-        const rwaemail = await societySchema.societyMembers.findOne({ email: email })
+        const rwaemail = await societySchema.find(
+            { societyMembers: [{ memEmail:email}]  
+        });
 
         //to comapare secured pass in db with the pass user entered while logging in 
-        const isMatch = bcrypt.compare(password, rwaemail.password);
-        console.log(`${rwaemail.password}`);
-        console.log(`HTML: ${password}`);
-        console.log(`isMatch:` + isMatch);
+        //const isMatch = bcrypt.compare(password, rwaemail.password);
+        console.log(`${rwaemail.memEmail}`);
+        console.log(`${rwaemail.memPassword}`);
+        //console.log(`HTML: ${password}`);
+       // console.log(`isMatch:` + isMatch);
 
-        if (isMatch) {
+        if (rwaemail.memPassword===password) {
             currentUser = email;
 
             res.status(201).render("rwaMemberDashBoard");
@@ -467,8 +474,6 @@ app.post("/complaintRegister", async (req, res) => {
     } catch (error) {
         res.status(400).send("invalid " + error);
     }
-
-
 });
 
 app.post("/booking", async (req, res) => {
