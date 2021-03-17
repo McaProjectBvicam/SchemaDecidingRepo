@@ -314,7 +314,7 @@ app.post("/rwaRoleFetch", async (req, res) => {
         res.status(201).render("login");
 
     } catch (error) {
-        res.send()
+        res.send();
         res.status(400).send(error);
     }
 });
@@ -612,7 +612,7 @@ app.post('/send', (req, res) => {
 });
 
 
-app.listen(port, () => {
-    console.log(`server is running at: ${port}`);
+app.listen(PORT, () => {
+    console.log(`server is running at: ${PORT}`);
 
 });
