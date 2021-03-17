@@ -248,11 +248,6 @@ const SocietySchema = new mongoose.Schema({
         unique: true
     },
 
-    presidentName: {
-        type: String,
-        required: true,
-    },
-    
     societyAddress: {
         type: addressSchema
     },
@@ -268,11 +263,6 @@ const SocietySchema = new mongoose.Schema({
         unique: true
     },
 
-    presEmail:{
-        type:String,
-        required:true,
-        unique :true
-    },
 
     socNickName: {
         type: String,
