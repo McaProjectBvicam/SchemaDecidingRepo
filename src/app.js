@@ -46,11 +46,11 @@ const REFRESH_TOKEN = "1//04OfhvT8vhbbCCgYIARAAGAQSNwF-L9IrYSXrb-2Pf2KnC8-pCp_Ya
 
 app.set("view engine", "ejs");
 
-// const { google } = require("googleapis");
-// const OAuth2 = google.auth.OAuth2;
-// const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
-// oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-// const accessToken = oAuth2Client.getAccessToken();
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+const accessToken = oAuth2Client.getAccessToken();
 
 //const Register = require("./models/register");
 //const Regsoc = require("./models/RegSoc");
@@ -129,7 +129,6 @@ app.get("/socMemRegister", (req, res) => {
     res.render("socMemRegister");
 });
 
-
 app.get('/payment', (req, res) => {
     res.render('payment', {
         key: PUBLISHABLE_KEY
@@ -164,8 +163,7 @@ app.get("/socMemReadNotice", (req, res) => {
 
 app.get("/myprofile", (req, res) => {
 
-
-    Register.find({ email: currentUser }, (err, docs) => {
+    societySchema.find({ email: currentUser }, (err, docs) => {
         if (!err) {
             res.render("myprofile", {
                 user: docs[0]
@@ -181,10 +179,10 @@ app.get("/myprofile", (req, res) => {
 
 app.get("/socMemReadDevelopment", (req, res) => {
 
-    societyDevelopment.find((err, docs) => {
+    societySchema.societyDevelopments.find((err, docs) => {
         if (!err) {
             res.render("socMemReadDevelopment", {
-                list: docs
+                list: docs[0]
             });
         }
         else {
@@ -195,7 +193,7 @@ app.get("/socMemReadDevelopment", (req, res) => {
 
 app.get("/socMemReadBooking", (req, res) => {
 
-    socReservationReg.find((err, docs) => {
+    societySchema.societyReservations.find((err, docs) => {
         if (!err) {
             res.render("socMemReadBooking", {
                 list: docs
@@ -282,6 +280,7 @@ app.post("/Regsoc", async (req, res) => {
         console.log("err" + error);
     }
 });
+
 app.post("/rwaRoleFetch", async (req, res) => {
     try {
         await societySchema.update({ 'societyName': societyname },
@@ -366,7 +365,7 @@ app.post("/rwalogin", async (req, res) => {
         const password = req.body.password;
 
         //this will find to whom the entered email belongs to in our mongodb 
-        const rwaemail = await Register.findOne({ email: email })
+        const rwaemail = await societySchema.societyMembers.findOne({ email: email })
 
         //to comapare secured pass in db with the pass user entered while logging in 
         const isMatch = bcrypt.compare(password, rwaemail.password);
@@ -431,19 +430,15 @@ app.post('/userpayment', async (req, res) => {
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
         var dbo = db.db("ProjectSocietyDB");
-        //console.log(dbo);
-        //console.log('hello');
-        //const loginemail= await Register.find({email:userlogin})
+        
         dbo.collection("paymentdbs").find({ useremail: userlogin }).toArray(function (err, result) {
             if (err) throw err;
-            //console.log(result);
             res.render("userpayment", {
                 list: result
             });
             db.close();
         });
     });
-
 
 });
 
