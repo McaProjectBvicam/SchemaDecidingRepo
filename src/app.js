@@ -223,13 +223,14 @@ app.get("/socMemReadComplaint", (req, res) => {
 
 });
 
+
 app.post("/", async (req, res) => {
 
     try {
-        societyname = req.body.socname;
-        const socName = await Regsoc.findOne({ societyName: societyname })
+        societyName = req.body.socname;
+        const socName = await societySchema.findOne({ societyName: societyName})
 
-        if (socName.societyName === societyname) {
+        if (socName.societyName === societyName) {
             res.status(201).render("login");
         }
         else {
