@@ -2,25 +2,25 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const hbs = require('hbs');
-const bcrypt=require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const port = process.env.PROCESS || 8000;
 
 // //comment line 11 to 23
 // //mongo atlas
-const mongoose= require('mongoose');
+const mongoose = require('mongoose');
 
 const DB = 'mongodb+srv://society:society@cluster0.5atb0.mongodb.net/ProjectSocietyDB?retryWrites=true&w=majority';
 
-mongoose.connect(DB,{
+mongoose.connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify: false
-}).then(()=>{
+}).then(() => {
     console.log(`Connection Successful`);
-}).catch((err)=> console.log(`Error connecting to atlas`));
+}).catch((err) => console.log(`Error connecting to atlas`));
 
 
 //require("./db/conn");
@@ -76,9 +76,9 @@ app.set("views", template_path);
 hbs.registerPartials(partials_path);
 
 app.use(cookieParser('secret'));
-app.use(session({cookie: {maxAge:null}}))
+app.use(session({ cookie: { maxAge: null } }))
 
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
     res.locals.message = req.session.message
     delete req.session.message
     next()
@@ -227,9 +227,9 @@ app.post("/", async (req, res) => {
 
     try {
         societyname = req.body.socname;
-        const socName = await Regsoc.findOne({ socname: societyname })
+        const socName = await Regsoc.findOne({ societyName: societyname })
 
-        if (socName.socname === societyname) {
+        if (socName.societyName === societyname) {
             res.status(201).render("login");
         }
         else {
@@ -244,64 +244,70 @@ app.post("/", async (req, res) => {
 
 app.post("/Regsoc", async (req, res) => {
     try {
-        // const socreg = new societySchema({
-        //     socname: req.body.socname,
-        //     presname: req.body.presname,
-        //     district: req.body.district,
-        //     district: req.body.district,
-        //     city: req.body.city,
-        //     country: req.body.country,
-        //     phone: req.body.phone,
-        //     email: req.body.email,
-        // })
 
         const socreg = new societySchema({
             societyName: req.body.socname,
             presidentName: req.body.presname,
-            
-            societyAddress:{
-                locality:req.body.locality,
-                city:req.body.city,
-                state:req.body.state
+
+            societyAddress: {
+                locality: req.body.locality,
+                city: req.body.city,
+                state: req.body.state
             },
-            
+
             societyCountry: req.body.country,
             societyContact: req.body.phone,
             presEmail: req.body.email,
-            socUserName:req.body.socUserName,
-            societyMembers:[],
-            societyNotices:[],
-            societyComplaints:[],
-            societyReservations:[],
-            societyDevelopments :[],
-            societyPayments:[],
-            rwaMembers:[]
+            socNickName: req.body.socNickName,
+            societyMembers: [],
+            societyNotices: [],
+            societyComplaints: [],
+            societyReservations: [],
+            societyDevelopments: [],
+            societyPayments: [],
+            rwaMembers: []
 
         })
 
         //await DB.collection('mysocieties').insertOne(socreg);
         // col.insertOne(socreg);
 
-       const socregistered = await socreg.save();
-        res.status(201).render("index");
+        const socregistered = await socreg.save();
+        societyname = req.body.socname;
+        res.status(201).render("rwaRoleFetch");
 
     } catch (error) {
         res.status(400).send(error);
-        console.log("err"+error);
+        console.log("err" + error);
     }
 });
 app.post("/rwaRoleFetch", async (req, res) => {
     try {
-        const myRole = new societySchema.rwamembers({
-            rRole: req.body.rRole,
-            rName: req.body.rName,
-            rEmail: req.body.rEmail,
-        })
+        await societySchema.update({ 'societyName': societyname },
+            {
+                '$push': {
+                    'rwaMembers': [
+                        {
+                            rName: req.body.rName1,
+                            rEmail: req.body.rEmail1,
+                            rRole: req.body.rRole1
+                        },
+                        {
+                            rName: req.body.rName2,
+                            rEmail: req.body.rEmail2,
+                            rRole: req.body.rRole2
+                        }
+                        ]
 
-        const socregistered = await socreg.save();
+                }
+
+            })
+
+        // const socregistered = await rwarole.save();
         res.status(201).render("login");
 
     } catch (error) {
+        res.send()
         res.status(400).send(error);
     }
 });
@@ -330,20 +336,20 @@ app.post("/socMemRegister", async (req, res) => {
             })
 
             const registered = await registerMember.save();
-           // res.status(201).render("societylogin");
-           req.session.message={
-            type:'success',
-            intro:'Record insert successfully',
-            message:'success'
-        }
-        res.redirect('login');
+            // res.status(201).render("societylogin");
+            req.session.message = {
+                type: 'success',
+                intro: 'Record insert successfully',
+                message: 'success'
+            }
+            res.redirect('login');
 
         }
         else {
-            req.session.message={
-                type:'danger',
-                intro:'password mismatch',
-                message:'please inter a correct password'
+            req.session.message = {
+                type: 'danger',
+                intro: 'password mismatch',
+                message: 'please inter a correct password'
             }
             res.redirect('socMemRegister');
         }
@@ -362,14 +368,14 @@ app.post("/rwalogin", async (req, res) => {
         const rwaemail = await Register.findOne({ email: email })
 
         //to comapare secured pass in db with the pass user entered while logging in 
-        const isMatch= bcrypt.compare(password, rwaemail.password);
+        const isMatch = bcrypt.compare(password, rwaemail.password);
         console.log(`${rwaemail.password}`);
         console.log(`HTML: ${password}`);
-        console.log(`isMatch:`+ isMatch);
-        
+        console.log(`isMatch:` + isMatch);
+
         if (isMatch) {
-            currentUser = email; 
-            
+            currentUser = email;
+
             res.status(201).render("rwaMemberDashBoard");
             //for userpayment and payment
             userlogin = email;
@@ -377,12 +383,12 @@ app.post("/rwalogin", async (req, res) => {
         else {
             res.send('invalid');
         }
-}
+    }
     catch (error) {
-        req.session.message={
-            type:'danger',
-            intro:'invalid details',
-            message:'please inter a valid details.'
+        req.session.message = {
+            type: 'danger',
+            intro: 'invalid details',
+            message: 'please inter a valid details.'
         }
         res.redirect('rwalogin');
     }
@@ -397,20 +403,20 @@ app.post("/societylogin", async (req, res) => {
         const socemail = await Register.findOne({ email: email });
 
         //to comapare secured pass in db with the pass user entered while logging in 
-        const isMatch= bcrypt.compare(password,socemail.password);
+        const isMatch = bcrypt.compare(password, socemail.password);
 
         if (isMatch) {
-            currentUser = email; 
+            currentUser = email;
             res.status(201).render("socMemDashBoard");
         } else {
             res.send("Invalid Details");
         }
 
     } catch (error) {
-        req.session.message={
-            type:'danger',
-            intro:'invalid details',
-            message:'please inter a valid details.'
+        req.session.message = {
+            type: 'danger',
+            intro: 'invalid details',
+            message: 'please inter a valid details.'
         }
         res.redirect('societylogin');
     }
