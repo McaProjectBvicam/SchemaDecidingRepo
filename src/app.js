@@ -319,23 +319,31 @@ app.post("/socMemRegister", async (req, res) => {
         const cpassword = req.body.confirmpassword;
 
         if (password === cpassword) {
-            const registerMember = new Register({
-                societyname: societyname,
-                name: req.body.name,
-                hnumber: req.body.hnumber,
-                fnumber: req.body.fnumber,
-                familymemcount: req.body.familymemcount,
-                sname: req.body.sname,
-                dname: req.body.dname,
-                owner: req.body.owner,
-                dob: req.body.dob,
-                phone: req.body.phone,
-                email: req.body.email,
-                password: password,
-                cpassword: cpassword,
-            })
+            await societySchema.update({ 'societyName': societyname },
+                {
+                    '$push': {
+                        'societyMembers': {
+                            //needed for query
+                            //societyname: societyname,
+                            memName: req.body.name,
+                            memHouseNum: req.body.hnumber,
+                            memFloorNum: req.body.fnumber,
+                            familymemcount: req.body.familymemcount,
+                            owner: req.body.owner,
+                            role: "Member",
+                            memDOB: req.body.dob,
+                            memContact: req.body.phone,
+                            memEmail: req.body.email,
+                            memPassword: password,
+                            cpassword: cpassword,
 
-            const registered = await registerMember.save();
+                        }
+                    }
+                }
+
+            )
+
+            // const registered = await registerMember.save();
             // res.status(201).render("societylogin");
             req.session.message = {
                 type: 'success',
