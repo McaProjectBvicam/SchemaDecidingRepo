@@ -11,16 +11,19 @@
     <div class="container-fluid main_header">
         <div class="row">
             <div class="col-md-10 col-12 mx-auto">
-                <h2 class="text-center display-4">Register Your Society: </h2>
                     <form action="/Regsoc" method="POST" class="temp_form">
-                        <label for="socname">Society Name:</label>
-                        <input type="text" name="socname" placeholder="Enter Your Society Name" autocomplete="off" required>
+                        <h2 class="text-center display-4">Register Your Society </h2>
+                        <label for="socname">Create Your Society Name:</label>
+                        <input type="text" name="socname" placeholder="Create Your Society Name" autocomplete="off" required>
                         
-                         <label for="socNickName">Society Nick Name:</label>
-                        <input type="text" name="socNickName" placeholder="Enter your socNckName" autocomplete="off" required>
+                         <label for="socNickName">Create Your Society Nick Name:</label>
+                        <input type="text" name="socNickName" placeholder="Create a Nickname For Your Society " autocomplete="off" required>
 
-                        <label for="locality">Locality:</label>
-                        <input type="text" name="locality" placeholder="Enter Your locality " autocomplete="off"
+                        <label for="phone">Society Office Number:</label>
+                        <input type="tel" name="phone" placeholder="Enter your Society Office Number" minlength="10" maxlength="10"  pattern="[7-9]{1}[0-9]{9}" required>
+
+                        <label for="locality">Area/Locality:</label>
+                        <input type="text" name="locality" placeholder="Enter Your Area or Locality" autocomplete="off"
                             required>
 
                         <label for="city">City:</label>
@@ -32,12 +35,9 @@
                         <label for="country">Country:</label>
                         <input type="text" name="country" placeholder="Enter Your Country Name" autocomplete="off" required>
 
-                        <label for="phone">Society Office Number:</label>
-                        <input type="tel" name="phone" placeholder="Enter your Society Office Number" minlength="10" maxlength="10"  pattern="[7-9]{1}[0-9]{9}" required>
-
+                        <label for="pincode">Pin Code:</label>
+                        <input type="text" name="pincode" placeholder="Enter Pincode"  maxlength="6" autocomplete="off" required>
     
-                       
-                        
                         <input type="submit" value="Submit" id="submitBtn">
                     </form>
             </div>
