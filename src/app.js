@@ -2,25 +2,29 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const hbs = require('hbs');
-const bcrypt = require('bcryptjs');
+const bcrypt=require('bcryptjs');
+const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const port = process.env.PROCESS || 8000;
+dotenv.config({path:'./config.env'});
+//hide port number
+const PORT = process.env.PORT || 8000;
 
-// //comment line 11 to 23
+
+
 // //mongo atlas
-const mongoose = require('mongoose');
+const mongoose= require('mongoose');
 
 const DB = 'mongodb+srv://society:society@cluster0.5atb0.mongodb.net/ProjectSocietyDB?retryWrites=true&w=majority';
 
-mongoose.connect(DB, {
+mongoose.connect(DB,{
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify: false
-}).then(() => {
+}).then(()=>{
     console.log(`Connection Successful`);
-}).catch((err) => console.log(`Error connecting to atlas`));
+}).catch((err)=> console.log(`Error connecting to atlas`));
 
 
 //require("./db/conn");
@@ -165,7 +169,7 @@ app.get("/socMemReadNotice", (req, res) => {
 app.get("/myprofile", (req, res) => {
 
 
-    Register.find({ email: currentUser }, (err, docs) => {
+    register.find({ email: currentUser }, (err, docs) => {
         if (!err) {
             res.render("myprofile", {
                 user: docs[0]
@@ -249,7 +253,7 @@ app.post("/Regsoc", async (req, res) => {
 
         const socreg = new societySchema({
             societyName: req.body.socname,
-            presidentName: req.body.presname,
+            // presidentName: req.body.presname,
 
             societyAddress: {
                 locality: req.body.locality,
@@ -259,7 +263,7 @@ app.post("/Regsoc", async (req, res) => {
 
             societyCountry: req.body.country,
             societyContact: req.body.phone,
-            presEmail: req.body.email,
+            // presEmail: req.body.email,
             socNickName: req.body.socNickName,
             societyMembers: [],
             societyNotices: [],
@@ -322,7 +326,7 @@ app.post("/socMemRegister", async (req, res) => {
         const cpassword = req.body.confirmpassword;
 
         if (password === cpassword) {
-            await societySchema.update(
+            await societySchema.updateOne(
                 {'societyName': societyname },
                 {
                     '$push': {
@@ -345,7 +349,7 @@ app.post("/socMemRegister", async (req, res) => {
                     }
                 })
 
-            // const registered = await registerMember.save();
+           // const registered = await registe.save();
             // res.status(201).render("societylogin");
             req.session.message = {
                 type: 'success',
@@ -616,7 +620,22 @@ app.post('/send', (req, res) => {
 });
 
 
-app.listen(port, () => {
-    console.log(`server is running at: ${port}`);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.listen(PORT, () => {
+    console.log(`server is running at: ${PORT}`);
 
 });

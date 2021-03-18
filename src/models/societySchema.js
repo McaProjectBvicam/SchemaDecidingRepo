@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const bcrypt= require('bcryptjs');
 const socDevelopmentSchema = new mongoose.Schema({
 
     Facility: {
@@ -119,6 +119,7 @@ const memberSchema = new mongoose.Schema({
     memEmail: {
         type: String,
         required: true,
+        unique:true
 
     },
     memPassword: {
@@ -139,6 +140,17 @@ const memberSchema = new mongoose.Schema({
     // }
 
 })
+
+memberSchema.pre("save",async function(next){
+    if(this.isModified("password")){
+
+        this.password=await bcrypt.hash(this.password,10);
+        this.cpassword=undefined;
+    }
+    
+    next();
+})
+
 
 //
 const socComplaintSchema = new mongoose.Schema({
@@ -237,11 +249,6 @@ const SocietySchema = new mongoose.Schema({
         unique: true
     },
 
-    presidentName: {
-        type: String,
-        required: true,
-    },
-    
     societyAddress: {
         type: addressSchema
     },
@@ -257,11 +264,6 @@ const SocietySchema = new mongoose.Schema({
         unique: true
     },
 
-    presEmail:{
-        type:String,
-        required:true,
-        unique :true
-    },
 
     socNickName: {
         type: String,
