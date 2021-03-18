@@ -50,11 +50,11 @@ const REFRESH_TOKEN = "1//04OfhvT8vhbbCCgYIARAAGAQSNwF-L9IrYSXrb-2Pf2KnC8-pCp_Ya
 
 app.set("view engine", "ejs");
 
-// const { google } = require("googleapis");
-// const OAuth2 = google.auth.OAuth2;
-// const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
-// oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-// const accessToken = oAuth2Client.getAccessToken();
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+const accessToken = oAuth2Client.getAccessToken();
 
 //const Register = require("./models/register");
 //const Regsoc = require("./models/RegSoc");
@@ -232,9 +232,10 @@ app.post("/", async (req, res) => {
 
     try {
         societyName = req.body.socname;
-        const socName = await societySchema.findOne({ societyName: societyName})
+        const socName = await societySchema.findOne({ societyName: societyName })
 
         if (socName.societyName === societyName) {
+            societyname= societyName;
             res.status(201).render("login");
         }
         else {
@@ -302,7 +303,7 @@ app.post("/rwaRoleFetch", async (req, res) => {
                             rEmail: req.body.rEmail2,
                             rRole: req.body.rRole2
                         }
-                        ]
+                    ]
 
                 }
 
@@ -320,27 +321,35 @@ app.post("/rwaRoleFetch", async (req, res) => {
 //create a new user in database
 app.post("/socMemRegister", async (req, res) => {
     try {
+        console.log("society:" + societyname);
         const password = req.body.password;
         const cpassword = req.body.confirmpassword;
 
         if (password === cpassword) {
-            const registerMember = new Register({
-                societyname: societyname,
-                name: req.body.name,
-                hnumber: req.body.hnumber,
-                fnumber: req.body.fnumber,
-                familymemcount: req.body.familymemcount,
-                sname: req.body.sname,
-                dname: req.body.dname,
-                owner: req.body.owner,
-                dob: req.body.dob,
-                phone: req.body.phone,
-                email: req.body.email,
-                password: password,
-                cpassword: cpassword,
-            })
+            await societySchema.updateOne(
+                {'societyName': societyname },
+                {
+                    '$push': {
+                        'societyMembers': {
+                            //needed for query
+                            //societyname: societyname,
+                            memName: req.body.name,
+                            memHouseNum: req.body.hnumber,
+                            memFloorNum: req.body.fnumber,
+                            familymemcount: req.body.familymemcount,
+                            owner: req.body.owner,
+                            role: "Member",
+                            memDOB: req.body.dob,
+                            memContact: req.body.phone,
+                            memEmail: req.body.email,
+                            memPassword: password,
+                            cpassword: cpassword,
 
-            const registered = await registerMember.save();
+                        }
+                    }
+                })
+
+           // const registered = await registe.save();
             // res.status(201).render("societylogin");
             req.session.message = {
                 type: 'success',
@@ -360,7 +369,7 @@ app.post("/socMemRegister", async (req, res) => {
         }
     }
     catch (error) {
-        res.status(400).send(error);
+        res.status(400).send("gadbadh" + error);
     }
 });
 
@@ -404,13 +413,21 @@ app.post("/societylogin", async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
         userlogin = email;
+        console.log("soc name"+ societyname)
         //this will find the user to whom the entered email belongs to in our mongodb 
-        const socemail = await Register.findOne({ email: email });
+        const result =await societySchema.findOne({
+           
+            'societyName':societyname,
+            'societyMembers.memEmail':email           
+        
+        });
+            
 
+        console.log("email" + result.societyMembers[0].memEmail+" "+result.societyMembers[0].memPassword);
         //to comapare secured pass in db with the pass user entered while logging in 
-        const isMatch = bcrypt.compare(password, socemail.password);
+        //const isMatch = bcrypt.compare(password, socemail.password);
 
-        if (isMatch) {
+        if (result.societyMembers[0].memPassword===password) {
             currentUser = email;
             res.status(201).render("socMemDashBoard");
         } else {
@@ -419,6 +436,7 @@ app.post("/societylogin", async (req, res) => {
 
     } catch (error) {
         req.session.message = {
+            
             type: 'danger',
             intro: 'invalid details',
             message: 'please inter a valid details.'
