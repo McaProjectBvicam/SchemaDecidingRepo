@@ -413,17 +413,22 @@ app.post("/societylogin", async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
         userlogin = email;
-        console.log("soc name"+ societyname)
+        console.log("soc name: "+ societyname)
         //this will find the user to whom the entered email belongs to in our mongodb 
         const result =await societySchema.findOne({
            
             'societyName':societyname,
-            'societyMembers.memEmail':email           
-        
+            'societyMembers.memEmail':email  
         });
             
+        
+        // const cursor = db.collection('inventory').find({
+        //     'size.uom': 'in'
+        //   });
 
-        console.log("email" + result.societyMembers[0].memEmail+" "+result.societyMembers[0].memPassword);
+
+
+        console.log("email:" + result.societyMembers[0].memEmail+" "+result.societyMembers[0].memPassword);
         //to comapare secured pass in db with the pass user entered while logging in 
         //const isMatch = bcrypt.compare(password, socemail.password);
 
