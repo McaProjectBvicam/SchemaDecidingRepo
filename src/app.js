@@ -11,11 +11,9 @@ dotenv.config({ path: './config.env' });
 const PORT = process.env.PORT || 8000;
 
 //for uploding docs
-<<<<<<< HEAD
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
-=======
-const multer=require('multer');
+//const upload = multer({ dest: 'uploads/' });
+//const multer=require('multer');
 
 
 const storage=multer.diskStorage({
@@ -28,7 +26,6 @@ const storage=multer.diskStorage({
 })
 const upload= multer({storage: storage});
 
->>>>>>> 0fb90565ea18911497ce37613d5f5ddf7ff0f572
 
 // //mongo atlas
 const mongoose = require('mongoose');
@@ -257,17 +254,7 @@ app.get("/rwaMemReadComplaint",async (req, res) => {
         res.status(201).render("rwaMemDashboard");
         console.log("Error in reading Complaints collection:" + err);
     }
-    // socComplaintReg.find((err, docs) => {
-    //     if (!err) {
-    //         res.render("socMemReadComplaint", {
-    //             list: docs
-    //         });
-    //     }
-    //     else {
-    //         console.log("Error in reading complaint collection:" + err);
-    //     }
-    // });
-
+    
 });
 
 
