@@ -487,9 +487,8 @@ app.post('/userpayment', async (req, res) => {
             db.close();
         });
     });
-
-
 });
+
 
 app.post("/complaintRegister", async (req, res) => {
     try {
@@ -627,10 +626,6 @@ app.post("/rwaCreateNotice", async (req, res) => {
         res.status(400).send("invalid " + error);
     }
 });
-
-
-
-
 
 
 /*
