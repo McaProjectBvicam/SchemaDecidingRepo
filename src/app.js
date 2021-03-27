@@ -502,7 +502,7 @@ app.post("/complaintRegister", async (req, res) => {
                         complaintDate: req.body.compDate,
                         complaintSubject: req.body.compSubject,
                         complaintDesc: req.body.compDescription,
-                        complaintStatus: req.body.compStatus
+                        complaintStatus: "Active"
                         
                     }
                 }
@@ -514,7 +514,28 @@ app.post("/complaintRegister", async (req, res) => {
         res.status(400).send("invalid " + error);
     }
 
+});
 
+app.post("/rwaDevelopmentEntries", async (req, res) => {
+    try {
+        await societySchema.updateOne(
+            { 'societyName': societyname },
+            {   
+                '$push': {
+                    'socDevelopmentSchema': {
+                        Facility: req.body.Facility,
+                        Category: req.body.Category,
+                        FacilityDate: req.body.FacilityDate,
+                        DevelopmentDesc: req.body.DevelopmentDesc
+                        
+                    }
+                }
+            })
+
+        res.status(201).render("socMemDashboard");
+    } catch (error) {
+        res.status(400).send("invalid " + error);
+    }
 });
 
 app.post("/booking", async (req, res) => {
@@ -535,7 +556,6 @@ app.post("/booking", async (req, res) => {
                 }
             })
 
-        
         res.status(201).render("socMemDashboard");
     } catch (error) {
         res.status(400).send("invalid " + error);
@@ -608,13 +628,15 @@ app.post("/rwaCreateNotice", async (req, res) => {
     }
 });
 
+
+
+
+
+
 /*
     Here we are configuring our SMTP Server details.
     STMP is mail server which is responsible for sending and recieving email.
 */
-
-
-
 app.get('/send', (req, res) => {
     res.render('send');
 });
