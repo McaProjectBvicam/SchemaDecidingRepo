@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>All Members</title>
+    {{>header}}
+</head>
+
+<body>
+    {{>rwanavbar}}
+    <h1>All society Members</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                
+                <th>Name </th>
+                <th>House</th>
+                <th>Floor </th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>DOB</th>
+                <th>Family Members</th>
+                <th>Role</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {{#each list}}
+            <tr align="center">
+                <td>{{this.memName}}</td>
+                <td>{{this.memHouseNum}}</td>
+                <td>{{this.memFloorNum}}</td>
+                <td>{{this.memEmail}}</td>
+                <td>{{this.memContact}}</td>
+                <td>{{this.memDOB}}</td>
+                <td>{{this.familyMemCount}}</td>
+                <td>{{this.role}}</td>
+            </tr>
+            {{/each}}
+
+        </tbody>
+    </table>
+    </div>
+
+</body>
+
+</html>
