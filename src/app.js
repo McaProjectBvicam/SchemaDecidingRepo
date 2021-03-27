@@ -86,10 +86,9 @@ app.use(session({ cookie: { maxAge: null } }))
 
 app.use((req, res, next) => {
     res.locals.message = req.session.message
-    delete req.session.message
+     delete req.session.message
     next()
 })
-
 
 app.get("/", (req, res) => {
     res.render("index");
@@ -167,11 +166,10 @@ app.get("/socMemReadNotice", (req, res) => {
     });
 
 });
-
 app.get("/myprofile", (req, res) => {
 
 
-    register.find({ email: currentUser }, (err, docs) => {
+    societySchema.find({ email: currentUser }, (err, docs) => {
         if (!err) {
             res.render("myprofile", {
                 user: docs[0]
@@ -412,7 +410,7 @@ app.post("/rwalogin", async (req, res) => {
             intro: 'invalid details',
             message: 'please inter a valid details.'
         }
-        res.redirect('societylogin');
+        res.redirect('socMemDashBoard');
     }
 });
 
