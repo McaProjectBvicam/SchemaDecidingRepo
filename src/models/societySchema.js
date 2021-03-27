@@ -120,7 +120,6 @@ const memberSchema = new mongoose.Schema({
         type: String,
         required: true,
         
-
     },
     memPassword: {
         type: String,
