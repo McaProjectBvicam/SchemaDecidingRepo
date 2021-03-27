@@ -178,7 +178,7 @@ app.get("/socMemReadNotice", async (req, res) => {
 
     } catch (error) {
         res.status(201).render("socMemDashboard");
-        console.log("Error in reading Notice collection:" + err);
+        console.log("Error in reading Notice collection:" + err);;
     }
 
 
@@ -190,8 +190,9 @@ app.get("/myprofile", (req, res) => {
     societySchema.find({ memEmail: currentUser }, (err, docs) => {
        if (!err) {
             res.render("myprofile", {
-                user: docs[0].societyMembers
+                user: docs[0]
             });
+            console.log(docs[0])
         }
         else {
             console.log("Error in reading Notice collection:" + err);
