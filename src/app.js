@@ -95,13 +95,13 @@ app.set("views", template_path);
 hbs.registerPartials(partials_path);
 
 app.use(cookieParser('secret'));
-// app.use(session({ cookie: { maxAge: null } }))
+app.use(session({ cookie: { maxAge: null } }))
 
-//app.use((req, res, next) => {
-// res.locals.message = req.session.message
-// delete req.session.message
-// next()
-//})
+app.use((req, res, next) => {
+res.locals.message = req.session.message
+delete req.session.message
+next()
+})
 
 
 app.get("/", (req, res) => {
@@ -221,8 +221,6 @@ app.get("/socMemReadDevelopment", (req, res) => {
 });
 
 app.get("/rwaMemReadBooking", async (req, res) => {
-
-
 
     try {
 
@@ -415,7 +413,7 @@ app.post("/socMemRegister", upload.single('idproof'), async (req, res) => {
                             memName: req.body.name,
                             memHouseNum: req.body.hnumber,
                             memFloorNum: req.body.fnumber,
-                            familymemcount: req.body.familymemcount,
+                            familyMemCount: req.body.familymemcount,
                             owner: req.body.owner,
                             role: "Member",
                             memDOB: req.body.dob,
