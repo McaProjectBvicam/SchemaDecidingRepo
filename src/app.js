@@ -16,15 +16,15 @@ const multer = require('multer');
 //const multer=require('multer');
 
 
-const storage=multer.diskStorage({
-    destination: function(req,file,cb){
-        cb(null,'./uploads/');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/');
     },
-    filename: function(req,file,cb){
-        cb(null, Date.now()+file.originalname);
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + file.originalname);
     }
 })
-const upload= multer({storage: storage});
+const upload = multer({ storage: storage });
 
 
 // //mongo atlas
@@ -166,26 +166,26 @@ app.get("/socMemDashBoard", (req, res) => {
 
 app.get("/socMemReadNotice", async (req, res) => {
 
-    
+
 
     try {
-        
+
         console.log("society name:" + societyname)
-        
+
         //this will find the society with name provided
         const result = await societySchema.findOne({ "societyName": societyname })
-            
-            res.render("socMemReadNotice",{
-                list:result.societyNotices
-            });
-        
-            console.log(result.societyNotices[0]);
+
+        res.render("socMemReadNotice", {
+            list: result.societyNotices
+        });
+
+        console.log(result.societyNotices[0]);
 
     } catch (error) {
         res.status(201).render("socMemDashboard");
         console.log("Error in reading Notice collection:" + err);
     }
-           
+
 
 });
 
@@ -220,41 +220,89 @@ app.get("/socMemReadDevelopment", (req, res) => {
     });
 });
 
-app.get("/socMemReadBooking", (req, res) => {
+app.get("/rwaMemReadBooking", async (req, res) => {
 
-    socReservationReg.find((err, docs) => {
-        if (!err) {
-            res.render("socMemReadBooking", {
-                list: docs
-            });
-        }
-        else {
-            console.log("Error in reading Development collection:" + err);
-        }
-    });
+
+
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        res.render("rwaMemReadBooking", {
+            list: result.societyReservations
+        });
+
+        console.log(result.societyReservations[0]);
+
+    } catch (error) {
+        res.status(201).render("rwaMemberDashBoard");
+        console.log("Error in reading Reservations collection:" + err);
+    }
+
+
 });
 
 
-app.get("/rwaMemReadComplaint",async (req, res) => {
-    
+// app.get("/socMemReadBooking", (req, res) => {
+
+//     socReservationReg.find((err, docs) => {
+//         if (!err) {
+//             res.render("socMemReadBooking", {
+//                 list: docs
+//             });
+//         }
+//         else {
+//             console.log("Error in reading Development collection:" + err);
+//         }
+//     });
+// });
+
+
+app.get("/rwaMemReadComplaint", async (req, res) => {
+
     try {
-        
+
         console.log("society name:" + societyname)
-        
+
         //this will find the society with name provided
         const result = await societySchema.findOne({ "societyName": societyname })
-            
-            res.render("rwaMemReadComplaint",{
-                list:result.societyComplaints
-            });
-        
-            console.log(result.societyComplaints[0]);
+
+        res.render("rwaMemReadComplaint", {
+            list: result.societyComplaints
+        });
+
+        console.log(result.societyComplaints[0]);
 
     } catch (error) {
         res.status(201).render("rwaMemDashboard");
         console.log("Error in reading Complaints collection:" + err);
     }
-    
+
+});
+
+app.get("/mySocMembers", async (req, res) => {
+
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        res.render("mySocMembers", {
+            list: result.societyMembers
+        });
+
+        console.log(result.societyMembers[0]);
+
+    } catch (error) {
+        res.status(201).render("rwaMemDashboard");
+        console.log("Error in reading Members collection:" + err);
+    }
+
 });
 
 
@@ -512,7 +560,7 @@ app.post("/complaintRegister", async (req, res) => {
     try {
         await societySchema.updateOne(
             { 'societyName': societyname },
-            {   
+            {
                 '$push': {
                     'societyComplaints': {
                         societyMemberName: req.body.socMemName,
@@ -520,12 +568,12 @@ app.post("/complaintRegister", async (req, res) => {
                         complaintSubject: req.body.compSubject,
                         complaintDesc: req.body.compDescription,
                         complaintStatus: "Active"
-                        
+
                     }
                 }
             })
 
-        
+
         res.status(201).render("socMemDashboard");
     } catch (error) {
         res.status(400).send("invalid " + error);
@@ -537,14 +585,14 @@ app.post("/rwaDevelopmentEntries", async (req, res) => {
     try {
         await societySchema.updateOne(
             { 'societyName': societyname },
-            {   
+            {
                 '$push': {
-                    'socDevelopmentSchema': {
+                    'societyDevelopments': {
                         Facility: req.body.Facility,
                         Category: req.body.Category,
                         FacilityDate: req.body.FacilityDate,
                         DevelopmentDesc: req.body.DevelopmentDesc
-                        
+
                     }
                 }
             })
@@ -562,13 +610,13 @@ app.post("/booking", async (req, res) => {
             { 'societyName': societyname },
             {
                 '$push': {
-                    'socReservationSchema': {
-                        
+                    'societyReservations': {
+
                         societyMemberName: req.body.socMemName,
                         reservationFor: req.body.reserve,
                         reservationDate: req.body.resDate,
                         reservationDesc: req.body.resDescription,
-                        reservationStatus: "Requested"      
+                        reservationStatus: "Requested"
                     }
                 }
             })
@@ -645,16 +693,7 @@ app.post("/rwaCreateNotice", async (req, res) => {
                 }
             })
 
-        // try {
-        //     const createNotice = new societyNotice({
-        //         societyName: req.body.socName,
-        //         noticeDate: req.body.noticeDate,
-        //         noticeHeading: req.body.noticeHeading,
-        //         noticeDesc: req.body.noticeDate,
-        //         noticeLink: req.body.noticeLink
-        //     })
 
-        //     const resRegistered = await createNotice.save();
         res.status(201).render("rwaMemberDashBoard");
     } catch (error) {
         res.status(400).send("invalid " + error);
