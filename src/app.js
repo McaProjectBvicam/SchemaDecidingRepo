@@ -11,8 +11,8 @@ dotenv.config({ path: './config.env' });
 const PORT = process.env.PORT || 8000;
 
 //for uploding docs
-const multer=require('multer');
-const upload= multer({dest: 'uploads/'});
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 // //mongo atlas
 const mongoose = require('mongoose');
@@ -84,11 +84,11 @@ hbs.registerPartials(partials_path);
 app.use(cookieParser('secret'));
 // app.use(session({ cookie: { maxAge: null } }))
 
-app.use((req, res, next) => {
-    res.locals.message = req.session.message
-    delete req.session.message
-    next()
-})
+//app.use((req, res, next) => {
+// res.locals.message = req.session.message
+// delete req.session.message
+// next()
+//})
 
 
 app.get("/", (req, res) => {
@@ -151,20 +151,28 @@ app.get("/socMemDashBoard", (req, res) => {
     res.render("socMemDashBoard");
 });
 
-app.get("/socMemReadNotice", (req, res) => {
+app.get("/socMemReadNotice", async (req, res) => {
 
-    //res.render("socMemReadNotice");
+    
 
-    societyNotice.find((err, docs) => {
-        if (!err) {
-            res.render("socMemReadNotice", {
-                list: docs
+    try {
+        
+        console.log("society name:" + societyname)
+        
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+            
+            res.render("socMemReadNotice",{
+                list:result.societyNotices
             });
-        }
-        else {
-            console.log("Error in reading Notice collection:" + err);
-        }
-    });
+        
+            console.log(result.societyNotices[0]);
+
+    } catch (error) {
+        res.status(201).render("socMemDashboard");
+        console.log("Error in reading Notice collection:" + err);
+    }
+           
 
 });
 
@@ -214,18 +222,35 @@ app.get("/socMemReadBooking", (req, res) => {
 });
 
 
-app.get("/socMemReadComplaint", (req, res) => {
-
-    socComplaintReg.find((err, docs) => {
-        if (!err) {
-            res.render("socMemReadComplaint", {
-                list: docs
+app.get("/rwaMemReadComplaint",async (req, res) => {
+    
+    try {
+        
+        console.log("society name:" + societyname)
+        
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+            
+            res.render("rwaMemReadComplaint",{
+                list:result.societyComplaints
             });
-        }
-        else {
-            console.log("Error in reading complaint collection:" + err);
-        }
-    });
+        
+            console.log(result.societyComplaints[0]);
+
+    } catch (error) {
+        res.status(201).render("rwaMemDashboard");
+        console.log("Error in reading Complaints collection:" + err);
+    }
+    // socComplaintReg.find((err, docs) => {
+    //     if (!err) {
+    //         res.render("socMemReadComplaint", {
+    //             list: docs
+    //         });
+    //     }
+    //     else {
+    //         console.log("Error in reading complaint collection:" + err);
+    //     }
+    // });
 
 });
 
@@ -321,7 +346,7 @@ app.post("/rwaRoleFetch", async (req, res) => {
 });
 
 //create a new user in database
-app.post("/socMemRegister", upload.single('idproof'),async (req, res) => {
+app.post("/socMemRegister", upload.single('idproof'), async (req, res) => {
     try {
         console.log(req.file);
         console.log("society:" + societyname);
@@ -399,7 +424,7 @@ app.post("/rwalogin", async (req, res) => {
             }
         }
         if (flag === 1) {
-            res.status(201).render("socMemDashBoard");
+            res.status(201).render("rwaMemberDashBoard");
         }
         else {
             res.send("Invalid Details");
@@ -571,15 +596,31 @@ app.post('/payment', async (req, res) => {
 app.post("/rwaCreateNotice", async (req, res) => {
 
     try {
-        const createNotice = new societyNotice({
-            societyName: req.body.socName,
-            noticeDate: req.body.noticeDate,
-            noticeHeading: req.body.noticeHeading,
-            noticeDesc: req.body.noticeDate,
-            noticeLink: req.body.noticeLink
-        })
+        await societySchema.updateOne(
+            { 'societyName': societyname },
+            {
+                '$push': {
+                    'societyNotices': {
+                        societyName: req.body.socName,
+                        noticeDate: req.body.noticeDate,
+                        noticeHeading: req.body.noticeHeading,
+                        noticeDesc: req.body.noticeDate,
+                        noticeLink: req.body.noticeLink
 
-        const resRegistered = await createNotice.save();
+                    }
+                }
+            })
+
+        // try {
+        //     const createNotice = new societyNotice({
+        //         societyName: req.body.socName,
+        //         noticeDate: req.body.noticeDate,
+        //         noticeHeading: req.body.noticeHeading,
+        //         noticeDesc: req.body.noticeDate,
+        //         noticeLink: req.body.noticeLink
+        //     })
+
+        //     const resRegistered = await createNotice.save();
         res.status(201).render("rwaMemberDashBoard");
     } catch (error) {
         res.status(400).send("invalid " + error);
