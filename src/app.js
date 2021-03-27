@@ -11,8 +11,24 @@ dotenv.config({ path: './config.env' });
 const PORT = process.env.PORT || 8000;
 
 //for uploding docs
+<<<<<<< HEAD
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
+=======
+const multer=require('multer');
+
+
+const storage=multer.diskStorage({
+    destination: function(req,file,cb){
+        cb(null,'./uploads/');
+    },
+    filename: function(req,file,cb){
+        cb(null, Date.now()+file.originalname);
+    }
+})
+const upload= multer({storage: storage});
+
+>>>>>>> 0fb90565ea18911497ce37613d5f5ddf7ff0f572
 
 // //mongo atlas
 const mongoose = require('mongoose');
@@ -507,38 +523,69 @@ app.post('/userpayment', async (req, res) => {
 
 app.post("/complaintRegister", async (req, res) => {
     try {
-        const registerComplaint = new socComplaintReg({
-            societyName: req.body.socName,
-            societyMemberName: req.body.socMemName,
-            complaintSubject: req.body.compSubject,
-            complaintDesc: req.body.compDescription,
-            complaintDate: req.body.compDate,
-            complaintStatus: req.body.compStatus,
+        await societySchema.updateOne(
+            { 'societyName': societyname },
+            {   
+                '$push': {
+                    'societyComplaints': {
+                        societyMemberName: req.body.socMemName,
+                        complaintDate: req.body.compDate,
+                        complaintSubject: req.body.compSubject,
+                        complaintDesc: req.body.compDescription,
+                        complaintStatus: "Active"
+                        
+                    }
+                }
+            })
 
-        })
-
-        const compRegistered = await registerComplaint.save();
+        
         res.status(201).render("socMemDashboard");
     } catch (error) {
         res.status(400).send("invalid " + error);
     }
 
+});
 
+app.post("/rwaDevelopmentEntries", async (req, res) => {
+    try {
+        await societySchema.updateOne(
+            { 'societyName': societyname },
+            {   
+                '$push': {
+                    'socDevelopmentSchema': {
+                        Facility: req.body.Facility,
+                        Category: req.body.Category,
+                        FacilityDate: req.body.FacilityDate,
+                        DevelopmentDesc: req.body.DevelopmentDesc
+                        
+                    }
+                }
+            })
+
+        res.status(201).render("socMemDashboard");
+    } catch (error) {
+        res.status(400).send("invalid " + error);
+    }
 });
 
 app.post("/booking", async (req, res) => {
     try {
-        const registerReservation = new socReservationReg({
-            societyName: req.body.socName,
-            societyMemberName: req.body.socMemName,
-            reservationFor: req.body.reserve,
-            reservationDesc: req.body.resDescription,
-            reservationDate: req.body.resDate,
-            reservationStatus: req.body.resStatus
+        console.log(societyname);
+        await societySchema.updateOne(
+            { 'societyName': societyname },
+            {
+                '$push': {
+                    'socReservationSchema': {
+                        
+                        societyMemberName: req.body.socMemName,
+                        reservationFor: req.body.reserve,
+                        reservationDate: req.body.resDate,
+                        reservationDesc: req.body.resDescription,
+                        reservationStatus: "Requested"      
+                    }
+                }
+            })
 
-        })
-
-        const resRegistered = await registerReservation.save();
         res.status(201).render("socMemDashboard");
     } catch (error) {
         res.status(400).send("invalid " + error);
@@ -627,13 +674,15 @@ app.post("/rwaCreateNotice", async (req, res) => {
     }
 });
 
+
+
+
+
+
 /*
     Here we are configuring our SMTP Server details.
     STMP is mail server which is responsible for sending and recieving email.
 */
-
-
-
 app.get('/send', (req, res) => {
     res.render('send');
 });
@@ -670,20 +719,6 @@ app.post('/send', (req, res) => {
         smtpTransport.close();
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

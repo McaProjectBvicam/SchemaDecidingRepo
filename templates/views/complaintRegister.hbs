@@ -17,23 +17,19 @@
         <div class="row">
             <div class="col-md-10 col-12 mx-auto">
                 <form action="/complaintRegister" method="POST" class="temp_form">
-                    <label for="sname">Society Name:</label>
-                    <input type="text" name="socName" placeholder="Enter Your Society Name" autocomplete="off" required>
-
-                    <label for="name">Name:</label>
+                    
+                    <label for="socMemName">Name:</label>
                     <input type="text" name="socMemName" placeholder="Enter Your Name" autocomplete="off" required>
 
-                    <label for="date">Date:</label>
+                    <label for="compDate">Date:</label>
                     <input type="date" name="compDate" placeholder="" autocomplete="off" required>
 
-                    <label for="subject">Subject:</label>
+                    <label for="compSubject">Subject:</label>
                     <input type="text" name="compSubject" placeholder="Enter Subject" autocomplete="off" required>
 
-                    <label for="description">Description:</label>
-                    <input type="text" name="compDescription" placeholder="Enter description" required>
-
-                    <label for="status">Status:</label>
-                    <input type="text" name="compStatus" placeholder="Enter satus" autocomplete="off" required>
+                    <label for="compDescription">Description:</label>
+                    <textarea name="compDescription" placeholder="Description" autocomplete="off" rows="4",cols="50">  
+                    </textarea>
 
                     <input type="submit" value="Submit">
 
