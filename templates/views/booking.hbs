@@ -2,45 +2,39 @@
 <html lang="en">
 
 <head>
-    {{!--
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="css/style.css"> --}}
-    <title>Booking</title>
+    <title>Complaint</title>
     {{>header}}
 </head>
 
 <body>
-    {{>societynavbar}}
-    <div class="container-fluid main_header">
-        <div class="row">
-            <div class="col-md-10 col-12 mx-auto">
-                <form action="/booking" method="POST" class="temp_form">
-                   
-                    <label for="socMemName">Name:</label>
-                    <input type="text" name="socMemName" placeholder="Enter Your Name" autocomplete="off" required>
-                    
-                    <label for="reserve">Book:</label>
-                    <select name="reserve" required>
-                        <option value="ClubHouse">Club House</option>
-                        <option value="Community Hall">Community Hall</option>
-                        <option value="Garden">Society Garden</option>
-                    </select>
-                    
-                    <label for="resDate">Date: </label>
-                    <input type="date" name="resDate" placeholder="Enter date of booking" required>
-            
-                    <label for="resDescription">Description:</label>
-                    <textarea name="resDescription" placeholder="Description" autocomplete="off" rows="4",cols="50">  
-                    </textarea>
-                    
+    {{>rwanavbar}}
+    <h1>Booking List</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Society Name </th>
+                <th>Society Member Name </th>
+                <th>Reservation for</th>
+                <th>Reservation Date</th>
+                <th>Reservation Description</th>
+                <th>Reservation Status</th>
 
-                    <input type="submit" value="Submit">
-                </form>
-            </div>
-        </div>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each list}}
+            <tr align="center">
+                <td>{{this.societyName}}</td>
+                <td>{{this.societyMemberName}}</td>
+                <td>{{this.reservationFor}}</td>
+                <td>{{this.reservationDate}}</td>
+                <td>{{this.reservationDesc}}</td>
+                <td>{{this.reservationStatus}}</td>
+            </tr>
+            {{/each}}
+
+        </tbody>
+    </table>
     </div>
 
 </body>
