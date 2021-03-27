@@ -13,7 +13,6 @@ const PORT = process.env.PORT || 8000;
 //for uploding docs
 const multer = require('multer');
 //const upload = multer({ dest: 'uploads/' });
-//const multer=require('multer');
 
 
 const storage = multer.diskStorage({
@@ -166,8 +165,6 @@ app.get("/socMemDashBoard", (req, res) => {
 
 app.get("/socMemReadNotice", async (req, res) => {
 
-
-
     try {
 
         console.log("society name:" + societyname)
@@ -183,9 +180,8 @@ app.get("/socMemReadNotice", async (req, res) => {
 
     } catch (error) {
         res.status(201).render("socMemDashboard");
-        console.log("Error in reading Notice collection:" + err);
+        //console.log("Error in reading Notice collection:" + err);
     }
-
 
 });
 
@@ -239,8 +235,6 @@ app.get("/rwaMemReadBooking", async (req, res) => {
         res.status(201).render("rwaMemberDashBoard");
         console.log("Error in reading Reservations collection:" + err);
     }
-
-
 });
 
 
@@ -565,7 +559,6 @@ app.post("/complaintRegister", async (req, res) => {
                         complaintSubject: req.body.compSubject,
                         complaintDesc: req.body.compDescription,
                         complaintStatus: "Active"
-
                     }
                 }
             })
@@ -580,6 +573,7 @@ app.post("/complaintRegister", async (req, res) => {
 
 app.post("/rwaDevelopmentEntries", async (req, res) => {
     try {
+        console.log("Society name is: "+societyname);
         await societySchema.updateOne(
             { 'societyName': societyname },
             {
