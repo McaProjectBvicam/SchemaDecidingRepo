@@ -80,7 +80,7 @@ app.set("views", template_path);
 hbs.registerPartials(partials_path);
 
 app.use(cookieParser('secret'));
-app.use(session({ cookie: { maxAge: null } }))
+// app.use(session({ cookie: { maxAge: null } }))
 
 app.use((req, res, next) => {
     res.locals.message = req.session.message
