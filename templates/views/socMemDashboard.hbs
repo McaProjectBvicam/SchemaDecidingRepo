@@ -26,7 +26,8 @@
 
 
         <div class="header">
-            <h1>Welcome to Society Member DashBoard</h1>
+            <h1>Welcome {{memname}}</h1>
+            <p1>To {{socname}}</p1>
         </div>
         <div class="row">
             <div class="column">
@@ -59,7 +60,7 @@
         <div class="header1">
             <h1>Notice Board</h1>
         </div>
-        <div class="card">
+        <div class="card1">
             <h1>Title</h1>
             <h1>Subject</h1>
             <h1>Description</h1>
@@ -81,7 +82,7 @@
                     <form action="/complaintRegister" method="POST" class="temp_form">
 
                         <label for="socMemName">Name:</label>
-                        <input type="text" name="socMemName" placeholder="Enter Your Name" autocomplete="off" required>
+                        <input type="text" name="socMemName" placeholder="Enter name">
 
                         <label for="compDate">Date:</label>
                         <input type="date" name="compDate" placeholder="" autocomplete="off" required>

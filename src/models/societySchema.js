@@ -159,10 +159,10 @@ const socComplaintSchema = new mongoose.Schema({
         require: true
     },
 
-    // complaintSubject: {
-    //     type: String,
-    //     require: true
-    // },
+    memEmail:{
+        type: String,
+        required:true
+    },
 
     complaintSubject: {
         type: String,
@@ -218,6 +218,11 @@ const socReservationSchema = new mongoose.Schema({
     societyMemberName: {
         type: String,
         require: true
+    },
+
+    memEmail:{
+        type: String,
+        required:true
     },
 
     reservationFor: {

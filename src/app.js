@@ -98,9 +98,9 @@ app.use(cookieParser('secret'));
 app.use(session({ cookie: { maxAge: null } }))
 
 app.use((req, res, next) => {
-res.locals.message = req.session.message
-delete req.session.message
-next()
+    res.locals.message = req.session.message
+    delete req.session.message
+    next()
 })
 
 
@@ -160,7 +160,7 @@ app.get("/socMemDashBoard", (req, res) => {
 });
 
 
-//society membr will read only hi/her reservations
+//society membr will read only his/her reservations
 //dont get confuse by name it is old name not renamed
 app.get("/booking", async (req, res) => {
 
@@ -171,9 +171,17 @@ app.get("/booking", async (req, res) => {
 
         //this will find the society with name provided
         const result = await societySchema.findOne({ "societyName": societyname })
+        var mybookings = [];
+        for (let val of result.societyReservations) {
+
+            if (val.memEmail == userlogin) {
+                mybookings.push(val);
+            }
+        }
 
         res.render("booking", {
-            list: result.societyReservations
+            // list: result.societyReservations
+            list: mybookings
         });
 
         console.log(result.societyReservations[0]);
@@ -198,8 +206,17 @@ app.get("/complaintRegister", async (req, res) => {
         //this will find the society with name provided
         const result = await societySchema.findOne({ "societyName": societyname })
 
+        var mycomplaints = [];
+        for (let val of result.societyComplaints) {
+
+            if (val.memEmail == userlogin) {
+                mycomplaints.push(val);
+            }
+        }
+
         res.render("complaintRegister", {
-            list: result.societyComplaints
+            //  list: result.societyComplaints
+            list: mycomplaints
         });
 
         console.log(result.societyComplaints[0]);
@@ -307,7 +324,8 @@ app.get("/rwaMemReadComplaint", async (req, res) => {
             list: result.societyComplaints
         });
 
-        console.log(result.societyComplaints[0]);
+
+        //   console.log(result.societyComplaints[0]);
 
     } catch (error) {
         res.status(201).render("rwaMemDashboard");
@@ -544,11 +562,13 @@ app.post("/societylogin", async (req, res) => {
 
             if (val.memEmail === email && val.memPassword === password) {
                 flag = 1;
-
             }
         }
         if (flag === 1) {
-            res.status(201).render("socMemDashBoard");
+            res.status(201).render("socMemDashBoard",
+                { socname: societyname, memname: userlogin }
+
+            );
         }
         else {
             res.send("Invalid Details");
@@ -595,7 +615,9 @@ app.post("/complaintRegister", async (req, res) => {
             {
                 '$push': {
                     'societyComplaints': {
+
                         societyMemberName: req.body.socMemName,
+                        memEmail: userlogin,
                         complaintDate: req.body.compDate,
                         complaintSubject: req.body.compSubject,
                         complaintDesc: req.body.compDescription,
@@ -645,6 +667,7 @@ app.post("/booking", async (req, res) => {
                     'societyReservations': {
 
                         societyMemberName: req.body.socMemName,
+                        memEmail: userlogin,
                         reservationFor: req.body.reserve,
                         reservationDate: req.body.resDate,
                         reservationDesc: req.body.resDescription,
