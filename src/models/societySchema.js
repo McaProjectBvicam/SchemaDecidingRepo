@@ -119,7 +119,7 @@ const memberSchema = new mongoose.Schema({
     memEmail: {
         type: String,
         required: true,
-        unique:true
+        
 
     },
     memPassword: {

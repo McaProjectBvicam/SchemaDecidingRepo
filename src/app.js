@@ -2,29 +2,31 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const hbs = require('hbs');
-const bcrypt=require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-dotenv.config({path:'./config.env'});
+dotenv.config({ path: './config.env' });
 //hide port number
 const PORT = process.env.PORT || 8000;
 
-
+//for uploding docs
+const multer=require('multer');
+const upload= multer({dest: 'uploads/'});
 
 // //mongo atlas
-const mongoose= require('mongoose');
+const mongoose = require('mongoose');
 
 const DB = 'mongodb+srv://society:society@cluster0.5atb0.mongodb.net/ProjectSocietyDB?retryWrites=true&w=majority';
 
-mongoose.connect(DB,{
+mongoose.connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify: false
-}).then(()=>{
+}).then(() => {
     console.log(`Connection Successful`);
-}).catch((err)=> console.log(`Error connecting to atlas`));
+}).catch((err) => console.log(`Error connecting to atlas`));
 
 
 //require("./db/conn");
@@ -50,11 +52,11 @@ const REFRESH_TOKEN = "1//04OfhvT8vhbbCCgYIARAAGAQSNwF-L9IrYSXrb-2Pf2KnC8-pCp_Ya
 
 app.set("view engine", "ejs");
 
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
-const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
-oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-const accessToken = oAuth2Client.getAccessToken();
+// const { google } = require("googleapis");
+// const OAuth2 = google.auth.OAuth2;
+// const oAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+// oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+// const accessToken = oAuth2Client.getAccessToken();
 
 //const Register = require("./models/register");
 //const Regsoc = require("./models/RegSoc");
@@ -235,7 +237,7 @@ app.post("/", async (req, res) => {
         const socName = await societySchema.findOne({ societyName: societyName })
 
         if (socName.societyName === societyName) {
-            societyname= societyName;
+            societyname = societyName;
             res.status(201).render("login");
         }
         else {
@@ -310,7 +312,7 @@ app.post("/rwaRoleFetch", async (req, res) => {
             })
 
         // const socregistered = await rwarole.save();
-        res.status(201).render("login");
+        res.status(201).render("socMemRegister");
 
     } catch (error) {
         res.send()
@@ -319,15 +321,16 @@ app.post("/rwaRoleFetch", async (req, res) => {
 });
 
 //create a new user in database
-app.post("/socMemRegister", async (req, res) => {
+app.post("/socMemRegister", upload.single('idproof'),async (req, res) => {
     try {
+        console.log(req.file);
         console.log("society:" + societyname);
         const password = req.body.password;
         const cpassword = req.body.confirmpassword;
 
         if (password === cpassword) {
             await societySchema.updateOne(
-                {'societyName': societyname },
+                { 'societyName': societyname },
                 {
                     '$push': {
                         'societyMembers': {
@@ -349,7 +352,7 @@ app.post("/socMemRegister", async (req, res) => {
                     }
                 })
 
-           // const registered = await registe.save();
+            // const registered = await registe.save();
             // res.status(201).render("societylogin");
             req.session.message = {
                 type: 'success',
@@ -377,34 +380,39 @@ app.post("/rwalogin", async (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
+        userlogin = email;
+        console.log("society name:" + societyname)
+        //this will find the users of the society you are logged in
+        const result = await societySchema.findOne(
 
-        //this will find to whom the entered email belongs to in our mongodb 
-        const rwaemail = await Register.findOne({ email: email })
+            { "societyName": societyname },
+            { _id: 0, 'societyMembers.memEmail': 1, 'societyMembers.memPassword': 1 }
+        );
 
-        //to comapare secured pass in db with the pass user entered while logging in 
-        const isMatch = bcrypt.compare(password, rwaemail.password);
-        console.log(`${rwaemail.password}`);
-        console.log(`HTML: ${password}`);
-        console.log(`isMatch:` + isMatch);
+        var flag = 0;
+        console.log(result.societyMembers[0]);
+        for (let val of result.societyMembers) {
 
-        if (isMatch) {
-            currentUser = email;
+            if (val.memEmail === email && val.memPassword === password) {
+                flag = 1;
 
-            res.status(201).render("rwaMemberDashBoard");
-            //for userpayment and payment
-            userlogin = email;
+            }
+        }
+        if (flag === 1) {
+            res.status(201).render("socMemDashBoard");
         }
         else {
-            res.send('invalid');
+            res.send("Invalid Details");
         }
-    }
-    catch (error) {
+
+    } catch (error) {
         req.session.message = {
+
             type: 'danger',
             intro: 'invalid details',
             message: 'please inter a valid details.'
         }
-        res.redirect('rwalogin');
+        res.redirect('societylogin');
     }
 });
 
@@ -413,36 +421,33 @@ app.post("/societylogin", async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
         userlogin = email;
-        console.log("soc name"+ societyname)
+        console.log("society name:" + societyname)
         //this will find the users of the society you are logged in
-        const result =await societySchema.findOne(
-           
-           {"societyName":societyname},
-        { _id: 0, 'societyMembers.memEmail': 1, 'societyMembers.memPassword': 1}
-          );
-    
-           var flag=0;
-           console.log(result.societyMembers[0]);
-           for(let val of result.societyMembers)
-           {
+        const result = await societySchema.findOne(
 
-               if(val.memEmail===email && val.memPassword===password)
-               {
-                   flag=1;
-                
-               }
+            { "societyName": societyname },
+            { _id: 0, 'societyMembers.memEmail': 1, 'societyMembers.memPassword': 1 }
+        );
+
+        var flag = 0;
+        console.log(result.societyMembers[0]);
+        for (let val of result.societyMembers) {
+
+            if (val.memEmail === email && val.memPassword === password) {
+                flag = 1;
+
             }
-            if(flag===1)
-            {
-                res.status(201).render("socMemDashBoard");
-            }
-            else {
-                res.send("Invalid Details");
-            }
+        }
+        if (flag === 1) {
+            res.status(201).render("socMemDashBoard");
+        }
+        else {
+            res.send("Invalid Details");
+        }
 
     } catch (error) {
         req.session.message = {
-            
+
             type: 'danger',
             intro: 'invalid details',
             message: 'please inter a valid details.'
