@@ -47,7 +47,7 @@ var nodemailer = require("nodemailer");
 //for storing and showing some data 
 var userlogin = "";
 var societyname = "";
-var currentUser = "";
+
 
 const bodyParser = require('body-parser');
 
@@ -105,7 +105,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
     res.locals.message = req.session.message
-     delete req.session.message
+    delete req.session.message
     next()
 })
 app.get("/", (req, res) => {
@@ -253,22 +253,53 @@ app.get("/socMemReadNotice", async (req, res) => {
 
 });
 
-app.get("/myprofile", (req, res) => {
+app.get("/myprofile", async (req, res) => {
 
+    try {
 
-    societySchema.find({ memEmail: currentUser }, (err, docs) => {
-       if (!err) {
-            res.render("myprofile", {
-                user: docs[0]
-            });
-            console.log(docs[0])
+        console.log("society name:" + societyname)
+        //this will find the users of the society you are logged in
+        const result = await societySchema.findOne({ "societyName": societyname });
+
+        var flag = 0;
+        var currentUser;
+        // console.log(result.societyMembers[0]);
+        for (let val of result.societyMembers) {
+
+            if (val.memEmail === userlogin) {
+                flag = 1;
+                currentUser = val;
+            }
+        }
+        if (flag === 1) {
+            res.status(201).render("myprofile",
+                { user: currentUser }
+
+            );
         }
         else {
-            console.log("Error in reading Notice collection:" + err);
+            res.send("Invalid Details");
         }
-   });
 
-    
+    } catch (error) {
+
+        res.redirect('socMemDashboard');
+    }
+
+
+    //     societySchema.find({ memEmail: currentUser }, (err, docs) => {
+    //        if (!err) {
+    //             res.render("myprofile", {
+    //                 user: docs[0]
+    //             });
+    //             console.log(docs[0])
+    //         }
+    //         else {
+    //             console.log("Error in reading Notice collection:" + err);
+    //         }
+    //    });
+
+
 });
 
 app.get("/socMemReadDevelopment", async (req, res) => {
@@ -392,14 +423,14 @@ app.post("/Regsoc", async (req, res) => {
 
             societyAddress: {
                 street: req.body.street,
-                district:req.body.district,
+                district: req.body.district,
                 city: req.body.city,
                 state: req.body.state,
-                societyCountry:req.body.country,
-                pincode:req.body.pincode
+                societyCountry: req.body.country,
+                pincode: req.body.pincode
             },
 
-            
+
             societyContact: req.body.phone,
             // presEmail: req.body.email,
             socNickName: req.body.socNickName,
@@ -645,7 +676,7 @@ app.post("/complaintRegister", async (req, res) => {
 
 app.post("/rwaDevelopmentEntries", async (req, res) => {
     try {
-        console.log("Society name is: "+societyname);
+        console.log("Society name is: " + societyname);
         await societySchema.updateOne(
             { 'societyName': societyname },
             {
