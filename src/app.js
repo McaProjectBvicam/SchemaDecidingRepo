@@ -13,7 +13,6 @@ const PORT = process.env.PORT || 8000;
 //for uploding docs
 const multer = require('multer');
 //const upload = multer({ dest: 'uploads/' });
-//const multer=require('multer');
 
 
 const storage = multer.diskStorage({
@@ -98,9 +97,9 @@ app.use(cookieParser('secret'));
 app.use(session({ cookie: { maxAge: null } }))
 
 app.use((req, res, next) => {
-res.locals.message = req.session.message
-delete req.session.message
-next()
+    res.locals.message = req.session.message
+    delete req.session.message
+    next()
 })
 
 
@@ -165,7 +164,7 @@ app.get("/socMemDashBoard", (req, res) => {
 });
 
 
-//society membr will read only hi/her reservations
+//society membr will read only his/her reservations
 //dont get confuse by name it is old name not renamed
 app.get("/booking", async (req, res) => {
 
@@ -176,9 +175,17 @@ app.get("/booking", async (req, res) => {
 
         //this will find the society with name provided
         const result = await societySchema.findOne({ "societyName": societyname })
+        var mybookings = [];
+        for (let val of result.societyReservations) {
+
+            if (val.memEmail == userlogin) {
+                mybookings.push(val);
+            }
+        }
 
         res.render("booking", {
-            list: result.societyReservations
+            // list: result.societyReservations
+            list: mybookings
         });
 
         console.log(result.societyReservations[0]);
@@ -203,8 +210,17 @@ app.get("/complaintRegister", async (req, res) => {
         //this will find the society with name provided
         const result = await societySchema.findOne({ "societyName": societyname })
 
+        var mycomplaints = [];
+        for (let val of result.societyComplaints) {
+
+            if (val.memEmail == userlogin) {
+                mycomplaints.push(val);
+            }
+        }
+
         res.render("complaintRegister", {
-            list: result.societyComplaints
+            //  list: result.societyComplaints
+            list: mycomplaints
         });
 
         console.log(result.societyComplaints[0]);
@@ -232,9 +248,8 @@ app.get("/socMemReadNotice", async (req, res) => {
 
     } catch (error) {
         res.status(201).render("socMemDashboard");
-        console.log("Error in reading Notice collection:" + err);;
+        //console.log("Error in reading Notice collection:" + err);
     }
-
 
 });
 
@@ -256,21 +271,25 @@ app.get("/myprofile", (req, res) => {
     
 });
 
+app.get("/socMemReadDevelopment", async (req, res) => {
 
+    try {
 
+        console.log("society name:" + societyname)
 
-app.get("/socMemReadDevelopment", (req, res) => {
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
 
-    societyDevelopment.find((err, docs) => {
-        if (!err) {
-            res.render("socMemReadDevelopment", {
-                list: docs
-            });
-        }
-        else {
-            console.log("Error in reading Development collection:" + err);
-        }
-    });
+        res.render("socMemReadDevelopment", {
+            list: result.societyDevelopments
+        });
+
+        console.log(result.societyDevelopments[0]);
+
+    } catch (error) {
+        res.status(201).render("socMemDashboard");
+        //console.log("Error in reading Reservations collection:" + err);
+    }
 });
 
 app.get("/rwaMemReadBooking", async (req, res) => {
@@ -292,8 +311,6 @@ app.get("/rwaMemReadBooking", async (req, res) => {
         res.status(201).render("rwaMemberDashBoard");
         console.log("Error in reading Reservations collection:" + err);
     }
-
-
 });
 
 
@@ -313,7 +330,8 @@ app.get("/rwaMemReadComplaint", async (req, res) => {
             list: result.societyComplaints
         });
 
-        console.log(result.societyComplaints[0]);
+
+        //   console.log(result.societyComplaints[0]);
 
     } catch (error) {
         res.status(201).render("rwaMemDashboard");
@@ -373,12 +391,15 @@ app.post("/Regsoc", async (req, res) => {
             // presidentName: req.body.presname,
 
             societyAddress: {
-                locality: req.body.locality,
+                street: req.body.street,
+                district:req.body.district,
                 city: req.body.city,
-                state: req.body.state
+                state: req.body.state,
+                societyCountry:req.body.country,
+                pincode:req.body.pincode
             },
 
-            societyCountry: req.body.country,
+            
             societyContact: req.body.phone,
             // presEmail: req.body.email,
             socNickName: req.body.socNickName,
@@ -550,11 +571,13 @@ app.post("/societylogin", async (req, res) => {
 
             if (val.memEmail === email && val.memPassword === password) {
                 flag = 1;
-
             }
         }
         if (flag === 1) {
-            res.status(201).render("socMemDashBoard");
+            res.status(201).render("socMemDashBoard",
+                { socname: societyname, memname: userlogin }
+
+            );
         }
         else {
             res.send("Invalid Details");
@@ -601,12 +624,13 @@ app.post("/complaintRegister", async (req, res) => {
             {
                 '$push': {
                     'societyComplaints': {
+
                         societyMemberName: req.body.socMemName,
+                        memEmail: userlogin,
                         complaintDate: req.body.compDate,
                         complaintSubject: req.body.compSubject,
                         complaintDesc: req.body.compDescription,
                         complaintStatus: "Active"
-
                     }
                 }
             })
@@ -621,6 +645,7 @@ app.post("/complaintRegister", async (req, res) => {
 
 app.post("/rwaDevelopmentEntries", async (req, res) => {
     try {
+        console.log("Society name is: "+societyname);
         await societySchema.updateOne(
             { 'societyName': societyname },
             {
@@ -635,7 +660,7 @@ app.post("/rwaDevelopmentEntries", async (req, res) => {
                 }
             })
 
-        res.status(201).render("socMemDashboard");
+        res.status(201).render("rwaMemberDashBoard");
     } catch (error) {
         res.status(400).send("invalid " + error);
     }
@@ -651,6 +676,7 @@ app.post("/booking", async (req, res) => {
                     'societyReservations': {
 
                         societyMemberName: req.body.socMemName,
+                        memEmail: userlogin,
                         reservationFor: req.body.reserve,
                         reservationDate: req.body.resDate,
                         reservationDesc: req.body.resDescription,
@@ -682,11 +708,11 @@ app.post('/payment', async (req, res) => {
         })
         //console.log("hello");
         const charge = await stripe.charges.create({
-            amount: 1000,
+            amount: 300,
             description: 'Web Development Product',
             currency: 'INR',
             customer: customer.id
-        })
+        });
         //console.log("i am before if");
         //console.log(charge.amount);
         const ab = await charge.amount;

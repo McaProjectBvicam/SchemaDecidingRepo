@@ -5,33 +5,35 @@
     <title>Complaint</title>
     {{>header}}
 </head>
+
 <body>
     {{>rwanavbar}}
     <h1>Complaint List</h1>
-  <table class="table table-striped">
+    <table class="table table-striped">
         <thead>
             <tr>
-                 <th>society Name </th>
-    <th>society Member Name   </th>
-    <th>complaint Subject </th>
-    <th>complaint Description </th>
-    <th>complaintDate</th>
-    <th>complaintStatus</th>
-               
+                <th>society Member Name</th>
+                <th>Member Email </th>
+                <th>complaint Subject </th>
+                <th>complaint Description </th>
+                <th>complaintDate</th>
+                <th>complaintStatus</th>
+
             </tr>
         </thead>
         <tbody>
-             {{#each list}}
-        <tr align="center">
-        <td>{{this.societyName}}</td>
-        <td>{{this.societyMemberName}}</td>
-        <td>{{this.complaintSubject}}</td>
-        <td>{{this.complaintDesc}}</td>
-        <td>{{this.complaintDate}}</td>
-        <td>{{this.complaintStatus}}</td>
-    </tr>
-{{/each}}
-            
+            {{#each list}}
+            <tr align="center">
+                {{!-- <td>{{this.societyName}}</td> --}}
+                <td>{{this.societyMemberName}}</td>
+                <td>{{this.memEmail}}</td>
+                <td>{{this.complaintSubject}}</td>
+                <td>{{this.complaintDesc}}</td>
+                <td>{{this.complaintDate}}</td>
+                <td>{{this.complaintStatus}}</td>
+            </tr>
+            {{/each}}
+
         </tbody>
     </table>
     </div>
@@ -39,7 +41,3 @@
 </body>
 
 </html>
-
-
-
-
