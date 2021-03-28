@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+	   
+				   
+				   
+				   
+				   <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,39 +10,90 @@
     <title>Society Maintenance Tracker</title>
     <style>
         .hero-image {
-            background-image: url("images/image2.jpg");
-            
-            height: 800px;
+            background-image: url("images/image2.1.jpg");
+           
             background-position: center;
             background-repeat: no-repeat;
-            background-size: cover;
+         
             position: relative;
+            width:100%;
+	height:100%;
+    background-size:cover;
+	display:flex;
+	
+	
         }
         .hero-text {
             text-align: center;
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
+            top: 40%;
+            left: 40%;
+            transform: translate(-30%, -50%);
+            color: rgb(12, 11, 11);
         }
+        .container {
+  display: flex;
+  width: 400px;
+  padding: 0px;
+  padding-left: 20px;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  background-color: #fbfeff;
+  border-radius: 50px;
+  border: 3px solid #030303;
+}
+
+input {
+  width: 100%;
+  height: 14px;
+  background: none;
+  border: 0;
+  padding: 0;
+  outline: none;
+}
+
+button {
+  height: 35px;
+  width: 150px;
+  background-color: #050505;
+  color: #e6eff5;
+  text-transform: uppercase;
+  border-style: none;
+  border-radius: 50px;
+  cursor: pointer;
+  outline: none;
+  font-size: large;
+}
+input[type="text"]
+{
+    font-size:18px;
+}
+       
     </style>
 </head>
 
 <body>
     {{>HomePageNavbar}}
             <div class="hero-image">
-            <div class="hero-text">
-                <h1 class="text-light text-capatalize display-4">Welcome To Society Maintenance Tracker </h1>
-                    <form action="/" method="POST">
-                    <label style="font-size:20px" for="socname">Enter your Society Name: </label>
-                    <input name="socname" type="text" class="bg-light rounded" placeholder="Enter Your Society Name">
+            <div class="hero-text"><br>
+                <h1  style="font-size:40px" >𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐓𝐨,</h1>
+                    <h1 style="font-size:40px"> 𝐒𝐨𝐜𝐢𝐞𝐭𝐲 𝐌𝐚𝐢𝐧𝐭𝐞𝐧𝐚𝐧𝐜𝐞 𝐓𝐫𝐚𝐜𝐤𝐞𝐫 </h1><br>
+                     <form action="/" method="POST">
+                    <h1 style="color:rgb(106, 29, 29);"  for="socname">𝐄𝐧𝐭𝐞𝐫 𝐘𝐨𝐮𝐫 𝐒𝐨𝐜𝐢𝐞𝐭𝐲 𝐍𝐚𝐦𝐞 </h1>
+                   <br>
+
+                    <div class="container">
+                        <input name="socname" type="text"placeholder="Enter Your Society Name" >
+                                 <button >Submit</button>
+                             </div>
                     
-                    <input value="submit" type="submit" class="btn btn-dark btn-lg" >
-                    
-                    </form>
-                    <a href="/Regsoc" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Register Your Society Here</a>
-            </div>
+                   </form>
+				   
+                    <br>
+                    <a href="/Regsoc" class="btn btn-info  btn-lg" role="button" aria-pressed="true" style="font-size:17px;">Register Your Society Here</a>
+                  
+     </div>
         </div>
     
 </body>

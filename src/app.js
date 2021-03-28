@@ -103,6 +103,11 @@ app.use((req, res, next) => {
 })
 
 
+app.use((req, res, next) => {
+    res.locals.message = req.session.message
+     delete req.session.message
+    next()
+})
 app.get("/", (req, res) => {
     res.render("index");
 });
@@ -228,7 +233,6 @@ app.get("/complaintRegister", async (req, res) => {
 });
 
 app.get("/socMemReadNotice", async (req, res) => {
-
     try {
 
         console.log("society name:" + societyname)
@@ -252,18 +256,19 @@ app.get("/socMemReadNotice", async (req, res) => {
 app.get("/myprofile", (req, res) => {
 
 
-    register.find({ email: currentUser }, (err, docs) => {
-        if (!err) {
+    societySchema.find({ memEmail: currentUser }, (err, docs) => {
+       if (!err) {
             res.render("myprofile", {
                 user: docs[0]
             });
+            console.log(docs[0])
         }
         else {
             console.log("Error in reading Notice collection:" + err);
         }
-    });
+   });
 
-    // res.render("myprofile");
+    
 });
 
 app.get("/socMemReadDevelopment", async (req, res) => {
@@ -543,7 +548,7 @@ app.post("/rwalogin", async (req, res) => {
             intro: 'invalid details',
             message: 'please inter a valid details.'
         }
-        res.redirect('societylogin');
+        res.redirect('socMemDashBoard');
     }
 });
 
@@ -707,7 +712,7 @@ app.post('/payment', async (req, res) => {
             description: 'Web Development Product',
             currency: 'INR',
             customer: customer.id
-        })
+        });
         //console.log("i am before if");
         //console.log(charge.amount);
         const ab = await charge.amount;
