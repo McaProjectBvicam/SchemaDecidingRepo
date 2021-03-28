@@ -95,7 +95,14 @@ app.set("views", template_path);
 hbs.registerPartials(partials_path);
 
 app.use(cookieParser('secret'));
- app.use(session({ cookie: { maxAge: null } }))
+app.use(session({ cookie: { maxAge: null } }))
+
+app.use((req, res, next) => {
+res.locals.message = req.session.message
+delete req.session.message
+next()
+})
+
 
 app.use((req, res, next) => {
     res.locals.message = req.session.message
@@ -126,9 +133,7 @@ app.get("/societylogin", (req, res) => {
 app.get("/userpayment", (req, res) => {
     res.render("userpayment");
 });
-app.get("/complaintRegister", (req, res) => {
-    res.render("complaintRegister");
-});
+
 
 app.get("/rwaCreateNotice", (req, res) => {
     res.render("rwaCreateNotice");
@@ -138,9 +143,6 @@ app.get("/rwaDevelopmentEntries", (req, res) => {
     res.render("rwaDevelopmentEntries");
 });
 
-app.get("/booking", (req, res) => {
-    res.render("booking");
-});
 
 app.get("/socMemRegister", (req, res) => {
     res.render("socMemRegister");
@@ -160,6 +162,58 @@ app.get("/rwaMemberDashBoard", (req, res) => {
 });
 app.get("/socMemDashBoard", (req, res) => {
     res.render("socMemDashBoard");
+});
+
+
+//society membr will read only hi/her reservations
+//dont get confuse by name it is old name not renamed
+app.get("/booking", async (req, res) => {
+
+
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        res.render("booking", {
+            list: result.societyReservations
+        });
+
+        console.log(result.societyReservations[0]);
+
+    } catch (error) {
+        res.status(201).render("socMemDashboard");
+        console.log("Error in reading Reservations collection:" + err);
+    }
+
+    //  res.render("booking");
+});
+
+
+
+//society membr will read only hi/her complaints
+//dont get confuse by name it is old name not renamed
+app.get("/complaintRegister", async (req, res) => {
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        res.render("complaintRegister", {
+            list: result.societyComplaints
+        });
+
+        console.log(result.societyComplaints[0]);
+
+    } catch (error) {
+        res.status(201).render("socMemDashboard");
+        console.log("Error in reading Notice collection:" + err);
+    }
+    //res.render("complaintRegister");
 });
 
 app.get("/socMemReadNotice", async (req, res) => {
@@ -221,8 +275,6 @@ app.get("/socMemReadDevelopment", (req, res) => {
 
 app.get("/rwaMemReadBooking", async (req, res) => {
 
-
-
     try {
 
         console.log("society name:" + societyname)
@@ -245,19 +297,7 @@ app.get("/rwaMemReadBooking", async (req, res) => {
 });
 
 
-// app.get("/socMemReadBooking", (req, res) => {
 
-//     socReservationReg.find((err, docs) => {
-//         if (!err) {
-//             res.render("socMemReadBooking", {
-//                 list: docs
-//             });
-//         }
-//         else {
-//             console.log("Error in reading Development collection:" + err);
-//         }
-//     });
-// });
 
 
 app.get("/rwaMemReadComplaint", async (req, res) => {
@@ -414,7 +454,7 @@ app.post("/socMemRegister", upload.single('idproof'), async (req, res) => {
                             memName: req.body.name,
                             memHouseNum: req.body.hnumber,
                             memFloorNum: req.body.fnumber,
-                            familymemcount: req.body.familymemcount,
+                            familyMemCount: req.body.familymemcount,
                             owner: req.body.owner,
                             role: "Member",
                             memDOB: req.body.dob,
@@ -551,9 +591,8 @@ app.post('/userpayment', async (req, res) => {
             db.close();
         });
     });
-
-
 });
+
 
 app.post("/complaintRegister", async (req, res) => {
     try {
@@ -698,10 +737,6 @@ app.post("/rwaCreateNotice", async (req, res) => {
         res.status(400).send("invalid " + error);
     }
 });
-
-
-
-
 
 
 /*

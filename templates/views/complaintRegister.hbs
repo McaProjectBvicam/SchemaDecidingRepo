@@ -2,42 +2,44 @@
 <html lang="en">
 
 <head>
-    {{!--
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complaint Box</title>
-    <link rel="stylesheet" href="css/style.css"> --}}
+    <title>Complaint</title>
     {{>header}}
 </head>
-
 <body>
-    {{>societynavbar}}
-    <div class="container-fluid main_header">
-        <div class="row">
-            <div class="col-md-10 col-12 mx-auto">
-                <form action="/complaintRegister" method="POST" class="temp_form">
-                    
-                    <label for="socMemName">Name:</label>
-                    <input type="text" name="socMemName" placeholder="Enter Your Name" autocomplete="off" required>
-
-                    <label for="compDate">Date:</label>
-                    <input type="date" name="compDate" placeholder="" autocomplete="off" required>
-
-                    <label for="compSubject">Subject:</label>
-                    <input type="text" name="compSubject" placeholder="Enter Subject" autocomplete="off" required>
-
-                    <label for="compDescription">Description:</label>
-                    <textarea name="compDescription" placeholder="Description" autocomplete="off" rows="4",cols="50">  
-                    </textarea>
-
-                    <input type="submit" value="Submit">
-
-                </form>
-            </div>
-        </div>
+    {{>rwanavbar}}
+    <h1>Complaint List</h1>
+  <table class="table table-striped">
+        <thead>
+            <tr>
+                 <th>society Name </th>
+    <th>society Member Name   </th>
+    <th>complaint Subject </th>
+    <th>complaint Description </th>
+    <th>complaintDate</th>
+    <th>complaintStatus</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+             {{#each list}}
+        <tr align="center">
+        <td>{{this.societyName}}</td>
+        <td>{{this.societyMemberName}}</td>
+        <td>{{this.complaintSubject}}</td>
+        <td>{{this.complaintDesc}}</td>
+        <td>{{this.complaintDate}}</td>
+        <td>{{this.complaintStatus}}</td>
+    </tr>
+{{/each}}
+            
+        </tbody>
+    </table>
     </div>
 
 </body>
 
 </html>
+
+
+
+
