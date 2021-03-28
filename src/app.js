@@ -266,18 +266,25 @@ app.get("/myprofile", (req, res) => {
     // res.render("myprofile");
 });
 
-app.get("/socMemReadDevelopment", (req, res) => {
+app.get("/socMemReadDevelopment", async (req, res) => {
 
-    societyDevelopment.find((err, docs) => {
-        if (!err) {
-            res.render("socMemReadDevelopment", {
-                list: docs
-            });
-        }
-        else {
-            console.log("Error in reading Development collection:" + err);
-        }
-    });
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        res.render("socMemReadDevelopment", {
+            list: result.societyDevelopments
+        });
+
+        console.log(result.societyDevelopments[0]);
+
+    } catch (error) {
+        res.status(201).render("socMemDashboard");
+        //console.log("Error in reading Reservations collection:" + err);
+    }
 });
 
 app.get("/rwaMemReadBooking", async (req, res) => {
@@ -379,12 +386,15 @@ app.post("/Regsoc", async (req, res) => {
             // presidentName: req.body.presname,
 
             societyAddress: {
-                locality: req.body.locality,
+                street: req.body.street,
+                district:req.body.district,
                 city: req.body.city,
-                state: req.body.state
+                state: req.body.state,
+                societyCountry:req.body.country,
+                pincode:req.body.pincode
             },
 
-            societyCountry: req.body.country,
+            
             societyContact: req.body.phone,
             // presEmail: req.body.email,
             socNickName: req.body.socNickName,
@@ -645,7 +655,7 @@ app.post("/rwaDevelopmentEntries", async (req, res) => {
                 }
             })
 
-        res.status(201).render("socMemDashboard");
+        res.status(201).render("rwaMemberDashBoard");
     } catch (error) {
         res.status(400).send("invalid " + error);
     }
@@ -693,7 +703,7 @@ app.post('/payment', async (req, res) => {
         })
         //console.log("hello");
         const charge = await stripe.charges.create({
-            amount: 1000,
+            amount: 300,
             description: 'Web Development Product',
             currency: 'INR',
             customer: customer.id

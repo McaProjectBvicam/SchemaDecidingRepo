@@ -24,9 +24,13 @@ const socDevelopmentSchema = new mongoose.Schema({
 
 const addressSchema = new mongoose.Schema({
 
-    locality: {
+    street: {
         type: String,
         required: true
+    },
+    district:{
+        type:String,
+        required:true
     },
 
     city: {
@@ -38,8 +42,15 @@ const addressSchema = new mongoose.Schema({
         type: String,
         required: true
 
+    },
+    societyCountry: {
+        type: String,
+        required: true
+    },
+    pincode:{
+        type:Number,
+        required:true
     }
-
 })
 
 const rwaSchema = new mongoose.Schema({
@@ -127,7 +138,7 @@ const memberSchema = new mongoose.Schema({
     },
     cpassword: {
         type: String,
-        //required: true
+        required: true
     }
     // addproof:{
     //     type:Image,
@@ -257,10 +268,10 @@ const SocietySchema = new mongoose.Schema({
         type: addressSchema
     },
 
-    societyCountry: {
-        type: String,
-        required: true
-    },
+    // societyCountry: {
+    //     type: String,
+    //     required: true
+    // },
 
     societyContact: {
         type: Number,
