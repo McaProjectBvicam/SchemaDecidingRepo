@@ -5,7 +5,7 @@
     <title>Society Maintenance Tracker</title>
     <style>
      .hero-image {
-            background-image: url("images/logo2.png");
+            background-image: url("images/image2.1.jpg");
            
             background-position: center;
             background-repeat: no-repeat;
@@ -18,25 +18,75 @@
 	
 	
         }
-      
+        .hero-text {
+            text-align: center;
+            position: absolute;
+            top: 90px;
+            left: 20%;
+          
+            transform: translate(-30%, -50%);
+            color: rgb(12, 11, 11);
+        }
+        .main_content h1{
+         font-size: 40px ;
+
+        }
+        .home
+{
+	font-family:"proxima nova";
+	font-weight:100;
+	font-size:20px;
+	text-align:center;
+	border:4px solid #080808;
+	border-radius:30px;
+	padding:10px 80px;
+	-webkit-transition-duration:200ms;
+	transition-duration:200ms
+	
+}
+
+.home:hover
+{
+	background-color:#31A6FF;
+	color:rgb(15, 14, 14);
+}
+.reg
+{
+	font-family:"proxima nova";
+	font-weight:100;
+	font-size:20px;
+	text-align:center;
+	border:4px solid #0e0e0f;
+	border-radius:30px;
+	padding:10px 60px;
+	background-color:#f5fdf7;
+	
+}
+	
+.reg:hover
+{
+	background-color:#31A6FF;
+	color:rgb(255, 255, 255);
+}
+        
         </style>
 </head>
 <body>
     {{>navbar}}
        <div class="hero-image">
+             <div class="hero-text">
     <div class="container-fluid main_header">
-        <div class="row">
-            <div class="col-md-10 col-12 mx-auto">
-              
                <div class="main_content">
-                   <h1> Login as </h1>
-                   <a href="/rwalogin" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">RWA Member</a>
-                   <a href="/societylogin" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Society Member</a>
+                 <h1 >𝐋𝐨𝐠𝐢𝐧 𝐀𝐬</h1>
+               
+                <a href="/rwalogin" class="home">RWA  Member</a><br><br>
+                 <a href="/societylogin" class="home">Society Member</a><br><br>
+                 <a href="/socMemberReegister" class="reg">Register yourself here</a><br>
                    
-                   <a href="/socMemRegister" class="btn btn-primary" role="button" aria-pressed="true">Register yourself here</a>
-               </div>
-            </div>
+                
+            
         </div>
+    </div>
     </div>
     </div>
 {{>footer}}
