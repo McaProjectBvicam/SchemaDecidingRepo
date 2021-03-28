@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+	   
+				   
+				   
+				   
+				   <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -50,7 +54,7 @@ input {
 }
 
 button {
-  height: 34px;
+  height: 35px;
   width: 150px;
   background-color: #050505;
   color: #e6eff5;
@@ -61,6 +65,10 @@ button {
   outline: none;
   font-size: large;
 }
+input[type="text"]
+{
+    font-size:18px;
+}
        
     </style>
 </head>
@@ -68,19 +76,22 @@ button {
 <body>
     {{>HomePageNavbar}}
             <div class="hero-image">
-            <div class="hero-text">
+            <div class="hero-text"><br>
                 <h1  style="font-size:40px" >𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐓𝐨,</h1>
                     <h1 style="font-size:40px"> 𝐒𝐨𝐜𝐢𝐞𝐭𝐲 𝐌𝐚𝐢𝐧𝐭𝐞𝐧𝐚𝐧𝐜𝐞 𝐓𝐫𝐚𝐜𝐤𝐞𝐫 </h1><br>
-                    <form action="/" method="POST">
+                     <form action="/" method="POST">
                     <h1 style="color:rgb(106, 29, 29);"  for="socname">𝐄𝐧𝐭𝐞𝐫 𝐘𝐨𝐮𝐫 𝐒𝐨𝐜𝐢𝐞𝐭𝐲 𝐍𝐚𝐦𝐞 </h1>
                    <br>
+
                     <div class="container">
                         <input name="socname" type="text"placeholder="Enter Your Society Name" >
-                                 <button>Submit</button>
+                                 <button >Submit</button>
                              </div>
                     
-                    </form><br>
-                    <a href="/Regsoc" class="btn btn-info  btn-lg active" role="button" aria-pressed="true" style="font-size:17px;">Register Your Society Here</a>
+                   </form>
+				   
+                    <br>
+                    <a href="/Regsoc" class="btn btn-info  btn-lg" role="button" aria-pressed="true" style="font-size:17px;">Register Your Society Here</a>
                   
      </div>
         </div>
