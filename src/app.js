@@ -829,7 +829,7 @@ app.post('/send', (req, res) => {
         authOptional: true
     });
     const mailOptions = {
-        from: "nishthasharma1014@gmail.com",
+        from: "societymaintenancetracker@gmail.com",
         to: req.body.to,
         subject: req.body.subject,
         text: req.body.content,
