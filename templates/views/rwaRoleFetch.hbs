@@ -15,81 +15,73 @@
         <div class="row">
             <div class="col-md-10 col-12 mx-auto">
                 <form action="/rwaRoleFetch" method="POST" class="temp_form">
-                    <h2 class="text-center display-4">Register Your Team </h2>
+                    <h2 class="text-center display-4">Register Yourself </h2>
                     <label for="rRole1">Select your Role:</label>
                     <select name="rRole1" autofocus>
                         <option value="Select">Select your Role</option>
                         <option value="President">President</option>
                         {{!-- <option value="Chairman">Chairman</option> --}}
                         {{!-- <option value="Vice President">Vice President</option> --}}
-                        <option value="Secretary">Secretary</option>
+                        {{!-- <option value="Secretary">Secretary</option> --}}
                         {{!-- <option value="Cashier">Cashier</option> --}}
                     </select>
-                    <label for="rName1">Name:</label>
-                    <input type="text" name="rName1" placeholder="Enter Your Name" autocomplete="off" required>
+                       <label for="rName1">Name:</label>
+                       <input type="text" name="rName1" placeholder="Enter Your Name" autocomplete="off" required>
 
-                    <label for="rEmail1">Email:</label>
-                    <input type="email" name="rEmail1" placeholder="Enter your Email" autocomplete="off" required>
-                    {{!-- Role 2 --}}
-                    <label for="rRole2">Select your Role:</label>
-                    <select name="rRole2">
-                        <option value="Select">Select your Role</option>
-                        <option value="President">President</option>
-                        {{!-- <option value="Chairman">Chairman</option>
-                        <option value="Vice President">Vice President</option> --}}
-                        <option value="Secretary">Secretary</option>
-                        {{!-- <option value="Cashier">Cashier</option> --}}
-                    </select>
-                    <label for="rName2">Name:</label>
-                    <input type="text" name="rName2" placeholder="Enter Your Name" autocomplete="off" required>
+                    
+                    
+                      <label for="hnumber"> House Number:</label>
+                        <input type="Number" name="hnumber" min="1" placeholder="Enter Your House Number" autocomplete="off"
+                            required>
 
-                    <label for="rEmail2">Email:</label>
-                    <input type="email" name="rEmail2" placeholder="Enter your Email" autocomplete="off" required>
+                        <label for="familymemcount">No Of Family Member</label>
+                        <input type="Number" name="familymemcount" placeholder="Enter Number of Family Member" autocomplete="off"
+                            min="0" required>
 
-                    {{!-- <label for="rRole3">Select your Role:</label>
-                        <select name="rRole3">
-                            <option value="Select">Select your Role</option>
-                            <option value="President">President</option>
-                            <option value="Chairman">Chairman</option>
-                            <option value="Vice President">Vice President</option>
-                            <option value="Secretary">Secretary</option>
-                            <option value="Cashier">Cashier</option>
+                        <label for="fnumber">Floor Number:</label>
+                        <select name="fnumber" required>
+                            <option value="Ground">Ground</option>
+                            <option value="First">First</option>
+                            <option value="Second">Second</option>
+                            <option value="Third">Third</option>
                         </select>
-                        <label for="rName3">Name:</label>
-                        <input type="text" name="rName3" placeholder="Enter Your Name" autocomplete="off" required>
 
-                        <label for="rEmail3">Email:</label>
-                        <input type="email" name="rEmail3" placeholder="Enter your Email" autocomplete="off" required>
+                        
+                        <label for="owner">Type of Ownership:</label>
 
-                        <label for="rRole4">Select your Role:</label>
-                        <select name="rRole4">
-                            <option value="Select">Select your Role</option>
-                            <option value="President">President</option>
-                            <option value="Chairman">Chairman</option>
-                            <option value="Vice President">Vice President</option>
-                            <option value="Secretary">Secretary</option>
-                            <option value="Cashier">Cashier</option>
-                        </select>
-                        <label for="rName4">Name:</label>
-                        <input type="text" name="rName4" placeholder="Enter Your Name" autocomplete="off" required>
+                        <label for="owner">Owner<input type="radio" name="owner"></label>
+                        <label for="owner">Tenant<input type="radio" name="owner"></label>
 
-                        <label for="rEmail4">Email:</label>
-                        <input type="email" name="rEmail4" placeholder="Enter your Email" autocomplete="off" required>  
-                
-                        <label for="rRole5">Select your Role:</label>
-                        <select name="rRole5">
-                            <option value="Select">Select your Role</option>
-                            <option value="President">President</option>
-                            <option value="Chairman">Chairman</option>
-                            <option value="Vice President">Vice President</option>
-                            <option value="Secretary">Secretary</option>
-                            <option value="Cashier">Cashier</option>
-                        </select>
-                        <label for="rName5">Name:</label>
-                        <input type="text" name="rName5" placeholder="Enter Your Name" autocomplete="off" required>
+                        <label for="dob">Enter Your Dob:</label>
+                        <input type="date" name="dob" autocomplete="off" required>
 
-                        <label for="rEmail5">Email:</label>
-                        <input type="email" name="rEmail5" placeholder="Enter your Email" autocomplete="off" required> --}}
+                        <label for="phone">Enter your phone number:</label>
+                        <input type="tel" name="phone" minlength="10" maxlength="10" placeholder="Enter your Mobile Number" pattern="[7-9]{1}[0-9]{9}" required >
+
+
+                        <label for="rEmail1">Email:</label>
+                        <input type="email" name="rEmail1" placeholder="Enter your Email" autocomplete="off" required>
+
+                        <label for="password">Create Password:</label>
+                        <input type="password" name="password" placeholder="Enter Your Password" autocomplete="off"
+                            required>
+
+                        <label for="confirmpassword">Confirm Password:</label>
+                        <input type="password" name="confirmpassword" placeholder="Confirm Your Password" autocomplete="off" required>
+
+
+
+
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+ 
+                   
                         
                     <input type="submit" value="Submit" id="submitBtn">
                 </form>

@@ -268,10 +268,6 @@ const SocietySchema = new mongoose.Schema({
         type: addressSchema
     },
 
-    // societyCountry: {
-    //     type: String,
-    //     required: true
-    // },
 
     societyContact: {
         type: Number,

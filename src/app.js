@@ -346,8 +346,6 @@ app.get("/rwaMemReadBooking", async (req, res) => {
 
 
 
-
-
 app.get("/rwaMemReadComplaint", async (req, res) => {
 
     try {
@@ -388,7 +386,7 @@ app.get("/mySocMembers", async (req, res) => {
 
     } catch (error) {
         res.status(201).render("rwaMemDashboard");
-        console.log("Error in reading Members collection:" + err);
+        //console.log("Error in reading Members collection:" + err);
     }
 
 });
@@ -461,16 +459,19 @@ app.post("/rwaRoleFetch", async (req, res) => {
         await societySchema.update({ 'societyName': societyname },
             {
                 '$push': {
-                    'rwaMembers': [
+                    'societyMembers': [
                         {
-                            rName: req.body.rName1,
-                            rEmail: req.body.rEmail1,
-                            rRole: req.body.rRole1
-                        },
-                        {
-                            rName: req.body.rName2,
-                            rEmail: req.body.rEmail2,
-                            rRole: req.body.rRole2
+                            memName: req.body.rName1,
+                            memEmail: req.body.rEmail1,
+                            role: req.body.rRole1,
+                            memHouseNum: req.body.hnumber,
+                            memFloorNum: req.body.fnumber,
+                            familyMemCount: req.body.familymemcount,
+                            owner: req.body.owner,
+                            memDOB: req.body.dob,
+                            memContact: req.body.phone,
+                            memPassword: req.body.password,
+                            cpassword: req.body.confirmpassword,
                         }
                     ]
 
@@ -479,7 +480,7 @@ app.post("/rwaRoleFetch", async (req, res) => {
             })
 
         // const socregistered = await rwarole.save();
-        res.status(201).render("socMemRegister");
+        res.status(201).render("login");
 
     } catch (error) {
         res.send()
@@ -514,7 +515,6 @@ app.post("/socMemRegister", upload.single('idproof'), async (req, res) => {
                             memEmail: req.body.email,
                             memPassword: password,
                             cpassword: cpassword,
-
                         }
                     }
                 })
@@ -553,23 +553,27 @@ app.post("/rwalogin", async (req, res) => {
         const result = await societySchema.findOne(
 
             { "societyName": societyname },
-            { _id: 0, 'societyMembers.memEmail': 1, 'societyMembers.memPassword': 1 }
+            { _id: 0, 'societyMembers.memEmail': 1, 'societyMembers.memPassword': 1, 'societyMembers.role':1 }
         );
 
-        var flag = 0;
+        var rflag = 0;
         console.log(result.societyMembers[0]);
         for (let val of result.societyMembers) {
 
-            if (val.memEmail === email && val.memPassword === password) {
-                flag = 1;
+            if (val.memEmail === email && val.memPassword === password && val.role=="President") {
+                rflag = 1;
 
             }
         }
-        if (flag === 1) {
-            res.status(201).render("rwaMemberDashBoard");
+        if (rflag === 1) {
+            res.status(201).render("rwaMemberDashBoard",
+                { socname: societyname, memname: userlogin }
+
+            );
         }
         else {
-            res.send("Invalid Details");
+            //res.send("Invalid Details");
+            res.render("login");
         }
 
     } catch (error) {
