@@ -766,6 +766,7 @@ app.post('/payment', async (req, res) => {
 
         }
     } catch (err) {
+        console.log("Payment Error");
         res.send(err);
     }
 });
