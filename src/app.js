@@ -162,6 +162,9 @@ app.get("/rwaMemberDashBoard", (req, res) => {
 app.get("/socMemDashBoard", (req, res) => {
     res.render("socMemDashBoard");
 });
+app.get("/about", (req, res) => {
+    res.render("about");
+});
 
 
 //society membr will read only his/her reservations
