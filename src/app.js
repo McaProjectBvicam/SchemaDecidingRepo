@@ -166,6 +166,12 @@ app.get("/about", (req, res) => {
     res.render("about");
 });
 
+app.get("/logout",(req,res)=>{
+    userlogin="";
+    societyname="";
+    res.render("index");
+});
+
 
 //society membr will read only his/her reservations
 //dont get confuse by name it is old name not renamed
@@ -304,6 +310,8 @@ app.get("/myprofile", async (req, res) => {
 
 
 });
+
+
 
 app.get("/socMemReadDevelopment", async (req, res) => {
 

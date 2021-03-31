@@ -9,7 +9,7 @@
 
 <body>
     {{>rwanavbar}}
-    <h1>All society Members</h1>
+    <H1>All society Members<button>Save Changes</button></H1>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -22,6 +22,7 @@
                 <th>DOB</th>
                 <th>Family Members</th>
                 <th>Role</th>
+                <th>Change Role</th>
 
             </tr>
         </thead>
@@ -36,6 +37,12 @@
                 <td>{{this.memDOB}}</td>
                 <td>{{this.familyMemCount}}</td>
                 <td>{{this.role}}</td>
+                <td><select name="new role" >
+                            <option value="President">PRESIDENT</option>
+                            <option value="Secretary">SECRETARY</option>
+                            <option value="rwaMember">RWA MEMBER</option>
+                            <option value="member">MEMBER</option>
+                        </select></td>
             </tr>
             {{/each}}
 
