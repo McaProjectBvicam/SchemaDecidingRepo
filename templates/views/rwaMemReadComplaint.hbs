@@ -4,29 +4,32 @@
 <head>
     <title>Complaint</title>
     <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
+    <link rel="stylesheet" href="css/style2.css">
     {{>header}}
 </head>
 
 <body>
     {{>rwanavbar}}
-    <h1>Complaint List<button>Save Changes</button></h1>
-
-    <table class="table table-striped">
+    <H1 class="header1">COMPLAINT BOX</H1>
+    <p align="right" style="padding: 15px 15px">
+        <button type="button" class="btn btn-success btn-lg" >UPDATE</button>
+    </p>
+    <table class="styled-table">
         <thead>
             <tr>
-                <th>society Member Name</th>
-                <th>Member Email </th>
-                <th>complaint Subject </th>
-                <th>complaint Description </th>
-                <th>complaintDate</th>
-                <th>complaintStatus</th>
-                <th>update Status</th>
+                <th>Member Name</th>
+                <th>Email </th>
+                <th>Subject </th>
+                <th>Description </th>
+                <th>Complaint Date</th>
+                <th>Status</th>
+                <th>Update Status</th>
 
             </tr>
         </thead>
         <tbody>
             {{#each list}}
-            <tr align="center">
+            <tr align="center" class="active_row">
                 {{!-- <td>{{this.societyName}}</td> --}}
                 <td>{{this.societyMemberName}}</td>
                 <td>{{this.memEmail}}</td>

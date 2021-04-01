@@ -2,16 +2,20 @@
 <html lang="en">
 
 <head>
-    <title>BOOKING</title>
-    <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
+    <title>MY BOOKINGs</title>
+    <link rel="shortcut icon" type="images/png" href="images/favicon.png" />
+    <link rel="stylesheet" href="css/style2.css">
     {{>header}}
 </head>
 
 <body>
     {{>rwanavbar}}
-    <br>
-    <h1>Booking List</h1>
-    <table class="table table-hover">
+
+
+    <H1 class="header1">MY RESERVATION </H1>
+
+
+    <table class="styled-table">
         <thead>
             <tr>
                 {{!-- <th>Society Name </th>
@@ -21,17 +25,19 @@
                 <th>Reservation Description</th>
                 <th>Reservation Status</th>
 
+
             </tr>
         </thead>
         <tbody>
             {{#each list}}
-            <tr align="center">
+            <tr align="center" class="active-row">
                 {{!-- <td>{{this.societyName}}</td>
                 <td>{{this.societyMemberName}}</td> --}}
                 <td>{{this.reservationFor}}</td>
                 <td>{{this.reservationDate}}</td>
                 <td>{{this.reservationDesc}}</td>
                 <td>{{this.reservationStatus}}</td>
+
             </tr>
             {{/each}}
 

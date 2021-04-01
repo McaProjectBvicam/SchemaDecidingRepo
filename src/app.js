@@ -173,7 +173,7 @@ app.get("/rwaMemberDashBoard", (req, res) => {
 
 });
 app.get("/socMemDashBoard", (req, res) => {
-    res.render("socMemDashBoard",{
+    res.render("socMemDashBoard", {
         socname: societyname,
         memname: userlogin,
     });
@@ -187,8 +187,8 @@ app.get("/about", (req, res) => {
 app.get("/logout", (req, res) => {
     userlogin = "";
     societyname = "";
-    memscount="";
-    complaintscount="";
+    memscount = "";
+    complaintscount = "";
     res.render("index");
 });
 
