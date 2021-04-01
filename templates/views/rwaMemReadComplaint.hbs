@@ -9,7 +9,8 @@
 
 <body>
     {{>rwanavbar}}
-    <h1>Complaint List</h1>
+    <h1>Complaint List<button>Save Changes</button></h1>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -19,6 +20,7 @@
                 <th>complaint Description </th>
                 <th>complaintDate</th>
                 <th>complaintStatus</th>
+                <th>update Status</th>
 
             </tr>
         </thead>
@@ -32,6 +34,11 @@
                 <td>{{this.complaintDesc}}</td>
                 <td>{{this.complaintDate}}</td>
                 <td>{{this.complaintStatus}}</td>
+                 <td><select name="newstatus" >
+                            <option value="chnge">-CHANGE-</option>
+                            <option value="Active">ACTIVE</option>
+                            <option value="Resolved">RESOLVED</option>
+                        </select></td>
             </tr>
             {{/each}}
 

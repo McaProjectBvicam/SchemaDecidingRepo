@@ -58,7 +58,7 @@
   }
 
   .header {
-    padding: 60px;
+    padding: 40px;
     text-align: center;
     background: #01203a;
     color: white;
@@ -120,7 +120,7 @@
     background-color: #444;
   }
   
-  .main {
+  #main {
     transition: margin-left .5s;
     padding: 16px;
   }

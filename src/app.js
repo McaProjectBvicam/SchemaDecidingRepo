@@ -47,6 +47,8 @@ var nodemailer = require("nodemailer");
 //for storing and showing some data 
 var userlogin = "";
 var societyname = "";
+var memscount = " ";
+var complaintscount = " ";
 
 
 const bodyParser = require('body-parser');
@@ -156,19 +158,37 @@ app.get('/payment', (req, res) => {
 app.get("/development", (req, res) => {
     res.render("development");
 });
+
 app.get("/rwaMemberDashBoard", (req, res) => {
-    res.render("rwaMemberDashBoard");
+
+    res.render("rwaMemberDashboard",
+        {
+            socname: societyname,
+            memname: userlogin,
+            memcount: memscount,
+            complaintcount: complaintscount
+        }
+    );
+
+
 });
 app.get("/socMemDashBoard", (req, res) => {
-    res.render("socMemDashBoard");
+    res.render("socMemDashBoard",{
+        socname: societyname,
+        memname: userlogin,
+    });
+
 });
+
 app.get("/about", (req, res) => {
     res.render("about");
 });
 
-app.get("/logout",(req,res)=>{
-    userlogin="";
-    societyname="";
+app.get("/logout", (req, res) => {
+    userlogin = "";
+    societyname = "";
+    memscount="";
+    complaintscount="";
     res.render("index");
 });
 
@@ -550,24 +570,41 @@ app.post("/rwalogin", async (req, res) => {
         const result = await societySchema.findOne(
 
             { "societyName": societyname },
-            { _id: 0, 'societyMembers.memEmail': 1, 'societyMembers.memPassword': 1, 'societyMembers.role':1 }
+            { _id: 0, 'societyMembers.memEmail': 1, 'societyMembers.memPassword': 1, 'societyMembers.role': 1 }
         );
 
         var rflag = 0;
+        console.log(result);
         console.log(result.societyMembers[0]);
         for (let val of result.societyMembers) {
 
-            if (val.memEmail === email && val.memPassword === password && val.role=="President") {
+            if (val.memEmail === email && val.memPassword === password && val.role == "President") {
                 rflag = 1;
 
             }
         }
         if (rflag === 1) {
-            res.status(201).render("rwaMemberDashBoard",
-                { socname: societyname, memname: userlogin }
 
+
+            const resultAll = await societySchema.findOne({ "societyName": societyname })
+            memscount = resultAll.societyMembers.length;
+            complaintscount = resultAll.societyComplaints.length;
+
+            res.status(201).render("rwaMemberDashBoard", {
+                socname: societyname,
+                memname: userlogin,
+                memcount: memscount,
+                complaintcount: complaintscount
+            }
             );
         }
+
+
+
+
+
+
+
         else {
             //res.send("Invalid Details");
             res.render("login");
@@ -580,7 +617,8 @@ app.post("/rwalogin", async (req, res) => {
             intro: 'invalid details',
             message: 'please inter a valid details.'
         }
-        res.redirect('socMemDashBoard');
+        console.log(error);
+        res.redirect('index');
     }
 });
 
@@ -736,90 +774,86 @@ app.post('/payment', async (req, res) => {
             currency: 'INR',
             customer: customer.id
         })
-       const ab = await charge.amount;
+        const ab = await charge.amount;
         //console.log(ab);
-       // if (ab) {
-          //  console.log(userlogin);
-            //console.log(new Date());
+        // if (ab) {
+        //  console.log(userlogin);
+        //console.log(new Date());
         //    const pay = new payment({
-             //   email: req.body.stripeEmail,
-               // useremail: userlogin,
-            //    amount: 1000,
-              //  datetime: new Date(),
-             //   status: "Success"
-          //  })
+        //   email: req.body.stripeEmail,
+        // useremail: userlogin,
+        //    amount: 1000,
+        //  datetime: new Date(),
+        //   status: "Success"
+        //  })
         //    const pays = await pay.save();
-        const result =await societySchema.findOne(
-           
-            {"societyName":societyname},
-         {'societyMembers': 1,_id:0}
-           );
-     
+        const result = await societySchema.findOne(
 
-           // res.status(201).render("userpayment");
-            console.log(result);
-                console.log("society:" + societyname);
-                console.log("useremail:"+userlogin);
-             if(ab)
-             {
-                var flag=0;
-                //console.log(result.societyMembers[0]);
-                for(let val of result.societyMembers)
-                {
-     
-                    if(val.memEmail===userlogin)
-                    {
-                        flag=1;
-                        console.log("hey");
-                        await societySchema.updateOne(
-                            {'societyName': societyname },
-                            {
-                                '$push': {
-                                    'societyPayments': {
-                                        //needed for query
-                                        //societyname: societyname,
-                                        email: req.body.stripeEmail,
-                                        useremail: userlogin,
-                                        amount: 1000,
-                                       datetime: new Date(),
-                                       status: "Success"
-            
-                                   }
+            { "societyName": societyname },
+            { 'societyMembers': 1, _id: 0 }
+        );
+
+
+        // res.status(201).render("userpayment");
+        console.log(result);
+        console.log("society:" + societyname);
+        console.log("useremail:" + userlogin);
+        if (ab) {
+            var flag = 0;
+            //console.log(result.societyMembers[0]);
+            for (let val of result.societyMembers) {
+
+                if (val.memEmail === userlogin) {
+                    flag = 1;
+                    console.log("hey");
+                    await societySchema.updateOne(
+                        { 'societyName': societyname },
+                        {
+                            '$push': {
+                                'societyPayments': {
+                                    //needed for query
+                                    //societyname: societyname,
+                                    email: req.body.stripeEmail,
+                                    useremail: userlogin,
+                                    amount: 1000,
+                                    datetime: new Date(),
+                                    status: "Success"
+
                                 }
-                            
-                           })
-                     
-                    }
-                 }
-                 if(flag===1)
-                 {
-                     res.status(201).render("socMemDashBoard");
-                 }
-                 else {
-                     res.send("Invalid Details");
-                 }
-                   
-                    req.session.message = {
-                        type: 'success',
-                        intro: 'Record insert successfully',
-                        message: 'success'
-                    }
-                    res.redirect('login');
-        
-                }
-                else {
-                    req.session.message = {
-                        type: 'danger',
-                        intro: 'password mismatch',
-                        message: 'please inter a correct password'
-                    }
-                    res.redirect('socMemRegister');
+                            }
+
+                        })
+
                 }
             }
-            catch (error) {
-                res.status(400).send("gadbadh" + error);
+            if (flag === 1) {
+                res.status(201).render("socMemDashBoard");
             }
-       
+            else {
+                res.send("Invalid Details");
+            }
+
+            req.session.message = {
+                type: 'success',
+                intro: 'Record insert successfully',
+                message: 'success'
+            }
+            res.redirect('login');
+
+        }
+        else {
+            req.session.message = {
+                type: 'danger',
+                intro: 'password mismatch',
+                message: 'please inter a correct password'
+            }
+            res.redirect('socMemRegister');
+        }
+    }
+    catch (error) {
+        res.status(400).send("gadbadh" + error);
+    }
+
 });
 
 app.post("/rwaCreateNotice", async (req, res) => {
