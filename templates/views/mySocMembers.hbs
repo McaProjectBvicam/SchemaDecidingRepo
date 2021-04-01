@@ -3,17 +3,23 @@
 
 <head>
     <title>All Members</title>
-    <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
+    <link rel="shortcut icon" type="images/png" href="images/favicon.png" />
+    <link rel="stylesheet" href="css/style2.css">
     {{>header}}
+
+
 </head>
 
 <body>
     {{>rwanavbar}}
-    <h1>All society Members</h1>
-    <table class="table table-striped">
+    <H1 class="header1">All society Members</H1>
+    <p align="right" style="padding: 15px 15px">
+        <button type="button" class="btn btn-success btn-lg" >UPDATE</button>
+    </p>
+
+    <table class="styled-table">
         <thead>
             <tr>
-                
                 <th>Name </th>
                 <th>House</th>
                 <th>Floor </th>
@@ -22,12 +28,14 @@
                 <th>DOB</th>
                 <th>Family Members</th>
                 <th>Role</th>
+                <th>Change Role</th>
+                
 
             </tr>
         </thead>
         <tbody>
             {{#each list}}
-            <tr align="center">
+            <tr align="center" class="active-row">
                 <td>{{this.memName}}</td>
                 <td>{{this.memHouseNum}}</td>
                 <td>{{this.memFloorNum}}</td>
@@ -36,6 +44,13 @@
                 <td>{{this.memDOB}}</td>
                 <td>{{this.familyMemCount}}</td>
                 <td>{{this.role}}</td>
+                <td><select name="newrole">
+                        <option value="change">-CHANGE-</option>
+                        <option value="President">PRESIDENT</option>
+                        <option value="Secretary">SECRETARY</option>
+                        <option value="rwaMember">EXECUTIVE MEMBER</option>
+                        <option value="member">SOCIETY MEMBER</option>
+                    </select></td>
             </tr>
             {{/each}}
 

@@ -3,14 +3,21 @@
 
 <head>
     <title>Complaint</title>
-    <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
+    <link rel="shortcut icon" type="images/png" href="images/favicon.png" />
+    <link rel="stylesheet" href="css/style2.css">
     {{>header}}
 </head>
 
 <body>
     {{>rwanavbar}}
-    <h1>Booking List</h1>
-    <table class="table table-striped">
+    <div class="header1">
+    <P1>Reservation Requests</p1>
+    <p align="right" style="padding: 0 15px">
+        <button type="button" class="btn btn-success btn-lg">UPDATE</button>
+    </p>
+    </div>
+
+    <table class="styled-table">
         <thead>
             <tr>
                 <th>Member Name </th>
@@ -19,12 +26,13 @@
                 <th>Reservation Date</th>
                 <th>Reservation Description</th>
                 <th>Reservation Status</th>
+                <th>Change Status</th>
 
             </tr>
         </thead>
         <tbody>
             {{#each list}}
-            <tr align="center">
+            <tr align="center" class="active-row">
                 {{!-- <td>{{this.societyName}}</td> --}}
                 <td>{{this.societyMemberName}}</td>
                 <td>{{this.memEmail}}</td>
@@ -32,6 +40,12 @@
                 <td>{{this.reservationDate}}</td>
                 <td>{{this.reservationDesc}}</td>
                 <td>{{this.reservationStatus}}</td>
+                <td><select name="bookingstatus">
+                        <option value="change">-CHANGE-</option>
+                        <option value="pending">PENDING</option>
+                        <option value="confirmed">APPROVED</option>
+                        <option value="notapproved">NOT APPROVED</option>
+                    </select></td>
             </tr>
             {{/each}}
 
