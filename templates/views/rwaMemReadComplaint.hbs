@@ -3,16 +3,18 @@
 
 <head>
     <title>Complaint</title>
+    <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
     {{>header}}
 </head>
 
 <body>
-    {{>societynavbar}}
+    {{>rwanavbar}}
     <h1>Complaint List</h1>
-    <table class="table table-bordered">
+    <table class="table table-striped">
         <thead>
             <tr>
-                {{!-- <th>society Member Name </th> --}}
+                <th>society Member Name</th>
+                <th>Member Email </th>
                 <th>complaint Subject </th>
                 <th>complaint Description </th>
                 <th>complaintDate</th>
@@ -23,8 +25,9 @@
         <tbody>
             {{#each list}}
             <tr align="center">
-                {{!-- <td>{{this.societyName}}</td>
-                <td>{{this.societyMemberName}}</td> --}}
+                {{!-- <td>{{this.societyName}}</td> --}}
+                <td>{{this.societyMemberName}}</td>
+                <td>{{this.memEmail}}</td>
                 <td>{{this.complaintSubject}}</td>
                 <td>{{this.complaintDesc}}</td>
                 <td>{{this.complaintDate}}</td>

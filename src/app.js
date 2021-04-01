@@ -11,8 +11,20 @@ dotenv.config({ path: './config.env' });
 const PORT = process.env.PORT || 8000;
 
 //for uploding docs
-const multer=require('multer');
-const upload= multer({dest: 'uploads/'});
+const multer = require('multer');
+//const upload = multer({ dest: 'uploads/' });
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + file.originalname);
+    }
+})
+const upload = multer({ storage: storage });
+
 
 // //mongo atlas
 const mongoose = require('mongoose');
@@ -35,7 +47,7 @@ var nodemailer = require("nodemailer");
 //for storing and showing some data 
 var userlogin = "";
 var societyname = "";
-var currentUser = "";
+
 
 const bodyParser = require('body-parser');
 
@@ -91,6 +103,11 @@ app.use((req, res, next) => {
 })
 
 
+app.use((req, res, next) => {
+    res.locals.message = req.session.message
+    delete req.session.message
+    next()
+})
 app.get("/", (req, res) => {
     res.render("index");
 });
@@ -115,9 +132,7 @@ app.get("/societylogin", (req, res) => {
 app.get("/userpayment", (req, res) => {
     res.render("userpayment");
 });
-app.get("/complaintRegister", (req, res) => {
-    res.render("complaintRegister");
-});
+
 
 app.get("/rwaCreateNotice", (req, res) => {
     res.render("rwaCreateNotice");
@@ -127,9 +142,6 @@ app.get("/rwaDevelopmentEntries", (req, res) => {
     res.render("rwaDevelopmentEntries");
 });
 
-app.get("/booking", (req, res) => {
-    res.render("booking");
-});
 
 app.get("/socMemRegister", (req, res) => {
     res.render("socMemRegister");
@@ -150,82 +162,229 @@ app.get("/rwaMemberDashBoard", (req, res) => {
 app.get("/socMemDashBoard", (req, res) => {
     res.render("socMemDashBoard");
 });
-
-app.get("/socMemReadNotice", (req, res) => {
-
-    //res.render("socMemReadNotice");
-
-    societyNotice.find((err, docs) => {
-        if (!err) {
-            res.render("socMemReadNotice", {
-                list: docs
-            });
-        }
-        else {
-            console.log("Error in reading Notice collection:" + err);
-        }
-    });
-
+app.get("/about", (req, res) => {
+    res.render("about");
 });
 
-app.get("/myprofile", (req, res) => {
-
-
-    register.find({ email: currentUser }, (err, docs) => {
-        if (!err) {
-            res.render("myprofile", {
-                user: docs[0]
-            });
-        }
-        else {
-            console.log("Error in reading Notice collection:" + err);
-        }
-    });
-
-    // res.render("myprofile");
-});
-
-app.get("/socMemReadDevelopment", (req, res) => {
-
-    societyDevelopment.find((err, docs) => {
-        if (!err) {
-            res.render("socMemReadDevelopment", {
-                list: docs
-            });
-        }
-        else {
-            console.log("Error in reading Development collection:" + err);
-        }
-    });
-});
-
-app.get("/socMemReadBooking", (req, res) => {
-
-    socReservationReg.find((err, docs) => {
-        if (!err) {
-            res.render("socMemReadBooking", {
-                list: docs
-            });
-        }
-        else {
-            console.log("Error in reading Development collection:" + err);
-        }
-    });
+app.get("/logout",(req,res)=>{
+    userlogin="";
+    societyname="";
+    res.render("index");
 });
 
 
-app.get("/socMemReadComplaint", (req, res) => {
+//society membr will read only his/her reservations
+//dont get confuse by name it is old name not renamed
+app.get("/booking", async (req, res) => {
 
-    socComplaintReg.find((err, docs) => {
-        if (!err) {
-            res.render("socMemReadComplaint", {
-                list: docs
-            });
+
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+        var mybookings = [];
+        for (let val of result.societyReservations) {
+
+            if (val.memEmail == userlogin) {
+                mybookings.push(val);
+            }
+        }
+
+        res.render("booking", {
+            // list: result.societyReservations
+            list: mybookings
+        });
+
+        console.log(result.societyReservations[0]);
+
+    } catch (error) {
+        res.status(201).render("socMemDashboard");
+        console.log("Error in reading Reservations collection:" + err);
+    }
+
+    //  res.render("booking");
+});
+
+
+
+//society membr will read only hi/her complaints
+//dont get confuse by name it is old name not renamed
+app.get("/complaintRegister", async (req, res) => {
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        var mycomplaints = [];
+        for (let val of result.societyComplaints) {
+
+            if (val.memEmail == userlogin) {
+                mycomplaints.push(val);
+            }
+        }
+
+        res.render("complaintRegister", {
+            //  list: result.societyComplaints
+            list: mycomplaints
+        });
+
+        console.log(result.societyComplaints[0]);
+
+    } catch (error) {
+        res.status(201).render("socMemDashboard");
+        console.log("Error in reading Notice collection:" + err);
+    }
+    //res.render("complaintRegister");
+});
+
+app.get("/socMemReadNotice", async (req, res) => {
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        res.render("socMemReadNotice", {
+            list: result.societyNotices
+        });
+
+        console.log(result.societyNotices[0]);
+
+    } catch (error) {
+        res.status(201).render("socMemDashboard");
+        //console.log("Error in reading Notice collection:" + err);
+    }
+
+});
+
+app.get("/myprofile", async (req, res) => {
+
+    try {
+
+        console.log("society name:" + societyname)
+        //this will find the users of the society you are logged in
+        const result = await societySchema.findOne({ "societyName": societyname });
+
+        var flag = 0;
+        var currentUser;
+        // console.log(result.societyMembers[0]);
+        for (let val of result.societyMembers) {
+
+            if (val.memEmail === userlogin) {
+                flag = 1;
+                currentUser = val;
+            }
+        }
+        if (flag === 1) {
+            res.status(201).render("myprofile",
+                { user: currentUser }
+
+            );
         }
         else {
-            console.log("Error in reading complaint collection:" + err);
+            res.send("Invalid Details");
         }
-    });
+
+    } catch (error) {
+
+        res.redirect('socMemDashboard');
+    }
+
+});
+
+
+
+app.get("/socMemReadDevelopment", async (req, res) => {
+
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        res.render("socMemReadDevelopment", {
+            list: result.societyDevelopments
+        });
+
+        console.log(result.societyDevelopments[0]);
+
+    } catch (error) {
+        res.status(201).render("socMemDashboard");
+        //console.log("Error in reading Reservations collection:" + err);
+    }
+});
+
+app.get("/rwaMemReadBooking", async (req, res) => {
+
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        res.render("rwaMemReadBooking", {
+            list: result.societyReservations
+        });
+
+        console.log(result.societyReservations[0]);
+
+    } catch (error) {
+        res.status(201).render("rwaMemberDashBoard");
+        console.log("Error in reading Reservations collection:" + err);
+    }
+});
+
+
+
+app.get("/rwaMemReadComplaint", async (req, res) => {
+
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        res.render("rwaMemReadComplaint", {
+            list: result.societyComplaints
+        });
+
+
+        //   console.log(result.societyComplaints[0]);
+
+    } catch (error) {
+        res.status(201).render("rwaMemDashboard");
+        console.log("Error in reading Complaints collection:" + err);
+    }
+
+});
+
+app.get("/mySocMembers", async (req, res) => {
+
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        res.render("mySocMembers", {
+            list: result.societyMembers
+        });
+
+        console.log(result.societyMembers[0]);
+
+    } catch (error) {
+        res.status(201).render("rwaMemDashboard");
+        //console.log("Error in reading Members collection:" + err);
+    }
 
 });
 
@@ -258,12 +417,15 @@ app.post("/Regsoc", async (req, res) => {
             // presidentName: req.body.presname,
 
             societyAddress: {
-                locality: req.body.locality,
+                street: req.body.street,
+                district: req.body.district,
                 city: req.body.city,
-                state: req.body.state
+                state: req.body.state,
+                societyCountry: req.body.country,
+                pincode: req.body.pincode
             },
 
-            societyCountry: req.body.country,
+
             societyContact: req.body.phone,
             // presEmail: req.body.email,
             socNickName: req.body.socNickName,
@@ -294,16 +456,19 @@ app.post("/rwaRoleFetch", async (req, res) => {
         await societySchema.update({ 'societyName': societyname },
             {
                 '$push': {
-                    'rwaMembers': [
+                    'societyMembers': [
                         {
-                            rName: req.body.rName1,
-                            rEmail: req.body.rEmail1,
-                            rRole: req.body.rRole1
-                        },
-                        {
-                            rName: req.body.rName2,
-                            rEmail: req.body.rEmail2,
-                            rRole: req.body.rRole2
+                            memName: req.body.rName1,
+                            memEmail: req.body.rEmail1,
+                            role: req.body.rRole1,
+                            memHouseNum: req.body.hnumber,
+                            memFloorNum: req.body.fnumber,
+                            familyMemCount: req.body.familymemcount,
+                            owner: req.body.owner,
+                            memDOB: req.body.dob,
+                            memContact: req.body.phone,
+                            memPassword: req.body.password,
+                            cpassword: req.body.confirmpassword,
                         }
                     ]
 
@@ -312,7 +477,7 @@ app.post("/rwaRoleFetch", async (req, res) => {
             })
 
         // const socregistered = await rwarole.save();
-        res.status(201).render("socMemRegister");
+        res.status(201).render("login");
 
     } catch (error) {
         res.send()
@@ -321,7 +486,7 @@ app.post("/rwaRoleFetch", async (req, res) => {
 });
 
 //create a new user in database
-app.post("/socMemRegister", upload.single('idproof'),async (req, res) => {
+app.post("/socMemRegister", upload.single('idproof'), async (req, res) => {
     try {
         console.log(req.file);
         console.log("society:" + societyname);
@@ -339,7 +504,7 @@ app.post("/socMemRegister", upload.single('idproof'),async (req, res) => {
                             memName: req.body.name,
                             memHouseNum: req.body.hnumber,
                             memFloorNum: req.body.fnumber,
-                            familymemcount: req.body.familymemcount,
+                            familyMemCount: req.body.familymemcount,
                             owner: req.body.owner,
                             role: "Member",
                             memDOB: req.body.dob,
@@ -347,7 +512,6 @@ app.post("/socMemRegister", upload.single('idproof'),async (req, res) => {
                             memEmail: req.body.email,
                             memPassword: password,
                             cpassword: cpassword,
-
                         }
                     }
                 })
@@ -386,23 +550,27 @@ app.post("/rwalogin", async (req, res) => {
         const result = await societySchema.findOne(
 
             { "societyName": societyname },
-            { _id: 0, 'societyMembers.memEmail': 1, 'societyMembers.memPassword': 1 }
+            { _id: 0, 'societyMembers.memEmail': 1, 'societyMembers.memPassword': 1, 'societyMembers.role':1 }
         );
 
-        var flag = 0;
+        var rflag = 0;
         console.log(result.societyMembers[0]);
         for (let val of result.societyMembers) {
 
-            if (val.memEmail === email && val.memPassword === password) {
-                flag = 1;
+            if (val.memEmail === email && val.memPassword === password && val.role=="President") {
+                rflag = 1;
 
             }
         }
-        if (flag === 1) {
-            res.status(201).render("socMemDashBoard");
+        if (rflag === 1) {
+            res.status(201).render("rwaMemberDashBoard",
+                { socname: societyname, memname: userlogin }
+
+            );
         }
         else {
-            res.send("Invalid Details");
+            //res.send("Invalid Details");
+            res.render("login");
         }
 
     } catch (error) {
@@ -412,7 +580,7 @@ app.post("/rwalogin", async (req, res) => {
             intro: 'invalid details',
             message: 'please inter a valid details.'
         }
-        res.redirect('societylogin');
+        res.redirect('socMemDashBoard');
     }
 });
 
@@ -435,11 +603,13 @@ app.post("/societylogin", async (req, res) => {
 
             if (val.memEmail === email && val.memPassword === password) {
                 flag = 1;
-
             }
         }
         if (flag === 1) {
-            res.status(201).render("socMemDashBoard");
+            res.status(201).render("socMemDashBoard",
+                { socname: societyname, memname: userlogin }
+
+            );
         }
         else {
             res.send("Invalid Details");
@@ -476,44 +646,77 @@ app.post('/userpayment', async (req, res) => {
             db.close();
         });
     });
-
-
 });
+
 
 app.post("/complaintRegister", async (req, res) => {
     try {
-        const registerComplaint = new socComplaintReg({
-            societyName: req.body.socName,
-            societyMemberName: req.body.socMemName,
-            complaintSubject: req.body.compSubject,
-            complaintDesc: req.body.compDescription,
-            complaintDate: req.body.compDate,
-            complaintStatus: req.body.compStatus,
+        await societySchema.updateOne(
+            { 'societyName': societyname },
+            {
+                '$push': {
+                    'societyComplaints': {
 
-        })
+                        societyMemberName: req.body.socMemName,
+                        memEmail: userlogin,
+                        complaintDate: req.body.compDate,
+                        complaintSubject: req.body.compSubject,
+                        complaintDesc: req.body.compDescription,
+                        complaintStatus: "Active"
+                    }
+                }
+            })
 
-        const compRegistered = await registerComplaint.save();
+
         res.status(201).render("socMemDashboard");
     } catch (error) {
         res.status(400).send("invalid " + error);
     }
 
+});
 
+app.post("/rwaDevelopmentEntries", async (req, res) => {
+    try {
+        console.log("Society name is: " + societyname);
+        await societySchema.updateOne(
+            { 'societyName': societyname },
+            {
+                '$push': {
+                    'societyDevelopments': {
+                        Facility: req.body.Facility,
+                        Category: req.body.Category,
+                        FacilityDate: req.body.FacilityDate,
+                        DevelopmentDesc: req.body.DevelopmentDesc
+
+                    }
+                }
+            })
+
+        res.status(201).render("rwaMemberDashBoard");
+    } catch (error) {
+        res.status(400).send("invalid " + error);
+    }
 });
 
 app.post("/booking", async (req, res) => {
     try {
-        const registerReservation = new socReservationReg({
-            societyName: req.body.socName,
-            societyMemberName: req.body.socMemName,
-            reservationFor: req.body.reserve,
-            reservationDesc: req.body.resDescription,
-            reservationDate: req.body.resDate,
-            reservationStatus: req.body.resStatus
+        console.log(societyname);
+        await societySchema.updateOne(
+            { 'societyName': societyname },
+            {
+                '$push': {
+                    'societyReservations': {
 
-        })
+                        societyMemberName: req.body.socMemName,
+                        memEmail: userlogin,
+                        reservationFor: req.body.reserve,
+                        reservationDate: req.body.resDate,
+                        reservationDesc: req.body.resDescription,
+                        reservationStatus: "Requested"
+                    }
+                }
+            })
 
-        const resRegistered = await registerReservation.save();
         res.status(201).render("socMemDashboard");
     } catch (error) {
         res.status(400).send("invalid " + error);
@@ -528,7 +731,7 @@ app.post('/payment', async (req, res) => {
             source: req.body.stripeToken,
         })
         const charge = await stripe.charges.create({
-            amount: 1000,
+            amount: 300,
             description: 'Web Development Product',
             currency: 'INR',
             customer: customer.id
@@ -622,28 +825,33 @@ app.post('/payment', async (req, res) => {
 app.post("/rwaCreateNotice", async (req, res) => {
 
     try {
-        const createNotice = new societyNotice({
-            societyName: req.body.socName,
-            noticeDate: req.body.noticeDate,
-            noticeHeading: req.body.noticeHeading,
-            noticeDesc: req.body.noticeDate,
-            noticeLink: req.body.noticeLink
-        })
+        await societySchema.updateOne(
+            { 'societyName': societyname },
+            {
+                '$push': {
+                    'societyNotices': {
+                        societyName: req.body.socName,
+                        noticeDate: req.body.noticeDate,
+                        noticeHeading: req.body.noticeHeading,
+                        noticeDesc: req.body.noticeDate,
+                        noticeLink: req.body.noticeLink
 
-        const resRegistered = await createNotice.save();
+                    }
+                }
+            })
+
+
         res.status(201).render("rwaMemberDashBoard");
     } catch (error) {
         res.status(400).send("invalid " + error);
     }
 });
 
+
 /*
     Here we are configuring our SMTP Server details.
     STMP is mail server which is responsible for sending and recieving email.
 */
-
-
-
 app.get('/send', (req, res) => {
     res.render('send');
 });
@@ -668,7 +876,7 @@ app.post('/send', (req, res) => {
         authOptional: true
     });
     const mailOptions = {
-        from: "nishthasharma1014@gmail.com",
+        from: "societymaintenancetracker@gmail.com",
         to: req.body.to,
         subject: req.body.subject,
         text: req.body.content,
@@ -680,20 +888,6 @@ app.post('/send', (req, res) => {
         smtpTransport.close();
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

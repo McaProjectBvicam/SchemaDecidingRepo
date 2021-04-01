@@ -3,6 +3,7 @@
 
 <head>
     <title>Complaint</title>
+    <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
     {{>header}}
 </head>
 
@@ -12,8 +13,8 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Society Name </th>
-                <th>Society Member Name </th>
+                <th>Member Name </th>
+                <th>Member Email </th>
                 <th>Reservation for</th>
                 <th>Reservation Date</th>
                 <th>Reservation Description</th>
@@ -24,8 +25,9 @@
         <tbody>
             {{#each list}}
             <tr align="center">
-                <td>{{this.societyName}}</td>
+                {{!-- <td>{{this.societyName}}</td> --}}
                 <td>{{this.societyMemberName}}</td>
+                <td>{{this.memEmail}}</td>
                 <td>{{this.reservationFor}}</td>
                 <td>{{this.reservationDate}}</td>
                 <td>{{this.reservationDesc}}</td>

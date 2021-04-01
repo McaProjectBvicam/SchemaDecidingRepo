@@ -4,14 +4,71 @@
 <head>
     {{>header}}
     <title>RWA Login Page</title>
+    <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
 </head>
+<style>
+    .form-group{
+        font-size: 20px;
+    }
+    .form-group-pwd{
+        font-size: 15px;
+        margin-left: 68%;
+    }
+     .form-group-1{
+        font-size: 15px;
+        margin-top: -6%;
+        font-size: 10px;
 
+    }
+    .container-fluid{
+        border-style:hidden;
+    }
+      .hero-image {
+            background-image: url("images/loginimage1.jpg");
+           
+            background-position: center;
+            background-repeat: no-repeat;
+         
+            position: relative;
+            width:100%;
+	height:100%;
+    background-size:cover;
+	display:flex;
+	
+	
+        }  .hero-image {
+            background-image: url("images/loginimage1.jpg");
+           
+            background-position: center;
+            background-repeat: no-repeat;
+         
+            position: relative;
+            width:100%;
+	height:100%;
+    background-size:cover;
+	display:flex;
+	
+	
+        }
+        input[type="text"]
+{
+    font-size:15px;
+}
+       input[type="password"]
+{
+    font-size:15px;
+}
+      
+</style>
 <body>
     {{>navbar}}
+       <div class="hero-image">
+           
     <div class="container-fluid main_header">
         <div class="row">
-            <div class="col-md-10 col-12 mx-auto">
-                <h2>RWA Login </h2>
+            <div class="col-md-4 col-10 mx-auto"><br><br><br>
+              
+              <center> <h2 style="font-size: 40px;">𝐑𝐖𝐀 𝐋𝐨𝐠𝐢𝐧</h2></center> 
 
 
                 {{#if message}}
@@ -24,17 +81,24 @@
                 <form action="/rwalogin" method="POST">
                     <div class="form-group">
                         <label for="email">Email address</label>
-                        <input type="email" class="form-control" placeholder="Enter email" name="email">
+                        <input name="email" type="text" class="form-control" placeholder="Enter email" name="email">
                     </div>
                     <div class="form-group">
                         <label for="pass">Password</label>
                         <input name="password" type="password" class="form-control" placeholder="Password" id="myInput">
                     </div>
-                    <input type="checkbox" onclick="myFunction()">Show Password<br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
 
+                    <div class="form-group-pwd">
+                    <input type="checkbox" onclick="myFunction()">Show Password<br>
+                   
+</div>
                     <div>
-                        <a href="/socMemRegister" class="text-center new-account">Create an account</a>
+                        <div class="form-group-1">
+                             <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                      <!--  <a href="/socMemRegister" class="text-center new-account">Create an account</a> -->
+                        </div>
+                        </div>
+                        
                     </div>
                 </form>
             </div>

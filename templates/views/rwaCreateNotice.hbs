@@ -6,27 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style2.css">
     <title>Add Notice</title>
+    <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
     {{>header}}
 </head>
 <body>
     {{>rwanavbar}}
     <div class="sidenav">
         <a href="/rwaMemberDashBoard">Dashboard</a>
+        <a href="/mySocMembers">Society Members</a>
         <a href="/rwaCreateNotice">Create Notice</a>
         <a href="/rwaDevelopmentEntries">Development Update</a>
         <a href="/userpayment">Payments Log</a>
-        <a href="/socMemReadComplaint">Complaint Box</a>
-        <a href="/socMemReadBooking">Reservation Requests</a>
-		<a href="#rwa">RWA Members</a>
-		<a href="#invite">Invite Society Members</a>
+        <a href="/rwaMemReadComplaint">Complaint Box</a>
+        <a href="/rwaMemReadBooking">Reservation Requests</a>
+        <a href="#rwa">RWA Members</a>
+        <a href="/send">Invite Society Members</a>
     </div>
     <div class="container-fluid main_header">
         <div class="row">
             <div class="col-md-10 col-12 mx-auto">
                 <form action="/rwaCreateNotice" method="POST" class="temp_form">
                 <h2 class="text-capitalize display-4">Add Notice</h2>
-                    <label for="sname">Society Name:</label>
-                    <input type="text" name="socName" placeholder="Enter Your Society Name" autocomplete="off" required>
+                    {{!-- <label for="sname">Society Name:</label> --}}
+                    {{!-- <input type="text" name="socName" placeholder="Enter Your Society Name" autocomplete="off" required> --}}
 
                     <label for=" ndate">Notice Date:</label>
                     <input type="date" name="noticeDate" placeholder="Enter date" autocomplete="off" required>

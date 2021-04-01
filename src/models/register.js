@@ -2,68 +2,51 @@ const mongoose=require('mongoose');
 const bcrypt=require('bcryptjs');
 
 //schema creation
-const MemberSchema = new mongoose.Schema({
-    //  sid:{
-    //  type:String,
-    //  //required:true,
-    //  unique:true   
-    // },
-    name:{
-        type:String,
-     required:true,
+const memberSchema = new mongoose.Schema({
+    memName: {
+        type: String,
+        required: true,
     },
-    hnumber:{
-        type:Number,
-     required:true
+    memHouseNum: {
+        type: Number,
+        required: true
     },
-    fnumber:{
-        type:String,
-        required:true
+    memFloorNum: {
+        type: String,
+        required: true
     },
-    familymemcount:{
-        type:Number,
-    required:true
+    familyMemCount: {
+        type: Number,
+        required: true
     },
-    sname:{
-        type:String,
-        required:true,
+    owner: {
+        type: String,
+        required: true
     },
-    dname:{
-        type:String,
-     required:true
+    role: {
+        type: String,
+        required: true
     },
-    owner:{
-        type:String,
-     required:true
+    memDOB: {
+        type: Date,
+        required: true
     },
-    roles:{
-        type:String,
-     //required:true
+    memContact: {
+        type: Number,
+        required: true,
     },
-    dob:{
-        type:Date,
+    memEmail: {
+        type: String,
+        required: true,
+        
     },
-    phone:{
-        type:Number,
-        required:true,
-        unique:true
+    memPassword: {
+        type: String,
+        required: true
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
-    },
-    password:{
-        type:String,
-        required:true
-    },
-    cpassword:{
-        type:String,
-        required:true
-    },
-    societyname:{
-        type:String,
-        //required:true
+    cpassword: {
+        type: String,
+        //required: true
     }
     // addproof:{
     //     type:Image,
@@ -76,8 +59,7 @@ const MemberSchema = new mongoose.Schema({
 
 })
 
-//hashing using bcrypt
-MemberSchema.pre("save",async function(next){
+memberSchema.pre("save",async function(next){
     if(this.isModified("password")){
 
         this.password=await bcrypt.hash(this.password,10);
@@ -90,6 +72,6 @@ MemberSchema.pre("save",async function(next){
 
 
 //to create a collection
-const Register= new mongoose.model("SocietyMember",MemberSchema);
+const Register= new mongoose.model("Register",memberSchema);
 module.exports = Register;
 
