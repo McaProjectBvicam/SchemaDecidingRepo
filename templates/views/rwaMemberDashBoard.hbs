@@ -3,7 +3,7 @@
 
 <head>
     <title>RWA-DashBoard</title>
-    <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
+    <link rel="shortcut icon" type="images/png" href="images/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/style2.css">
     {{>header}}
@@ -12,20 +12,36 @@
 <body>
 
     {{>rwanavbar}}
-    <div class="sidenav">
+    {{!-- left side bar --}}
+    <div id="mySidebar" class="sidebar">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="/rwaMemberDashBoard">Dashboard</a>
-        <a href="/mySocMembers">Society Members</a>
-        <a href="/rwaCreateNotice">Create Notice</a>
+        {{!-- <a href="/mySocMembers">Society Members</a> --}}
+        {{!-- <a href="/rwaCreateNotice">Create Notice</a> --}}
         <a href="/rwaDevelopmentEntries">Development Update</a>
         <a href="/userpayment">Payments Log</a>
-        <a href="/rwaMemReadComplaint">Complaint Box</a>
+        {{!-- <a href="/rwaMemReadComplaint">Complaint Box</a> --}}
         <a href="/rwaMemReadBooking">Reservation Requests</a>
         <a href="#rwa">RWA Members</a>
         <a href="/send">Invite Society Members</a>
-
     </div>
+    
+
+
+
+
+
+    {{!-- right side page --}}
     <div class="main">
-        <div class="container-fluid main_header">
+         <div class="header">
+             <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>
+            <h1>Welcome {{memname}}</h1>
+            <p1>To {{socname}}</p1>
+        </div>
+
+        
+        
+        {{!-- <div class="container-fluid main_header">
             <div class="row">
                 <div class="col-md-10 col-12 mx-auto">
                     <div class="row">
@@ -70,8 +86,89 @@
                     </div>
                 </div>
             </div>
+        </div> --}}
+        
+        <br>
+       
+        {{!-- top 3 cards --}}
+        <div class="row">
+            <div class="column">
+                <div class="card">
+                    <h1>Members in Society:</h1>
+                    {{!-- <h1>Log Complaint</h1> --}}
+                    <h3>60</h3>
+                    <h3><a href="/mySocMembers">Check Members info</a></h3>
+                </div>
+
+            </div>
+            <div class="column">
+                <div class="card">
+                    <h1>COMPLAINT BOX</h1>
+                    <h3>PENDING:10</h3>
+                    <h3><a href="rwaMemReadComplaint">Check all complaints</a></h3>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                    <h1>Society Fund:</h1>
+                    <h3>100000</h3>
+                    <h3><a href="/userpayment">Check Payments</a></h3>
+                </div>
+            </div>
+
         </div>
+       
+        <br><br>
+       
+        {{!-- send notice form --}}
+        <div class="header1">
+            <h1>Send Notice Broadcast</h1>
+        </div>
+
+        <div class="container-fluid main_header">
+            <div class="row">
+                <div class="col-md-10 col-12 mx-auto">
+                    <form action="/rwaCreateNotice" method="POST" class="temp_form">
+                        <h2 class="text-capitalize display-4">Add Notice</h2>
+                        {{!-- <label for="sname">Society Name:</label> --}}
+                        {{!-- <input type="text" name="socName" placeholder="Enter Your Society Name" autocomplete="off"
+                            required> --}}
+
+                        <label for=" ndate">Notice Date:</label>
+                        <input type="date" name="noticeDate" placeholder="Enter date" autocomplete="off" required>
+
+                        <label for="nheading">Heading:</label>
+                        <input type="text" name="noticeHeading" placeholder="Enter Heading" autocomplete="off" required>
+
+                        <label for="ndescription">Description:</label>
+                        <input type="text" name="noticeDesc" placeholder="Enter description" required>
+
+                        <label for="nlink">Link(If any):</label>
+                        <input type="text" name="noticeLink" placeholder="Provide link" autocomplete="off">
+
+                        <label for="nfile">File:(If any):</label>
+                        <input type="file" name="noticeFile" placeholder="upload file" autocomplete="off">
+
+                        <input type="submit" value="Submit">
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
     </div>
+    <script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+</script>
 </body>
 
 </html>
