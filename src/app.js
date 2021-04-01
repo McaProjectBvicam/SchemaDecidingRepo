@@ -599,12 +599,6 @@ app.post("/rwalogin", async (req, res) => {
             );
         }
 
-
-
-
-
-
-
         else {
             //res.send("Invalid Details");
             res.render("login");
