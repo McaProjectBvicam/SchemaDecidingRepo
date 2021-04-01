@@ -6,10 +6,25 @@
     <title>Register Yourself</title>
     <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
 </head>
-
+<style>
+      .hero-image {
+            background-image: url("images/loginimage1.jpg");
+           
+            background-position: center;
+            background-repeat: no-repeat;
+         
+            position: relative;
+            width:100%;
+	height:150%;
+    background-size:cover;
+	display:flex;
+	
+	
+        }
+</style>
 <body>
     {{>navbar}}
-    
+     <div class="hero-image">
                 {{#if message}}
                 <div style="text-align: center" class="alert alert-{{message.type}}" ;>
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -18,7 +33,7 @@
                 {{/if}}
     <div class="container-fluid main_header">
         <div class="row">
-            <div class="col-md-10 col-12 mx-auto">
+            <div class="col-md-13 col-12 mx-auto">
                     <form action="/socMemRegister" method="POST" class="temp_form">
                         <h1 class="text-capatalize"> Register Yourself as society member</h1>
                         <label for="name">Name:</label>
@@ -73,6 +88,7 @@
                     </form>
             </div>
         </div>
+    </div>
     </div>
     {{>footer}}
 </body>
