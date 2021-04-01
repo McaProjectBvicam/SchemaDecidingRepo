@@ -729,47 +729,97 @@ app.post('/payment', async (req, res) => {
         const customer = await stripe.customers.create({
             email: req.body.stripeEmail,
             source: req.body.stripeToken,
-            /*name:'Gautam Sharma',
-           // address:{
-                line1:'23 Mountain Valley New Delhi',
-                postal_code:'110092',
-                city:'New Delhi',
-                state:'Delhi',
-                country:'India'
-            }*/
         })
-        //console.log("hello");
         const charge = await stripe.charges.create({
             amount: 300,
             description: 'Web Development Product',
             currency: 'INR',
             customer: customer.id
-        });
-        //console.log("i am before if");
-        //console.log(charge.amount);
-        const ab = await charge.amount;
+        })
+       const ab = await charge.amount;
         //console.log(ab);
-        if (ab) {
-            console.log(userlogin);
+       // if (ab) {
+          //  console.log(userlogin);
             //console.log(new Date());
-            const pay = new payment({
-                email: req.body.stripeEmail,
-                useremail: userlogin,
-                amount: 1000,
-                datetime: new Date(),
-                status: "Success"
-            })
-            const pays = await pay.save();
+        //    const pay = new payment({
+             //   email: req.body.stripeEmail,
+               // useremail: userlogin,
+            //    amount: 1000,
+              //  datetime: new Date(),
+             //   status: "Success"
+          //  })
+        //    const pays = await pay.save();
+        const result =await societySchema.findOne(
+           
+            {"societyName":societyname},
+         {'societyMembers': 1,_id:0}
+           );
+     
 
-            //console.log(pay);
-            res.status(201).render("userpayment");
-            //console.log('hello');
-
-        }
-    } catch (err) {
-        console.log("Payment Error");
-        res.send(err);
-    }
+           // res.status(201).render("userpayment");
+            console.log(result);
+                console.log("society:" + societyname);
+                console.log("useremail:"+userlogin);
+             if(ab)
+             {
+                var flag=0;
+                //console.log(result.societyMembers[0]);
+                for(let val of result.societyMembers)
+                {
+     
+                    if(val.memEmail===userlogin)
+                    {
+                        flag=1;
+                        console.log("hey");
+                        await societySchema.updateOne(
+                            {'societyName': societyname },
+                            {
+                                '$push': {
+                                    'societyPayments': {
+                                        //needed for query
+                                        //societyname: societyname,
+                                        email: req.body.stripeEmail,
+                                        useremail: userlogin,
+                                        amount: 1000,
+                                       datetime: new Date(),
+                                       status: "Success"
+            
+                                   }
+                                }
+                            
+                           })
+                     
+                    }
+                 }
+                 if(flag===1)
+                 {
+                     res.status(201).render("socMemDashBoard");
+                 }
+                 else {
+                     res.send("Invalid Details");
+                 }
+                   
+                    req.session.message = {
+                        type: 'success',
+                        intro: 'Record insert successfully',
+                        message: 'success'
+                    }
+                    res.redirect('login');
+        
+                }
+                else {
+                    req.session.message = {
+                        type: 'danger',
+                        intro: 'password mismatch',
+                        message: 'please inter a correct password'
+                    }
+                    res.redirect('socMemRegister');
+                }
+            }
+            catch (error) {
+                res.status(400).send("gadbadh" + error);
+            }
+       
 });
 
 app.post("/rwaCreateNotice", async (req, res) => {
