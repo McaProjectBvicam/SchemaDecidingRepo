@@ -4,25 +4,27 @@
 <head>
     <title>Complaint</title>
     {{>header}}
+    <link rel="stylesheet" href="css/style2.css">
+    
 </head>
 
 <body>
     {{>societynavbar}}
-    <h1>Complaint List</h1>
-    <table class="table table-bordered">
+    <h1 class="header1">My Complaints</h1>
+    <table class="styled-table">
         <thead>
             <tr>
                 {{!-- <th>society Member Name </th> --}}
-                <th>complaint Subject </th>
-                <th>complaint Description </th>
-                <th>complaintDate</th>
-                <th>complaintStatus</th>
+                <th>Subject </th>
+                <th>Description </th>
+                <th>Complaint Date</th>
+                <th>Status</th>
 
             </tr>
         </thead>
         <tbody>
             {{#each list}}
-            <tr align="center">
+            <tr align="center" class="active-row">
                 {{!-- <td>{{this.societyName}}</td>
                 <td>{{this.societyMemberName}}</td> --}}
                 <td>{{this.complaintSubject}}</td>
