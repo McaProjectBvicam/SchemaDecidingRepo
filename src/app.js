@@ -775,7 +775,10 @@ app.post('/payment', async (req, res) => {
                             {'societyName': societyname },
                             {
                                 '$push': {
+    
+
                                     'societyPayments': {
+                                        
                                         //needed for query
                                         //societyname: societyname,
                                         email: req.body.stripeEmail,
@@ -793,29 +796,25 @@ app.post('/payment', async (req, res) => {
                  }
                  if(flag===1)
                  {
-                     res.status(201).render("socMemDashBoard");
-                 }
-                 else {
-                     res.send("Invalid Details");
-                 }
-                   
                     req.session.message = {
                         type: 'success',
                         intro: 'Record insert successfully',
                         message: 'success'
                     }
-                    res.redirect('login');
-        
-                }
-                else {
+                     res.status(201).render("socMemDashBoard");
+                 }
+                 else {
+                    // res.send("Invalid Details");
                     req.session.message = {
                         type: 'danger',
                         intro: 'password mismatch',
                         message: 'please inter a correct password'
                     }
-                    res.redirect('socMemRegister');
+                    res.send("Invalid Details");
                 }
             }
+        }
+            
             catch (error) {
                 res.status(400).send("gadbadh" + error);
             }
