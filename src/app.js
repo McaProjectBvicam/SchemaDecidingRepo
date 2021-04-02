@@ -856,30 +856,7 @@ app.post('/payment', async (req, res) => {
             catch (error) {
                 res.status(400).send("gadbadh" + error);
             }
-            else {
-                res.send("Invalid Details");
-            }
-
-            req.session.message = {
-                type: 'success',
-                intro: 'Record insert successfully',
-                message: 'success'
-            }
-            res.redirect('login');
-
-        }
-        else {
-            req.session.message = {
-                type: 'danger',
-                intro: 'password mismatch',
-                message: 'please inter a correct password'
-            }
-            res.redirect('socMemRegister');
-        }
-    }
-    catch (error) {
-        res.status(400).send("gadbadh" + error);
-    }
+            
 
 });
 
