@@ -787,72 +787,76 @@ app.post('/payment', async (req, res) => {
         //   status: "Success"
         //  })
         //    const pays = await pay.save();
-        const result = await societySchema.findOne(
+        const result =await societySchema.findOne(
+           
+            {"societyName":societyname},
+         {'societyMembers': 1,_id:0}
+           );
+     
 
-            { "societyName": societyname },
-            { 'societyMembers': 1, _id: 0 }
-        );
+           // res.status(201).render("userpayment");
+            console.log(result);
+                console.log("society:" + societyname);
+                console.log("useremail:"+userlogin);
+             if(ab)
+             {
+                var flag=0;
+                //console.log(result.societyMembers[0]);
+                for(let val of result.societyMembers)
+                {
+     
+                    if(val.memEmail===userlogin)
+                    {
+                        flag=1;
+                        console.log("hey");
+                        await societySchema.updateOne(
+                            {'societyName': societyname },
+                            {
+                                '$push': {
+    
 
-
-        // res.status(201).render("userpayment");
-        console.log(result);
-        console.log("society:" + societyname);
-        console.log("useremail:" + userlogin);
-        if (ab) {
-            var flag = 0;
-            //console.log(result.societyMembers[0]);
-            for (let val of result.societyMembers) {
-
-                if (val.memEmail === userlogin) {
-                    flag = 1;
-                    console.log("hey");
-                    await societySchema.updateOne(
-                        { 'societyName': societyname },
-                        {
-                            '$push': {
-                                'societyPayments': {
-                                    //needed for query
-                                    //societyname: societyname,
-                                    email: req.body.stripeEmail,
-                                    useremail: userlogin,
-                                    amount: 1000,
-                                    datetime: new Date(),
-                                    status: "Success"
-
+                                    'societyPayments': {
+                                        
+                                        //needed for query
+                                        //societyname: societyname,
+                                        email: req.body.stripeEmail,
+                                        useremail: userlogin,
+                                        amount: 1000,
+                                       datetime: new Date(),
+                                       status: "Success"
+            
+                                   }
                                 }
-                            }
-
-                        })
-
+                            
+                           })
+                     
+                    }
+                 }
+                 if(flag===1)
+                 {
+                    req.session.message = {
+                        type: 'success',
+                        intro: 'Record insert successfully',
+                        message: 'success'
+                    }
+                     res.status(201).render("socMemDashBoard");
+                 }
+                 else {
+                    // res.send("Invalid Details");
+                    req.session.message = {
+                        type: 'danger',
+                        intro: 'password mismatch',
+                        message: 'please inter a correct password'
+                    }
+                    res.send("Invalid Details");
                 }
             }
-            if (flag === 1) {
-                res.status(201).render("socMemDashBoard");
-            }
-            else {
-                res.send("Invalid Details");
-            }
-
-            req.session.message = {
-                type: 'success',
-                intro: 'Record insert successfully',
-                message: 'success'
-            }
-            res.redirect('login');
-
         }
-        else {
-            req.session.message = {
-                type: 'danger',
-                intro: 'password mismatch',
-                message: 'please inter a correct password'
+            
+            catch (error) {
+                res.status(400).send("gadbadh" + error);
             }
-            res.redirect('socMemRegister');
-        }
-    }
-    catch (error) {
-        res.status(400).send("gadbadh" + error);
-    }
+            
 
 });
 
