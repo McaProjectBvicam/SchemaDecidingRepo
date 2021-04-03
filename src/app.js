@@ -875,7 +875,7 @@ app.post("/rwaCreateNotice", async (req, res) => {
             {
                 '$push': {
                     'societyNotices': {
-                        societyName: req.body.socName,
+                        
                         noticeDate: req.body.noticeDate,
                         noticeHeading: req.body.noticeHeading,
                         noticeDesc: req.body.noticeDesc,
