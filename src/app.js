@@ -607,7 +607,7 @@ app.post("/rwalogin", async (req, res) => {
 
         else {
             //res.send("Invalid Details");
-            res.render("login");
+            res.render("rwalogin");
         }
 
     } catch (error) {
@@ -618,7 +618,7 @@ app.post("/rwalogin", async (req, res) => {
             message: 'please inter a valid details.'
         }
         console.log(error);
-        res.redirect('index');
+        res.redirect('rwalogin');
     }
 });
 
@@ -650,8 +650,15 @@ app.post("/societylogin", async (req, res) => {
             );
         }
         else {
-            res.send("Invalid Details");
+            req.session.message = {
+
+                type: 'danger',
+                intro: 'invalid details',
+                message: 'please inter a valid details.'
+            }
+            res.redirect('societylogin');
         }
+        
 
     } catch (error) {
         req.session.message = {
