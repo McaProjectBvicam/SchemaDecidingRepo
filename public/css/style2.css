@@ -1,4 +1,19 @@
+<<<<<<< HEAD
 html {
+=======
+
+
+
+  
+  :root{
+    /* --main-bg: #1e272e; */
+    --main-bg:#01203a;
+     --main-bg2:#008B8B;
+    --main-color: #0097e6;
+}
+  
+  html {
+>>>>>>> 77debec4b343dd739368c5ed7185209fb58f16aa
     scroll-behavior: smooth;
   }
   
@@ -35,12 +50,15 @@ html {
     background-color: #f1f1f1;
   }
 
+
+
   .card1 {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
     padding: 16px;
     text-align: center;
     background-color: #f1f1f1;
   }
+    
   
   /* Responsive columns - one column layout (vertical) on small screens */
   @media screen and (max-width: 600px) {
@@ -54,7 +72,8 @@ html {
   .header {
     padding: 40px;
     text-align: center;
-    background: #01203a;
+    /* background: #01203a; */
+    background: var(--main-bg2);
     color: white;
     font-size: 40px;
   }
@@ -62,11 +81,13 @@ html {
   .header1 {
     padding: 10px;
     text-align: center;
-    background: #01203a;
+    /* background: #01203a; */
+    background:var(--main-bg2);
     color: white;
     font-size: 30px;
   }
 
+  
   .sidebar {
     height: 100%;
     width: 0;
@@ -115,7 +136,7 @@ html {
   }
   
   #main {
-    transition: margin-left .5s;
+    /* transition: margin-left .5s; */
     padding: 16px;
   }
   
@@ -140,7 +161,7 @@ html {
 
 .styled-table thead tr {
   font-size: large;
-  background-color: #009879;
+  background-color:var(--main-bg2);
   /* background-color: #01203a; */
   color: #ffffff;
   text-align: center;
@@ -155,6 +176,7 @@ html {
 .styled-table tbody tr {
   
   font-size: medium;
+  text-align: center;
   border-bottom: 1px solid #dddddd;
 }
 
@@ -163,11 +185,12 @@ html {
 }
 
 .styled-table tbody tr:last-of-type {
-  border-bottom: 2px solid #009879;
+  border-bottom: 2px solid var(--main-bg2);
 }
 
 
 .styled-table tbody tr.active-row {
-  font-weight: bold;
-  color: #009879;
+  font-weight:500;
+  color: var(--main-bg2);
 }
+

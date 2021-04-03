@@ -2,114 +2,174 @@
 
 <head>
     <title>My Profile</title>
-    <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
+    <link rel="shortcut icon" type="images/png" href="images/favicon.png" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     {{>header}}
+    <style>
+        .hero-image {
+            background-image: url("images/loginimage1.jpg");
+
+            background-position: center;
+            background-repeat: no-repeat;
+
+            position: relative;
+            width: 100%;
+            height: 150%;
+            background-size: cover;
+            display: flex;
+
+
+        }
+
+        .h4 {
+            font-size: 60px;
+        }
+
+        input[type="text"] {
+            font-size: 15px;
+        }
+    </style>
 </head>
-{{>profilenavbar}}
+
 <body>
-   <div class="container bootstrap snippet">
-    <div class="row">
-  		<center><div class="col-sm-10">
-              <h1>{{user.memName}}</h1>
-    </center>
+    {{>profilenavbar}}
+
+    <div class="hero-image">
+        <div class="container bootstrap snippet">
+            <div class="row">
+                <center>
+                    <div class="col-sm-15">
+                        <center>
+                            <h1>Welcome {{user.memName}}</h1>
+                        </center>
+                </center>
+            </div>
+
+        </div>
+
+        <div class="col-sm-10">
+            <div class="tab-content">
+                <form class="form" action="##" method="post" id="registrationForm">
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label>
+                                <h4>Name</h4>
+                            </label>
+                            <input type="text" class="form-control" placeholder="{{user.memName}}" readonly>
+                            <!--  <a class="btn btn-primary btn-xs" href="/"><i class="fa fa-edit"></i></a>-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label>
+                                <h4>House number</h4>
+                            </label>
+                            <input type="text" class="form-control" placeholder="{{user.memHouseNum}}">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        
+                        <div class="col-xs-6">
+                            <label>
+                                <h4>No of familymember</h4>
+                            </label>
+                            <input type="text" class="form-control" placeholder="{{user.familyMemCount}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label>
+                                <h4>Floor number</h4>
+                            </label>
+                            <input type="text" class="form-control" placeholder="{{user.memFloorNum}}">
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label>
+                                <h4>ownership</h4>
+                            </label>
+                            <input type="text" class="form-control" placeholder="{{user.owner}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label>
+                                <h4>DOB</h4>
+                            </label>
+                            <input type="text" class="form-control" placeholder="{{user.memDOB}}">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label>
+                                <h4>Email</h4>
+                            </label>
+                            <input type="text" class="form-control" placeholder="{{user.memEmail}}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label>
+                                <h4>Phone</h4>
+                            </label>
+                            <input type="text" class="form-control" placeholder="{{user.memContact}}">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+
+                        <div class="col-xs-6">
+                            <label>
+                                <h4>Role</h4>
+                            </label>
+                            <input type="text" class="form-control" placeholder="{{user.role}}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <br>
+                            <button class="btn btn-lg btn-success" type="submit"><i
+                                    class="glyphicon glyphicon-ok-sign"></i> Save</button>
+
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <br>
+                            <button class="btn btn-lg btn-warning">LEAVE SOCIETY</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <!--/tab-pane-->
+
+
+
+
+
     </div>
-    	
-    </div>
-   
-<div class="col-sm-9">
-           <div class="tab-content">
-   <form class="form" action="##" method="post" id="registrationForm">
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label><h4>Name</h4></label>
-                            <input type="text" class="form-control"  placeholder="{{user.memName}}">
-                             <!--  <a class="btn btn-primary btn-xs" href="/"><i class="fa fa-edit"></i></a>-->
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                            <label ><h4>House number</h4></label>
-                               <input type="text" class="form-control"placeholder="{{user.memHouseNum}}">
-                          </div>
-                      </div>
-          
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label ><h4>No of familymember</h4></label>
-                              <input type="text" class="form-control" placeholder="{{user.familyMemCount}}">
-                          </div>
-                      </div>
-          
-                      <div class="form-group">
-                          <div class="col-xs-6">
-                             <label ><h4>Floor number</h4></label>
-                              <input type="text" class="form-control" placeholder="{{user.memFloorNum}}">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label ><h4>Street name</h4></label>
-                              <input type="text" class="form-control"placeholder="{{user.owner}}">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label><h4>District name</h4></label>
-                              <input type="TEXT" class="form-control"  placeholder="{{user.role}}" >
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label><h4>ownership</h4></label>
-                              <input type="text" class="form-control"  placeholder="{{user.memDOB}}">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                            <label><h4>DOB</h4></label>
-                              <input type="text" class="form-control" placeholder="{{user.memDOB}}">
-                          </div>
-                      </div>
-                        <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                            <label><h4>Email</h4></label>
-                              <input type="email" class="form-control" placeholder="{{user.memEmail}}">
-                          </div>
-                      </div>
-                       <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                            <label><h4>Phone</h4></label>
-                              <input type="text" class="form-control" placeholder="{{user.memContact}}">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                           <div class="col-xs-12">
-                                <br>
-                              	<button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-  
-                            </div>
-                      </div>
-              	</form>
-              
-         
-              
-             </div><!--/tab-pane-->
-                             
+</body>
 
 </html>
