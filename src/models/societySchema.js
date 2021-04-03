@@ -120,7 +120,7 @@ const memberSchema = new mongoose.Schema({
         required: true
     },
     memDOB: {
-        type: Date,
+        type: String,
         required: true
     },
     memContact: {
