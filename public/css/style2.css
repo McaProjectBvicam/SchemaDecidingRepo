@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-html {
-=======
 
-
-
-  
   :root{
     /* --main-bg: #1e272e; */
     --main-bg:#01203a;
@@ -13,7 +7,6 @@ html {
 }
   
   html {
->>>>>>> 77debec4b343dd739368c5ed7185209fb58f16aa
     scroll-behavior: smooth;
   }
   
