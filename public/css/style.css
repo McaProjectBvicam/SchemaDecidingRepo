@@ -8,7 +8,9 @@
 }
 
 :root{
-    --main-bg: #1e272e;
+    /* --main-bg: #1e272e; */
+    --main-bg:#01203a;
+    --main-bg2:#008B8B;
     --main-color: #0097e6;
 }
 
@@ -102,10 +104,14 @@ body{
     flex-direction: column;
     font-size: 1.5rem;
     width: 60rem;
-    margin:10px 0px 10px 300px;
+    /* width: 50rem; */
+    
+    margin:20px 0px 10px 350px;
     
     min-height: 20rem;
-    background-color: #202438;
+    /* background-color: #202438; */
+    /* background-color: var(--main-bg); */
+    background-color:  var(--main-bg2);
     border-radius:1rem;
     padding:1rem;
     font-family: 'Baloo Bhai 2', cursive;

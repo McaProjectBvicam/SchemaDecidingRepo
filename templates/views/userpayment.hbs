@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Payment History</title>
-    <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
+    <link rel="shortcut icon" type="images/png" href="images/favicon.png" />
+    <link rel="stylesheet" href="css/style2.css">
     {{>header}}
 </head>
+
 <body>
     {{>rwanavbar}}
-    <h1>Payment History</h1>
-<form action="/userpayment" method="POST">
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <div class="container">
-    <table class="table table-striped">
-    <thead>
-    <tr>
-    <th>Email   </th>
-    <th>UserEmail   </th>
-    <th>DateTime   </th>
-    <th>Amount   </th>
-    <th>Status   </th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#each list}}
-        <tr align="center">
-        <td>{{this.email}}</td>
-        <td>{{this.useremail}}</td>
-        <td>{{this.datetime}}</td>
-        <td>{{this.amount}}</td>
-        <td>{{this.status}}</td>
-    </tr>
-{{/each}}
-</tbody>
+    <div class="header1">
+        <P1>Payment History</P1>
+    </div>
+
+
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Member Email </th>
+                <th>Payment Email</th>
+                <th>DateTime </th>
+                <th>Amount </th>
+                <th>Status </th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each list}}
+            <tr align="center" class="active-row">
+                <td>{{this.email}}</td>
+                <td>{{this.useremail}}</td>
+                <td>{{this.datetime}}</td>
+                <td>{{this.amount}}</td>
+                <td>{{this.status}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
     </table>
     </div>
-</form>
+    </form>
 </body>
+
 </html>
