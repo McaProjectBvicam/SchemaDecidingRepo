@@ -1,53 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>send</title>
-  <link rel="shortcut icon" type="images/png" href="images/favicon.png"/>
+  <title>Invite</title>
+  <link rel="shortcut icon" type="images/png" href="images/favicon.png" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style2.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-   <script>// <![CDATA[
-$(document).ready(function(){
-    var from,to,subject,text;
-    $("#send_email").click(function(){     
-        to=$("#to").val();
-        subject=$("#subject").val();
-        text=$("#content").val();
+  <script>// <![CDATA[
+    $(document).ready(function () {
+      var from, to, subject, text;
+      $("#send_email").click(function () {
+        to = $("#to").val();
+        subject = $("#subject").val();
+        text = $("#content").val();
         $("#message").text("Sending E-mail...Please wait");
-        $.get("http://localhost:8000/send",{to:to,subject:subject,text:text},function(data){
-        
-            $("#message").empty().html("Email is been sent at "+to+" . Please check inbox!");
-        
+        $.get("http://localhost:8000/send", { to: to, subject: subject, text: text }, function (data) {
 
-});
+          $("#message").empty().html("Email is been sent at " + to + " . Please check inbox!");
+
+
+        });
+      });
     });
-});
-</script>
+  </script>
+  {{>header}}
 </head>
+
 <body>
+{{>rwanavbar}}
+  <div class="container" style="margin-top: 5rem;">
+    <div class="card">
+      <div class="header1">
+        <p1>Invite Members by sending mail</p1>
+        <form action="/send" method="POST">
+          <div class="form-group">
+            <label for="To">To:</label>
+            <input id="to" type="email" name="to" class="form-control"
+              placeholder="Enter E-mail ID where you want to send" />
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject:</label>
+            <input id="subject" type="text" name="subject" class="form-control" placeholder="Write Subject"
+              value="Invite Link for registering on our Society Management Web Application" />
+          </div>
+          <div class="form-group">
+            <label for="compose">Compose email:</label>
+            <input id="content" cols="40" rows="5" name="content" class="form-control"
+              placeholder="Write what you want to send"
+              value="Hi, We invite you to register on our Society Management Web Application which contains variety of facilites for you just in one click. To register, go to link http://localhost:8000/socMemRegister" />
+          </div>
+          <button id="send_email" type="submit" value="Submit" class="btn btn-primary">Send Email</button>
+          <span id="message"></span>
 
-<div class="container">
-  <h2>Invite Members by sending mail</h2>
-  <form action="/send" method="POST">
-    <div class="form-group">
-        <label for="To">To:</label>
-        <input id="to" type="email" name="to" class="form-control" placeholder="Enter E-mail ID where you want to send" />
+        </form>
+      </div>
     </div>
-    <div class="form-group">
-        <label for="subject">Subject:</label>
-        <input id="subject" type="text" name="subject" class="form-control" placeholder="Write Subject" value="Invite Link for registering on our Society Management Web Application" />
-    </div>
-    <div class="form-group">
-        <label for="compose">Compose email:</label>
-       <input id="content" cols="40" rows="5" name="content" class="form-control" placeholder="Write what you want to send" value="Hi, We invite you to register on our Society Management Web Application which contains variety of facilites for you just in one click. To register, go to link http://localhost:8000/socMemRegister"/>
   </div>
-    <button id="send_email" type="submit" value="Submit" class="btn btn-default">Send Email</button>
-    <span id="message"></span>
-
-  </form>
-</div>
-
 </body>
+
 </html>

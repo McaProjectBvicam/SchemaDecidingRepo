@@ -131,9 +131,7 @@ app.get("/rwalogin", (req, res) => {
 app.get("/societylogin", (req, res) => {
     res.render("societylogin");
 });
-app.get("/userpayment", (req, res) => {
-    res.render("userpayment");
-});
+
 
 
 app.get("/rwaCreateNotice", (req, res) => {
@@ -195,6 +193,33 @@ app.get("/logout", (req, res) => {
 
 //society membr will read only his/her reservations
 //dont get confuse by name it is old name not renamed
+
+app.get("/userpayment", async (req, res) => {
+    try {
+
+        console.log("society name:" + societyname)
+
+        //this will find the society with name provided
+        const result = await societySchema.findOne({ "societyName": societyname })
+
+        res.render("userpayment", {
+            list: result.societyPayments
+        });
+
+    //     console.log(result.societyNotices[0]);
+
+    } catch (error) {
+        res.status(201).render("rwaMemberDashBoard");
+        //console.log("Error in reading Notice collection:" + err);
+    }
+
+
+
+});
+
+
+
+
 app.get("/booking", async (req, res) => {
 
 
