@@ -341,6 +341,47 @@ app.get("/myprofile", async (req, res) => {
 });
 
 
+app.get("/rwaprofile", async (req, res) => {
+
+    try {
+
+        console.log("society name:" + societyname)
+        //this will find the users of the society you are logged in
+        const result = await societySchema.findOne({ "societyName": societyname });
+
+        var flag = 0;
+        var currentUser;
+        // console.log(result.societyMembers[0]);
+        for (let val of result.societyMembers) {
+
+            if (val.memEmail === userlogin) {
+                flag = 1;
+                currentUser = val;
+            }
+        }
+        if (flag === 1) {
+            res.status(201).render("myprofile",
+                { user: currentUser }
+
+            );
+        }
+        else {
+            res.send("Invalid Details");
+        }
+
+    } catch (error) {
+
+        res.redirect('rwaMemberDashBoard');
+    }
+
+});
+
+
+
+
+
+
+
 
 app.get("/socMemReadDevelopment", async (req, res) => {
 
@@ -799,18 +840,7 @@ app.post('/payment', async (req, res) => {
             customer: customer.id
         })
         const ab = await charge.amount;
-        //console.log(ab);
-        // if (ab) {
-        //  console.log(userlogin);
-        //console.log(new Date());
-        //    const pay = new payment({
-        //   email: req.body.stripeEmail,
-        // useremail: userlogin,
-        //    amount: 1000,
-        //  datetime: new Date(),
-        //   status: "Success"
-        //  })
-        //    const pays = await pay.save();
+       
         const result =await societySchema.findOne(
            
             {"societyName":societyname},
